@@ -1,0 +1,228 @@
+/* Estilos responsivos específicos para a página de relatórios */
+
+/* Otimizações para telas pequenas */
+@media (max-width: 640px) {
+  /* Reduzir espaçamento em mobile */
+  .reports-container {
+    padding: 0.75rem;
+  }
+  
+  /* Otimizar cards em mobile */
+  .reports-card {
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+  }
+  
+  /* Melhorar botões em mobile */
+  .reports-button {
+    min-height: 44px; /* Tamanho mínimo recomendado para touch */
+    padding: 0.75rem 1rem;
+  }
+  
+  /* Otimizar gráficos em mobile */
+  .reports-chart {
+    height: 280px;
+    min-height: 240px;
+  }
+  
+  /* Melhorar tabelas em mobile */
+  .reports-table {
+    font-size: 0.875rem;
+  }
+  
+  .reports-table th,
+  .reports-table td {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  /* Otimizar filtros em mobile */
+  .reports-filters {
+    gap: 0.75rem;
+  }
+  
+  .reports-filter-input {
+    height: 44px;
+  }
+}
+
+/* Otimizações para tablets */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .reports-container {
+    padding: 1rem;
+  }
+  
+  .reports-chart {
+    height: 350px;
+    min-height: 300px;
+  }
+  
+  /* Layout híbrido para tablets */
+  .reports-grid-tablet {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+/* Otimizações para desktop */
+@media (min-width: 1025px) {
+  .reports-container {
+    padding: 1.5rem;
+  }
+  
+  .reports-chart {
+    height: 400px;
+    min-height: 350px;
+  }
+  
+  /* Hover effects apenas em desktop */
+  .reports-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .reports-button:hover {
+    transform: translateY(-1px);
+  }
+}
+
+/* Otimizações para orientação landscape em mobile */
+@media (max-width: 640px) and (orientation: landscape) {
+  .reports-chart {
+    height: 240px;
+    min-height: 200px;
+  }
+  
+  .reports-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .reports-filters {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Otimizações para alto contraste */
+@media (prefers-contrast: high) {
+  .reports-card {
+    border-width: 2px;
+  }
+  
+  .reports-button {
+    border-width: 2px;
+  }
+}
+
+/* Otimizações para movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  .reports-card,
+  .reports-button,
+  .reports-chart {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Otimizações para modo escuro */
+@media (prefers-color-scheme: dark) {
+  .reports-chart {
+    color-scheme: dark;
+  }
+}
+
+/* Utilities responsivas específicas */
+.reports-text-responsive {
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+}
+
+.reports-title-responsive {
+  font-size: clamp(1.25rem, 4vw, 1.875rem);
+}
+
+.reports-spacing-responsive {
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+/* Grid responsivo inteligente */
+.reports-auto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+/* Container com aspect ratio responsivo */
+.reports-aspect-container {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-height: 400px;
+}
+
+@media (max-width: 640px) {
+  .reports-aspect-container {
+    aspect-ratio: 4 / 3;
+    max-height: 280px;
+  }
+}
+
+/* Scrollbar personalizada para mobile */
+@media (max-width: 640px) {
+  .reports-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+  }
+  
+  .reports-scroll::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  
+  .reports-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .reports-scroll::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+  }
+}
+
+/* Touch targets otimizados */
+.reports-touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Focus visível melhorado */
+.reports-focus-visible:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  border-radius: 0.375rem;
+}
+
+/* Loading states responsivos */
+.reports-skeleton {
+  background: linear-gradient(90deg, 
+    hsl(var(--muted)) 25%, 
+    hsl(var(--muted-foreground) / 0.1) 50%, 
+    hsl(var(--muted)) 75%
+  );
+  background-size: 200% 100%;
+  animation: reports-shimmer 2s infinite;
+}
+
+@keyframes reports-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reports-skeleton {
+    animation: none;
+    background: hsl(var(--muted));
+  }
+} 

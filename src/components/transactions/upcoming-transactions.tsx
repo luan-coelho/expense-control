@@ -10,20 +10,20 @@ import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { EmptyState } from '@/components/ui/empty-state'
 import { useRecurringTransactionInstances } from '@/hooks/use-recurring-transactions'
+import { useActiveSpaceId } from '@/components/providers/space-provider'
 import { formatCurrency } from '@/hooks/use-dashboard-stats'
 
 interface UpcomingTransactionsProps {
-  spaceId?: string
   limit?: number
   showHeader?: boolean
 }
 
 export function UpcomingTransactions({ 
-  spaceId, 
   limit = 10, 
   showHeader = true 
 }: UpcomingTransactionsProps) {
   const [days, setDays] = useState(30) // Próximos 30 dias por padrão
+  const activeSpaceId = useActiveSpaceId()
   
   const { 
     data, 
@@ -91,8 +91,8 @@ export function UpcomingTransactions({
   }
 
   const instances = data?.instances || []
-  const filteredInstances = spaceId 
-    ? instances.filter(instance => instance.space.id === spaceId)
+  const filteredInstances = activeSpaceId 
+    ? instances.filter(instance => instance.space.id === activeSpaceId)
     : instances
 
   const displayInstances = limit 

@@ -12,7 +12,7 @@ import {
 // GET - Buscar transação por ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -20,7 +20,7 @@ export async function GET(
       return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
     }
 
-    const transactionId = params.id
+    const { id: transactionId } = await params
 
     // Buscar transação com relacionamentos
     const transaction = await db
@@ -75,7 +75,7 @@ export async function GET(
 // PUT - Atualizar transação
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -83,7 +83,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
     }
 
-    const transactionId = params.id
+    const { id: transactionId } = await params
     const body = await request.json()
 
     // Validar dados
@@ -193,7 +193,7 @@ export async function PUT(
 // DELETE - Excluir transação
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -201,7 +201,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
     }
 
-    const transactionId = params.id
+    const { id: transactionId } = await params
 
     // Verificar se a transação existe e pertence ao usuário
     const existingTransaction = await db

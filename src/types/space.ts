@@ -47,22 +47,28 @@ export const spaceIdSchema = z.object({
 export const spaceQuerySchema = z.object({
   page: z
     .string()
+    .nullable()
     .optional()
-    .transform((val) => (val ? parseInt(val, 10) : 1))
+    .transform((val) => val ? parseInt(val, 10) : 1)
     .refine((val) => val > 0, 'A página deve ser um número positivo'),
   limit: z
     .string()
+    .nullable()
     .optional()
-    .transform((val) => (val ? parseInt(val, 10) : 50))
+    .transform((val) => val ? parseInt(val, 10) : 50)
     .refine(
       (val) => val > 0 && val <= 100,
       'O limite deve ser entre 1 e 100'
     ),
   search: z
     .string()
-    .max(100, 'O termo de busca deve ter no máximo 100 caracteres')
-    .trim()
-    .optional(),
+    .nullable()
+    .optional()
+    .transform((val) => val ? val.trim() : undefined)
+    .refine(
+      (val) => !val || val.length <= 100,
+      'O termo de busca deve ter no máximo 100 caracteres'
+    ),
 })
 
 // Tipos derivados dos schemas

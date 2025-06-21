@@ -2,7 +2,7 @@
 
 import { UserAvatar } from '@/components/auth/user-avatar'
 import { useThemeConfig } from '@/lib/theme-config'
-import { BarChart3, FileText, Home, CreditCard, TrendingUp, Tag, Banknote, Building } from 'lucide-react'
+import { BarChart3, FileText, Home, CreditCard, TrendingUp, Tag, Banknote } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useTheme } from 'next-themes'
 
@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/sidebar'
 import { routes } from '@/lib/routes'
 
-// Menu items principais
+// Menu items principais - Funcionalidades principais sem navegação de espaços
 const items = [
   {
     title: 'Dashboard',
@@ -39,19 +39,14 @@ const items = [
     icon: Banknote,
   },
   {
-    title: 'Espaços',
-    url: '/spaces',
-    icon: Building,
-  },
-  {
     title: 'Categorias',
     url: '/categories',
     icon: Tag,
   },
 ]
 
-// Menu items de configuração
-const configItems = [
+// Menu items de sistema e relatórios
+const systemItems = [
   {
     title: 'Relatórios',
     url: '/reports',
@@ -108,7 +103,7 @@ export function AppSidebar() {
             <SidebarGroupLabel>Sistema</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {configItems.map(item => (
+                {systemItems.map(item => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
                       <a href={item.url}>

@@ -11,7 +11,7 @@ import {
 // GET - Buscar categoria por ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -19,7 +19,8 @@ export async function GET(
       return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
     }
 
-    const categoryId = params.id
+    const resolvedParams = await params
+    const categoryId = resolvedParams.id
 
     // Buscar categoria com relacionamentos
     // Incluir categorias predefinidas (userId = null) e categorias do usuário
@@ -71,7 +72,7 @@ export async function GET(
 // PUT - Atualizar categoria
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -79,7 +80,8 @@ export async function PUT(
       return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
     }
 
-    const categoryId = params.id
+    const resolvedParams = await params
+    const categoryId = resolvedParams.id
     const body = await request.json()
 
     // Validar dados
@@ -237,7 +239,7 @@ export async function PUT(
 // DELETE - Excluir categoria
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -245,7 +247,8 @@ export async function DELETE(
       return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
     }
 
-    const categoryId = params.id
+    const resolvedParams = await params
+    const categoryId = resolvedParams.id
 
     // Verificar se a categoria existe e se o usuário pode excluí-la
     const existingCategory = await db

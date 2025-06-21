@@ -39,7 +39,6 @@ export {
   useUpdateSpace,
   useDeleteSpace,
   useInvalidateSpaces,
-  spaceQueryKeys,
   type UseSpacesParams,
 } from './use-spaces'
 
@@ -53,7 +52,6 @@ export {
   useUpdateAccount,
   useDeleteAccount,
   useInvalidateAccounts,
-  accountQueryKeys,
   type UseAccountsParams,
 } from './use-accounts'
 
@@ -71,5 +69,29 @@ export {
   useRecurringTransactionsStats,
   recurringTransactionKeys,
 } from './use-recurring-transactions'
+
+// Hooks de analytics
+export {
+  useSpendingByCategory,
+  useSummaryMetrics,
+  useSpendingBySpace,
+  useMonthlyIncomeExpenses,
+  useBalanceEvolution,
+} from './use-analytics'
+
+// Hooks de exportação
+export {
+  useExport,
+} from './use-export'
+
+// Hooks de performance
+export {
+  useChartPerformance,
+} from './use-chart-performance'
+
+// Hooks de layout responsivo
+export {
+  useResponsiveLayout,
+} from './use-responsive-layout'
 
 export {}

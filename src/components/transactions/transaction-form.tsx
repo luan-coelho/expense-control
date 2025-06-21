@@ -37,6 +37,7 @@ import {
   useCreateTransaction, 
   useUpdateTransaction 
 } from '@/hooks/use-transactions'
+import { useActiveSpaceId } from '@/components/providers/space-provider'
 import { CategorySelect } from '@/components/categories'
 import { RecurrenceConfig } from './recurrence-config'
 
@@ -44,7 +45,6 @@ interface TransactionFormProps {
   transaction?: TransactionWithRelations
   onSuccess?: () => void
   onCancel?: () => void
-  spaces?: Array<{ id: string; name: string }>
   accounts?: Array<{ id: string; name: string; type: string }>
 }
 
@@ -52,11 +52,11 @@ export function TransactionForm({
   transaction,
   onSuccess,
   onCancel,
-  spaces = [],
   accounts = [],
 }: TransactionFormProps) {
   const isEditing = !!transaction
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const activeSpaceId = useActiveSpaceId()
 
   const createMutation = useCreateTransaction()
   const updateMutation = useUpdateTransaction()
@@ -91,7 +91,7 @@ export function TransactionForm({
           description: '',
           date: getCurrentDate(),
           categoryId: '',
-          spaceId: '',
+          spaceId: activeSpaceId || '',
           accountId: '',
           type: TransactionType.EXPENSE,
           isRecurrent: false,
@@ -105,13 +105,19 @@ export function TransactionForm({
     setIsSubmitting(true)
     
     try {
+      // Garantir que o spaceId seja sempre o do espaço ativo
+      const dataWithActiveSpace = {
+        ...values,
+        spaceId: activeSpaceId || values.spaceId,
+      }
+      
       if (isEditing && transaction) {
         await updateMutation.mutateAsync({
           id: transaction.id,
-          data: values as UpdateTransactionInput,
+          data: dataWithActiveSpace as UpdateTransactionInput,
         })
       } else {
-        await createMutation.mutateAsync(values as CreateTransactionInput)
+        await createMutation.mutateAsync(dataWithActiveSpace as CreateTransactionInput)
       }
       
       onSuccess?.()
@@ -250,31 +256,7 @@ export function TransactionForm({
               )}
             />
 
-            {/* Espaço */}
-            <FormField
-              control={form.control}
-              name="spaceId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Espaço</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecione um espaço" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {spaces.map((space) => (
-                        <SelectItem key={space.id} value={space.id}>
-                          {space.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
 
             {/* Conta */}
             <FormField

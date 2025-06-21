@@ -44,10 +44,58 @@ export const categoryFiltersSchema = z.object({
   search: z.string().optional(),
 })
 
+// Schema para validação de parâmetros de consulta
+export const categoryQuerySchema = z.object({
+  page: z
+    .string()
+    .nullable()
+    .optional()
+    .transform((val) => val ? parseInt(val, 10) : 1)
+    .refine((val) => val > 0, 'A página deve ser um número positivo'),
+  limit: z
+    .string()
+    .nullable()
+    .optional()
+    .transform((val) => val ? parseInt(val, 10) : 50)
+    .refine(
+      (val) => val > 0 && val <= 100,
+      'O limite deve ser entre 1 e 100'
+    ),
+  type: z.enum(['INCOME', 'EXPENSE'])
+    .nullable()
+    .optional(),
+  isDefault: z
+    .string()
+    .nullable()
+    .optional()
+    .transform((val) => {
+      if (!val) return undefined
+      return val.toLowerCase() === 'true'
+    }),
+  parentId: z
+    .string()
+    .nullable()
+    .optional()
+    .refine(
+      (val) => !val || z.string().uuid().safeParse(val).success,
+      'ID da categoria pai inválido'
+    ),
+  search: z
+    .string()
+    .nullable()
+    .optional()
+    .transform((val) => val ? val.trim() : undefined)
+    .refine(
+      (val) => !val || val.length <= 100,
+      'O termo de busca deve ter no máximo 100 caracteres'
+    ),
+})
+
 // Tipos derivados dos schemas
 export type CreateCategoryInput = z.infer<typeof createCategorySchema>
 export type UpdateCategoryInput = z.infer<typeof updateCategorySchema>
 export type CategoryFilters = z.infer<typeof categoryFiltersSchema>
+export type CategoryQuery = z.infer<typeof categoryQuerySchema>
 
 // Tipo para categoria com relacionamentos
 export type CategoryWithRelations = Category & {

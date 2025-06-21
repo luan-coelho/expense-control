@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { transactionService } from '@/services/transaction.service'
 import { queryKeys } from '@/lib/routes'
+import { useActiveSpaceId } from '@/components/providers/space-provider'
 import {
   type CreateTransactionInput,
   type UpdateTransactionInput,
@@ -20,16 +21,25 @@ export interface UseTransactionsParams {
 
 /**
  * Hook para buscar lista de transações com filtros e paginação
+ * Automaticamente inclui o filtro do espaço ativo
  */
 export function useTransactions(params?: UseTransactionsParams) {
+  const activeSpaceId = useActiveSpaceId()
+  
+  // Combinar filtros do parâmetro com o filtro de espaço ativo
+  const filters = {
+    ...params?.filters,
+    spaceId: activeSpaceId,
+  }
+
   return useQuery({
-    queryKey: queryKeys.transactions.list(params?.filters),
+    queryKey: queryKeys.transactions.list(filters),
     queryFn: () => transactionService.getAll({
       page: params?.page,
       limit: params?.limit,
-      filters: params?.filters,
+      filters,
     }),
-    enabled: params?.enabled !== false,
+    enabled: params?.enabled !== false && !!activeSpaceId,
     staleTime: 5 * 60 * 1000, // 5 minutos
     refetchOnWindowFocus: false,
   })
@@ -50,12 +60,21 @@ export function useTransaction(id: string, enabled: boolean = true) {
 
 /**
  * Hook para criar nova transação
+ * Automaticamente inclui o spaceId do espaço ativo
  */
 export function useCreateTransaction() {
   const queryClient = useQueryClient()
+  const activeSpaceId = useActiveSpaceId()
 
   return useMutation({
-    mutationFn: (data: CreateTransactionInput) => transactionService.create(data),
+    mutationFn: (data: CreateTransactionInput) => {
+      // Garantir que o spaceId seja do espaço ativo
+      const transactionData = {
+        ...data,
+        spaceId: activeSpaceId || data.spaceId,
+      }
+      return transactionService.create(transactionData)
+    },
     onSuccess: (newTransaction) => {
       // Invalidar queries de lista para refletir a nova transação
       queryClient.invalidateQueries({ queryKey: queryKeys.transactions.lists() })

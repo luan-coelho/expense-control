@@ -9,14 +9,14 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useRecurringTransactionInstances } from '@/hooks/use-recurring-transactions'
+import { useActiveSpaceId } from '@/components/providers/space-provider'
 import { formatCurrency } from '@/hooks/use-dashboard-stats'
 
-interface RecurringCalendarProps {
-  spaceId?: string
-}
+interface RecurringCalendarProps {}
 
-export function RecurringCalendar({ spaceId }: RecurringCalendarProps) {
+export function RecurringCalendar({}: RecurringCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date())
+  const activeSpaceId = useActiveSpaceId()
   
   const monthStart = startOfMonth(currentDate)
   const monthEnd = endOfMonth(currentDate)
@@ -26,8 +26,8 @@ export function RecurringCalendar({ spaceId }: RecurringCalendarProps) {
   const { data, isLoading } = useRecurringTransactionInstances(60)
   
   const instances = data?.instances || []
-  const filteredInstances = spaceId 
-    ? instances.filter(instance => instance.space.id === spaceId)
+  const filteredInstances = activeSpaceId 
+    ? instances.filter(instance => instance.space.id === activeSpaceId)
     : instances
 
   // Agrupar transações por data

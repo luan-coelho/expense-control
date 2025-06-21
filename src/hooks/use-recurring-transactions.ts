@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { routes } from '@/lib/routes'
+import { routes, queryKeys } from '@/lib/routes'
 import { CreateTransactionInput } from '@/types/transaction'
 
 // Tipos para as respostas da API
@@ -128,7 +128,7 @@ export function useCreateRecurringTransaction() {
     onSuccess: () => {
       // Invalidar queries relacionadas
       queryClient.invalidateQueries({ queryKey: recurringTransactionKeys.all })
-      queryClient.invalidateQueries({ queryKey: ['transactions'] })
+      queryClient.invalidateQueries({ queryKey: queryKeys.transactions.all })
     },
   })
 }

@@ -14,7 +14,6 @@ interface TransactionModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   transaction?: TransactionWithRelations
-  spaces?: Array<{ id: string; name: string }>
   accounts?: Array<{ id: string; name: string; type: string }>
 }
 
@@ -22,7 +21,6 @@ export function TransactionModal({
   open,
   onOpenChange,
   transaction,
-  spaces = [],
   accounts = [],
 }: TransactionModalProps) {
   const handleSuccess = () => {
@@ -46,7 +44,6 @@ export function TransactionModal({
           transaction={transaction}
           onSuccess={handleSuccess}
           onCancel={handleCancel}
-          spaces={spaces}
           accounts={accounts}
         />
       </DialogContent>

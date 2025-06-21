@@ -69,6 +69,7 @@ export const routes = {
  * Query Keys para React Query
  * 
  * Centraliza todas as chaves de query para facilitar invalidação e cache management
+ * Agora com suporte aprimorado para contexto de espaço
  */
 export const queryKeys = {
   transactions: {
@@ -77,6 +78,8 @@ export const queryKeys = {
     list: (filters?: Record<string, any>) => [...queryKeys.transactions.lists(), { filters }] as const,
     details: () => [...queryKeys.transactions.all, 'detail'] as const,
     detail: (id: string) => [...queryKeys.transactions.details(), validateId(id)] as const,
+    // Query keys específicas para espaço
+    bySpace: (spaceId: string) => [...queryKeys.transactions.all, 'by-space', spaceId] as const,
   },
 
   categories: {
@@ -101,6 +104,15 @@ export const queryKeys = {
     list: (filters?: Record<string, any>) => [...queryKeys.accounts.lists(), { filters }] as const,
     details: () => [...queryKeys.accounts.all, 'detail'] as const,
     detail: (id: string) => [...queryKeys.accounts.details(), validateId(id)] as const,
+  },
+
+  analytics: {
+    all: ['analytics'] as const,
+    spendingByCategory: (filters?: Record<string, any>) => [...queryKeys.analytics.all, 'spending-by-category', filters] as const,
+    spendingBySpace: (filters?: Record<string, any>) => [...queryKeys.analytics.all, 'spending-by-space', filters] as const,
+    summaryMetrics: (filters?: Record<string, any>) => [...queryKeys.analytics.all, 'summary-metrics', filters] as const,
+    monthlyIncomeExpenses: (filters?: Record<string, any>) => [...queryKeys.analytics.all, 'monthly-income-expenses', filters] as const,
+    balanceEvolution: (filters?: Record<string, any>) => [...queryKeys.analytics.all, 'balance-evolution', filters] as const,
   },
 } as const
 

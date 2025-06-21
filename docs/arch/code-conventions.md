@@ -24,6 +24,7 @@ src/
   │
   ├── components/        # Componentes React reutilizáveis
   │   ├── auth/          # Componentes relacionados à autenticação
+  │   ├── providers/     # Providers de contexto (theme, space, etc.)
   │   ├── ui/            # Componentes de interface (Shadcn)
   │   └── [features]/    # Componentes específicos de features
   │
@@ -194,3 +195,62 @@ export const usersTable = pgTable('users', {
 - Usar componentes acessíveis com atributos ARIA apropriados
 - Seguir o princípio DRY (Don't Repeat Yourself)
 - Implementar error boundaries e tratamento adequado de erros
+
+## Contexto Global de Espaço
+
+### Padrão de Uso
+
+- **SEMPRE** usar o hook `useActiveSpace` para obter o espaço ativo
+- **NUNCA** passar `spaceId` como prop em formulários de transação
+- **EVITAR** seleção individual de espaço em componentes (exceto relatórios)
+
+```typescript
+// ✅ Correto - usar contexto global
+import { useActiveSpace } from '@/components/providers/space-provider'
+
+export function TransactionForm() {
+  const { activeSpace } = useActiveSpace()
+
+  const onSubmit = (values: FormValues) => {
+    const data = {
+      ...values,
+      spaceId: activeSpace?.id, // Sempre usar o espaço ativo
+    }
+    // ...
+  }
+}
+
+// ❌ Incorreto - não passar spaceId como prop
+interface TransactionFormProps {
+  spaceId: string // Não fazer isso
+}
+```
+
+### Componentes que Devem Usar o Contexto
+
+- Formulários de transação, categorias, contas
+- Listas e filtros de dados
+- Componentes de criação/edição
+- Dashboards e estatísticas
+
+### Exceções ao Padrão
+
+- **Relatórios**: Podem ter seleção de espaço para comparações
+- **Administração**: Componentes que gerenciam múltiplos espaços
+- **Configurações**: Páginas de configuração por espaço
+
+```typescript
+// ✅ Exceção válida - relatórios multi-espaço
+export function ReportsPage() {
+  const [selectedSpaceId, setSelectedSpaceId] = useState<string>('all')
+  
+  return (
+    <div>
+      <Select value={selectedSpaceId} onValueChange={setSelectedSpaceId}>
+        <option value="all">Todos os espaços</option>
+        {/* ... */}
+      </Select>
+    </div>
+  )
+}
+```

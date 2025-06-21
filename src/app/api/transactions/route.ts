@@ -5,7 +5,7 @@ import { eq, and, gte, lte, ilike, desc, count } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
 import { 
   createTransactionSchema, 
-  transactionFiltersSchema,
+  transactionQuerySchema,
   parseTransactionAmount,
   type TransactionWithRelations,
   type PaginatedTransactions
@@ -21,13 +21,10 @@ export async function GET(request: NextRequest) {
 
     const { searchParams } = new URL(request.url)
     
-    // Parâmetros de paginação
-    const page = parseInt(searchParams.get('page') || '1')
-    const limit = parseInt(searchParams.get('limit') || '10')
-    const offset = (page - 1) * limit
-
-    // Preparar filtros (remover valores null)
-    const rawFilters = {
+    // Validar parâmetros de consulta
+    const queryValidation = transactionQuerySchema.safeParse({
+      page: searchParams.get('page'),
+      limit: searchParams.get('limit'),
       startDate: searchParams.get('startDate'),
       endDate: searchParams.get('endDate'),
       categoryId: searchParams.get('categoryId'),
@@ -37,45 +34,62 @@ export async function GET(request: NextRequest) {
       minAmount: searchParams.get('minAmount'),
       maxAmount: searchParams.get('maxAmount'),
       search: searchParams.get('search'),
+    })
+
+    if (!queryValidation.success) {
+      return NextResponse.json({ 
+        error: 'Parâmetros de consulta inválidos',
+        details: queryValidation.error.issues.map(issue => ({
+          field: issue.path.join('.'),
+          message: issue.message
+        }))
+      }, { status: 400 })
     }
 
-    // Filtrar apenas valores não nulos
-    const cleanFilters = Object.fromEntries(
-      Object.entries(rawFilters).filter(([_, value]) => value !== null)
-    )
-
-    // Validar filtros
-    const filters = transactionFiltersSchema.parse(cleanFilters)
+    const { 
+      page, 
+      limit, 
+      startDate, 
+      endDate, 
+      categoryId, 
+      spaceId, 
+      accountId, 
+      type, 
+      minAmount, 
+      maxAmount, 
+      search 
+    } = queryValidation.data
+    const offset = (page - 1) * limit
 
     // Construir condições WHERE
     const conditions = [eq(transactionsTable.userId, session.user.id)]
 
-    if (filters.startDate) {
-      conditions.push(gte(transactionsTable.date, new Date(filters.startDate)))
+    if (startDate) {
+      conditions.push(gte(transactionsTable.date, new Date(startDate)))
     }
-    if (filters.endDate) {
-      conditions.push(lte(transactionsTable.date, new Date(filters.endDate)))
+    if (endDate) {
+      conditions.push(lte(transactionsTable.date, new Date(endDate)))
     }
-    if (filters.categoryId) {
-      conditions.push(eq(transactionsTable.categoryId, filters.categoryId))
+    if (categoryId) {
+      conditions.push(eq(transactionsTable.categoryId, categoryId))
     }
-    if (filters.spaceId) {
-      conditions.push(eq(transactionsTable.spaceId, filters.spaceId))
+    if (spaceId) {
+      conditions.push(eq(transactionsTable.spaceId, spaceId))
     }
-    if (filters.accountId) {
-      conditions.push(eq(transactionsTable.accountId, filters.accountId))
+    if (accountId) {
+      conditions.push(eq(transactionsTable.accountId, accountId))
     }
-    if (filters.type) {
-      conditions.push(eq(transactionsTable.type, filters.type))
+    if (type) {
+      conditions.push(eq(transactionsTable.type, type))
     }
-    if (filters.minAmount) {
-      conditions.push(gte(transactionsTable.amount, filters.minAmount))
+    if (minAmount) {
+      conditions.push(gte(transactionsTable.amount, minAmount))
     }
-    if (filters.maxAmount) {
-      conditions.push(lte(transactionsTable.amount, filters.maxAmount))
+    if (maxAmount) {
+      conditions.push(lte(transactionsTable.amount, maxAmount))
     }
-    if (filters.search) {
-      conditions.push(ilike(transactionsTable.description, `%${filters.search}%`))
+    if (search) {
+      conditions.push(ilike(transactionsTable.description, `%${search}%`))
     }
 
     // Buscar transações com relacionamentos

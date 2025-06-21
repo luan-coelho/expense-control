@@ -2,6 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { accountService } from '@/services'
+import { queryKeys } from '@/lib/routes'
 import { 
   type CreateAccountInput,
   type UpdateAccountInput,
@@ -10,15 +11,6 @@ import {
   type PaginatedAccounts,
   type AccountTypeEnum,
 } from '@/types/account'
-
-// Query keys para contas
-export const accountQueryKeys = {
-  all: ['accounts'] as const,
-  lists: () => [...accountQueryKeys.all, 'list'] as const,
-  list: (filters?: AccountFilters) => [...accountQueryKeys.lists(), { filters }] as const,
-  details: () => [...accountQueryKeys.all, 'detail'] as const,
-  detail: (id: string) => [...accountQueryKeys.details(), id] as const,
-}
 
 // Parâmetros para busca de contas
 export interface UseAccountsParams {
@@ -29,10 +21,11 @@ export interface UseAccountsParams {
 
 /**
  * Hook para buscar contas com paginação e filtros
+ * As contas são globais para o usuário, não específicas por espaço
  */
 export function useAccounts(params?: UseAccountsParams) {
   return useQuery({
-    queryKey: accountQueryKeys.list(params?.filters),
+    queryKey: queryKeys.accounts.list(params?.filters),
     queryFn: () => accountService.getAll(params),
     staleTime: 5 * 60 * 1000, // 5 minutos
   })
@@ -43,7 +36,7 @@ export function useAccounts(params?: UseAccountsParams) {
  */
 export function useAccount(id: string) {
   return useQuery({
-    queryKey: accountQueryKeys.detail(id),
+    queryKey: queryKeys.accounts.detail(id),
     queryFn: () => accountService.getById(id),
     enabled: !!id,
     staleTime: 5 * 60 * 1000, // 5 minutos
@@ -55,7 +48,7 @@ export function useAccount(id: string) {
  */
 export function useAccountsByType(type: AccountTypeEnum) {
   return useQuery({
-    queryKey: [...accountQueryKeys.all, 'by-type', type],
+    queryKey: [...queryKeys.accounts.all, 'by-type', type],
     queryFn: () => accountService.getByType(type),
     staleTime: 5 * 60 * 1000, // 5 minutos
   })
@@ -66,7 +59,7 @@ export function useAccountsByType(type: AccountTypeEnum) {
  */
 export function useSearchAccounts(query: string, type?: AccountTypeEnum) {
   return useQuery({
-    queryKey: [...accountQueryKeys.all, 'search', query, type],
+    queryKey: [...queryKeys.accounts.all, 'search', query, type],
     queryFn: () => accountService.search(query, type),
     enabled: query.length > 0,
     staleTime: 2 * 60 * 1000, // 2 minutos
@@ -83,10 +76,10 @@ export function useCreateAccount() {
     mutationFn: (data: CreateAccountInput) => accountService.create(data),
     onSuccess: (newAccount) => {
       // Invalidar listas de contas
-      queryClient.invalidateQueries({ queryKey: accountQueryKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: queryKeys.accounts.lists() })
       
       // Adicionar a nova conta ao cache
-      queryClient.setQueryData(accountQueryKeys.detail(newAccount.id), newAccount)
+      queryClient.setQueryData(queryKeys.accounts.detail(newAccount.id), newAccount)
     },
   })
 }
@@ -102,10 +95,10 @@ export function useUpdateAccount() {
       accountService.update(id, data),
     onSuccess: (updatedAccount) => {
       // Atualizar a conta específica no cache
-      queryClient.setQueryData(accountQueryKeys.detail(updatedAccount.id), updatedAccount)
+      queryClient.setQueryData(queryKeys.accounts.detail(updatedAccount.id), updatedAccount)
       
       // Invalidar listas de contas
-      queryClient.invalidateQueries({ queryKey: accountQueryKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: queryKeys.accounts.lists() })
     },
   })
 }
@@ -120,10 +113,10 @@ export function useDeleteAccount() {
     mutationFn: (id: string) => accountService.delete(id),
     onSuccess: (_, deletedId) => {
       // Remover a conta do cache
-      queryClient.removeQueries({ queryKey: accountQueryKeys.detail(deletedId) })
+      queryClient.removeQueries({ queryKey: queryKeys.accounts.detail(deletedId) })
       
       // Invalidar listas de contas
-      queryClient.invalidateQueries({ queryKey: accountQueryKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: queryKeys.accounts.lists() })
     },
   })
 }
@@ -135,6 +128,6 @@ export function useInvalidateAccounts() {
   const queryClient = useQueryClient()
   
   return () => {
-    queryClient.invalidateQueries({ queryKey: accountQueryKeys.all })
+    queryClient.invalidateQueries({ queryKey: queryKeys.accounts.all })
   }
 } 

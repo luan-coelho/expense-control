@@ -68,10 +68,82 @@ export const transactionFiltersSchema = z.object({
   search: z.string().optional(),
 })
 
+// Schema para validação de parâmetros de consulta
+export const transactionQuerySchema = z.object({
+  page: z
+    .string()
+    .nullable()
+    .optional()
+    .transform((val) => val ? parseInt(val, 10) : 1)
+    .refine((val) => val > 0, 'A página deve ser um número positivo'),
+  limit: z
+    .string()
+    .nullable()
+    .optional()
+    .transform((val) => val ? parseInt(val, 10) : 10)
+    .refine(
+      (val) => val > 0 && val <= 100,
+      'O limite deve ser entre 1 e 100'
+    ),
+  startDate: z
+    .string()
+    .nullable()
+    .optional(),
+  endDate: z
+    .string()
+    .nullable()
+    .optional(),
+  categoryId: z
+    .string()
+    .nullable()
+    .optional()
+    .refine(
+      (val) => !val || z.string().uuid().safeParse(val).success,
+      'ID da categoria inválido'
+    ),
+  spaceId: z
+    .string()
+    .nullable()
+    .optional()
+    .refine(
+      (val) => !val || z.string().uuid().safeParse(val).success,
+      'ID do espaço inválido'
+    ),
+  accountId: z
+    .string()
+    .nullable()
+    .optional()
+    .refine(
+      (val) => !val || z.string().uuid().safeParse(val).success,
+      'ID da conta inválido'
+    ),
+  type: z.enum(['INCOME', 'EXPENSE'])
+    .nullable()
+    .optional(),
+  minAmount: z
+    .string()
+    .nullable()
+    .optional(),
+  maxAmount: z
+    .string()
+    .nullable()
+    .optional(),
+  search: z
+    .string()
+    .nullable()
+    .optional()
+    .transform((val) => val ? val.trim() : undefined)
+    .refine(
+      (val) => !val || val.length <= 255,
+      'O termo de busca deve ter no máximo 255 caracteres'
+    ),
+})
+
 // Tipos derivados dos schemas
 export type CreateTransactionInput = z.infer<typeof createTransactionSchema>
 export type UpdateTransactionInput = z.infer<typeof updateTransactionSchema>
 export type TransactionFilters = z.infer<typeof transactionFiltersSchema>
+export type TransactionQuery = z.infer<typeof transactionQuerySchema>
 
 // Tipo para transação com relacionamentos
 export type TransactionWithRelations = Transaction & {
@@ -145,8 +217,6 @@ export const recurrenceDataSchema = z.object({
 
 // Tipo para dados de recorrência
 export type RecurrenceData = z.infer<typeof recurrenceDataSchema>
-
-
 
 // Utilitários para trabalhar com recorrência
 export function parseRecurrencePattern(pattern: string | null): RecurrenceData | null {

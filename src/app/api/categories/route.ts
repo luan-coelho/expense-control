@@ -5,7 +5,7 @@ import { eq, and, ilike, desc, count, isNull, or } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
 import { 
   createCategorySchema, 
-  categoryFiltersSchema,
+  categoryQuerySchema,
   type CategoryWithRelations,
   type PaginatedCategories
 } from '@/types/category'
@@ -20,26 +20,28 @@ export async function GET(request: NextRequest) {
 
     const { searchParams } = new URL(request.url)
     
-    // Parâmetros de paginação
-    const page = parseInt(searchParams.get('page') || '1')
-    const limit = parseInt(searchParams.get('limit') || '50')
-    const offset = (page - 1) * limit
-
-    // Preparar filtros (remover valores null)
-    const rawFilters = {
+    // Validar parâmetros de consulta
+    const queryValidation = categoryQuerySchema.safeParse({
+      page: searchParams.get('page'),
+      limit: searchParams.get('limit'),
       type: searchParams.get('type'),
       isDefault: searchParams.get('isDefault'),
       parentId: searchParams.get('parentId'),
       search: searchParams.get('search'),
+    })
+
+    if (!queryValidation.success) {
+      return NextResponse.json({ 
+        error: 'Parâmetros de consulta inválidos',
+        details: queryValidation.error.issues.map(issue => ({
+          field: issue.path.join('.'),
+          message: issue.message
+        }))
+      }, { status: 400 })
     }
 
-    // Filtrar apenas valores não nulos
-    const cleanFilters = Object.fromEntries(
-      Object.entries(rawFilters).filter(([_, value]) => value !== null)
-    )
-
-    // Validar filtros
-    const filters = categoryFiltersSchema.parse(cleanFilters)
+    const { page, limit, type, isDefault, parentId, search } = queryValidation.data
+    const offset = (page - 1) * limit
 
     // Construir condições WHERE
     // Incluir categorias predefinidas (userId = null) e categorias do usuário
@@ -50,21 +52,21 @@ export async function GET(request: NextRequest) {
       )
     ]
 
-    if (filters.type) {
-      conditions.push(eq(categoriesTable.type, filters.type))
+    if (type) {
+      conditions.push(eq(categoriesTable.type, type))
     }
-    if (filters.isDefault !== undefined) {
-      conditions.push(eq(categoriesTable.isDefault, filters.isDefault))
+    if (isDefault !== undefined) {
+      conditions.push(eq(categoriesTable.isDefault, isDefault))
     }
-    if (filters.parentId !== undefined) {
-      if (filters.parentId === null) {
+    if (parentId !== undefined) {
+      if (parentId === null) {
         conditions.push(isNull(categoriesTable.parentId))
       } else {
-        conditions.push(eq(categoriesTable.parentId, filters.parentId))
+        conditions.push(eq(categoriesTable.parentId, parentId))
       }
     }
-    if (filters.search) {
-      conditions.push(ilike(categoriesTable.name, `%${filters.search}%`))
+    if (search) {
+      conditions.push(ilike(categoriesTable.name, `%${search}%`))
     }
 
     // Buscar categorias com relacionamentos

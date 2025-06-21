@@ -6,5 +6,7 @@ export { default as categoryService } from './category.service'
 export { default as spaceService } from './space.service'
 export { default as accountService } from './account.service'
 export { default as recurrenceService } from './recurrence.service'
+export { default as analyticsService } from './analytics.service'
+export { default as exportService } from './export.service'
 
 export {}

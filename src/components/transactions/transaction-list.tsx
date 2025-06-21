@@ -1,11 +1,13 @@
 'use client'
 
-import { useState } from 'react'
-import { Pencil, Trash2, Plus, Filter, Search } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Pencil, Trash2, Plus, Filter, Search, CalendarDays } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { DatePicker } from '@/components/ui/date-picker'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
@@ -53,6 +55,23 @@ export function TransactionList({
   const [page, setPage] = useState(1)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [transactionToDelete, setTransactionToDelete] = useState<TransactionWithRelations | null>(null)
+  
+  // Estado para os date pickers
+  const [startDate, setStartDate] = useState<Date | undefined>(
+    filters.startDate ? new Date(filters.startDate) : undefined
+  )
+  const [endDate, setEndDate] = useState<Date | undefined>(
+    filters.endDate ? new Date(filters.endDate) : undefined
+  )
+
+  // Sincronizar estado interno quando filtros externos mudarem
+  useEffect(() => {
+    setStartDate(filters.startDate ? new Date(filters.startDate) : undefined)
+  }, [filters.startDate])
+
+  useEffect(() => {
+    setEndDate(filters.endDate ? new Date(filters.endDate) : undefined)
+  }, [filters.endDate])
 
   const queryParams: UseTransactionsParams = {
     page,
@@ -74,6 +93,36 @@ export function TransactionList({
       } else {
         newFilters[key] = value
       }
+    }
+    
+    onFiltersChange?.(newFilters)
+    setPage(1) // Reset para primeira página ao filtrar
+  }
+
+  const handleStartDateChange = (date: Date | undefined) => {
+    setStartDate(date)
+    
+    const newFilters = { ...filters }
+    
+    if (date) {
+      newFilters.startDate = date.toISOString().split('T')[0]
+    } else {
+      delete newFilters.startDate
+    }
+    
+    onFiltersChange?.(newFilters)
+    setPage(1) // Reset para primeira página ao filtrar
+  }
+
+  const handleEndDateChange = (date: Date | undefined) => {
+    setEndDate(date)
+    
+    const newFilters = { ...filters }
+    
+    if (date) {
+      newFilters.endDate = date.toISOString().split('T')[0]
+    } else {
+      delete newFilters.endDate
     }
     
     onFiltersChange?.(newFilters)
@@ -133,29 +182,30 @@ export function TransactionList({
           </div>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Busca por descrição */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Buscar</label>
+          <div className="flex flex-col lg:flex-row gap-4">
+            {/* Busca por descrição - ocupa mais espaço */}
+            <div className="flex-1 space-y-2">
+              <Label htmlFor="search" className="text-sm font-medium">Buscar</Label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <Input
+                  id="search"
                   placeholder="Buscar por descrição..."
                   value={filters.search || ''}
                   onChange={(e) => handleFilterChange('search', e.target.value)}
-                  className="pl-10"
+                  className="pl-10 w-full h-10 rounded-md"
                 />
               </div>
             </div>
 
             {/* Filtro por tipo */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Tipo</label>
+            <div className="w-full lg:w-44 space-y-2">
+              <Label htmlFor="type-filter" className="text-sm font-medium">Tipo</Label>
               <Select
                 value={filters.type || 'all'}
                 onValueChange={(value) => handleFilterChange('type', value)}
               >
-                <SelectTrigger>
+                <SelectTrigger id="type-filter" className="w-full !h-10 rounded-md">
                   <SelectValue placeholder="Todos os tipos" />
                 </SelectTrigger>
                 <SelectContent>
@@ -166,13 +216,33 @@ export function TransactionList({
               </Select>
             </div>
 
-            {/* Filtro por período */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Data inicial</label>
-              <Input
-                type="date"
-                value={filters.startDate || ''}
-                onChange={(e) => handleFilterChange('startDate', e.target.value)}
+            {/* Data inicial */}
+            <div className="w-full lg:w-44 space-y-2">
+              <Label htmlFor="start-date" className="flex items-center gap-2 text-sm font-medium">
+                <CalendarDays className="h-4 w-4" />
+                Data inicial
+              </Label>
+              <DatePicker
+                id="start-date"
+                date={startDate}
+                onSelect={handleStartDateChange}
+                placeholder="Data inicial"
+                className="w-full h-10 rounded-md"
+              />
+            </div>
+
+            {/* Data final */}
+            <div className="w-full lg:w-44 space-y-2">
+              <Label htmlFor="end-date" className="flex items-center gap-2 text-sm font-medium">
+                <CalendarDays className="h-4 w-4" />
+                Data final
+              </Label>
+              <DatePicker
+                id="end-date"
+                date={endDate}
+                onSelect={handleEndDateChange}
+                placeholder="Data final"
+                className="w-full h-10 rounded-md"
               />
             </div>
           </div>

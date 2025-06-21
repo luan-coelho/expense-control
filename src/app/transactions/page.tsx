@@ -6,18 +6,10 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
 import { EmptyState } from '@/components/ui/empty-state'
 import { TransactionManager, UpcomingTransactions } from '@/components/transactions'
-import { useSpaces } from '@/hooks/use-spaces'
 import { useAccounts } from '@/hooks/use-accounts'
-import { AlertCircle, RefreshCw, Database, CreditCard } from 'lucide-react'
+import { AlertCircle, RefreshCw, CreditCard } from 'lucide-react'
 
 function TransactionManagerWrapper() {
-  const { 
-    data: spacesData, 
-    isLoading: spacesLoading, 
-    error: spacesError,
-    refetch: refetchSpaces 
-  } = useSpaces()
-  
   const { 
     data: accountsData, 
     isLoading: accountsLoading, 
@@ -26,29 +18,22 @@ function TransactionManagerWrapper() {
   } = useAccounts()
 
   // Estados de loading
-  if (spacesLoading || accountsLoading) {
+  if (accountsLoading) {
     return <TransactionManagerSkeleton />
   }
 
   // Estados de erro
-  if (spacesError || accountsError) {
+  if (accountsError) {
     return (
       <Card>
         <CardContent className="pt-6">
           <EmptyState
             icon={<AlertCircle className="w-16 h-16" />}
             title="Erro ao carregar dados"
-            description={
-              spacesError 
-                ? "Não foi possível carregar os espaços. Verifique sua conexão e tente novamente."
-                : "Não foi possível carregar as contas. Verifique sua conexão e tente novamente."
-            }
+            description="Não foi possível carregar as contas. Verifique sua conexão e tente novamente."
             action={{
               label: "Tentar novamente",
-              onClick: () => {
-                if (spacesError) refetchSpaces()
-                if (accountsError) refetchAccounts()
-              }
+              onClick: () => refetchAccounts()
             }}
           />
         </CardContent>
@@ -57,61 +42,14 @@ function TransactionManagerWrapper() {
   }
 
   // Extrair dados dos resultados paginados
-  const spaces = spacesData?.spaces || []
   const accounts = accountsData?.accounts || []
 
   // Transformar dados para o formato esperado pelo TransactionManager
-  const transformedSpaces = spaces.map(space => ({
-    id: space.id,
-    name: space.name
-  }))
-
   const transformedAccounts = accounts.map(account => ({
     id: account.id,
     name: account.name,
     type: account.type.toLowerCase()
   }))
-
-  // Estado vazio - sem espaços ou contas
-  if (spaces.length === 0 && accounts.length === 0) {
-    return (
-      <Card>
-        <CardContent className="pt-6">
-          <EmptyState
-            icon={<Database className="w-16 h-16" />}
-            title="Configure seus espaços e contas"
-            description="Para começar a gerenciar suas transações, você precisa criar pelo menos um espaço e uma conta."
-            action={{
-              label: "Recarregar",
-              onClick: () => {
-                refetchSpaces()
-                refetchAccounts()
-              }
-            }}
-          />
-        </CardContent>
-      </Card>
-    )
-  }
-
-  // Estado vazio - sem espaços
-  if (spaces.length === 0) {
-    return (
-      <Card>
-        <CardContent className="pt-6">
-          <EmptyState
-            icon={<Database className="w-16 h-16" />}
-            title="Nenhum espaço encontrado"
-            description="Você precisa criar pelo menos um espaço para organizar suas transações."
-            action={{
-              label: "Recarregar",
-              onClick: () => refetchSpaces()
-            }}
-          />
-        </CardContent>
-      </Card>
-    )
-  }
 
   // Estado vazio - sem contas
   if (accounts.length === 0) {
@@ -134,7 +72,6 @@ function TransactionManagerWrapper() {
 
   return (
     <TransactionManager
-      spaces={transformedSpaces}
       accounts={transformedAccounts}
     />
   )

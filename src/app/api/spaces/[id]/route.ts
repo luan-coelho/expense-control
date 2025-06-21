@@ -14,7 +14,7 @@ import { ZodError } from 'zod'
 // GET - Buscar espaço por ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -23,7 +23,8 @@ export async function GET(
     }
 
     // Validar ID do espaço
-    const idValidation = spaceIdSchema.safeParse({ id: params.id })
+    const resolvedParams = await params
+    const idValidation = spaceIdSchema.safeParse({ id: resolvedParams.id })
     
     if (!idValidation.success) {
       return NextResponse.json({ 
@@ -78,7 +79,7 @@ export async function GET(
 // PUT - Atualizar espaço
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -86,8 +87,10 @@ export async function PUT(
       return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
     }
 
+    const resolvedParams = await params
+
     // Validar ID do espaço
-    const idValidation = spaceIdSchema.safeParse({ id: params.id })
+    const idValidation = spaceIdSchema.safeParse({ id: resolvedParams.id })
     
     if (!idValidation.success) {
       return NextResponse.json({ 
@@ -218,7 +221,7 @@ export async function PUT(
 // DELETE - Excluir espaço
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -226,8 +229,10 @@ export async function DELETE(
       return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
     }
 
+    const resolvedParams = await params
+
     // Validar ID do espaço
-    const idValidation = spaceIdSchema.safeParse({ id: params.id })
+    const idValidation = spaceIdSchema.safeParse({ id: resolvedParams.id })
     
     if (!idValidation.success) {
       return NextResponse.json({ 

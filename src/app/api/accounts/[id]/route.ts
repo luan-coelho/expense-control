@@ -15,7 +15,7 @@ import { ZodError } from 'zod'
 // GET - Buscar conta por ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -23,8 +23,10 @@ export async function GET(
       return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
     }
 
+    const resolvedParams = await params
+
     // Validar ID da conta
-    const idValidation = accountIdSchema.safeParse({ id: params.id })
+    const idValidation = accountIdSchema.safeParse({ id: resolvedParams.id })
     
     if (!idValidation.success) {
       return NextResponse.json({ 
@@ -80,7 +82,7 @@ export async function GET(
 // PUT - Atualizar conta
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -88,8 +90,10 @@ export async function PUT(
       return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
     }
 
+    const resolvedParams = await params
+
     // Validar ID da conta
-    const idValidation = accountIdSchema.safeParse({ id: params.id })
+    const idValidation = accountIdSchema.safeParse({ id: resolvedParams.id })
     
     if (!idValidation.success) {
       return NextResponse.json({ 
@@ -236,7 +240,7 @@ export async function PUT(
 // DELETE - Excluir conta
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth()
@@ -244,8 +248,10 @@ export async function DELETE(
       return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
     }
 
+    const resolvedParams = await params
+
     // Validar ID da conta
-    const idValidation = accountIdSchema.safeParse({ id: params.id })
+    const idValidation = accountIdSchema.safeParse({ id: resolvedParams.id })
     
     if (!idValidation.success) {
       return NextResponse.json({ 

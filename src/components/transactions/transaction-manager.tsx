@@ -10,7 +10,6 @@ import {
 } from '@/types/transaction'
 
 interface TransactionManagerProps {
-  spaces?: Array<{ id: string; name: string }>
   accounts?: Array<{ id: string; name: string; type: string }>
 }
 
@@ -31,15 +30,13 @@ const mockAccounts = [
 ]
 
 export function TransactionManager({
-  spaces: propSpaces,
   accounts: propAccounts,
 }: TransactionManagerProps) {
   const [modalOpen, setModalOpen] = useState(false)
   const [editingTransaction, setEditingTransaction] = useState<TransactionWithRelations | undefined>(undefined)
   const [filters, setFilters] = useState<TransactionFilters>({})
 
-  // Usar props ou fallback para mock (spaces e accounts)
-  const spaces = propSpaces || mockSpaces
+  // Usar props ou fallback para mock (accounts)
   const accounts = propAccounts || mockAccounts
 
   const handleAdd = () => {
@@ -70,7 +67,6 @@ export function TransactionManager({
         open={modalOpen}
         onOpenChange={handleModalClose}
         transaction={editingTransaction}
-        spaces={spaces}
         accounts={accounts}
       />
     </div>

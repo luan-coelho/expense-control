@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { StatCard } from '@/components/ui/stat-card'
 import { RecentTransactions } from '@/components/dashboard'
+import { SpendingByCategoryChart } from '@/components/charts'
 import { useDashboardStats, formatCurrency } from '@/hooks'
 
 export default function Home() {
@@ -91,6 +92,11 @@ export default function Home() {
             </div>
           }
         />
+      </div>
+
+      {/* Test Chart - Temporary */}
+      <div className="bg-card rounded-lg border p-6">
+        <SpendingByCategoryChart />
       </div>
 
       {/* Recent transactions */}
