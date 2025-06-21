@@ -13,7 +13,7 @@ export function SignInForm() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || routes.frontend.admin.sheets
+  const callbackUrl = searchParams.get('callbackUrl') || routes.frontend.admin.home
   const error = searchParams.get('error')
 
   // Show error message if there's an authentication error
@@ -68,7 +68,7 @@ export function SignInForm() {
         )}
       </Button>
 
-      {callbackUrl !== routes.frontend.admin.sheets && (
+      {callbackUrl !== routes.frontend.admin.home && (
         <p className="text-xs text-center text-muted-foreground">
           Você será redirecionado para a página solicitada após o login
         </p>

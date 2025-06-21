@@ -3,32 +3,140 @@
 import { Suspense } from 'react'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Button } from '@/components/ui/button'
+import { EmptyState } from '@/components/ui/empty-state'
 import { TransactionManager, UpcomingTransactions } from '@/components/transactions'
+import { useSpaces } from '@/hooks/use-spaces'
+import { useAccounts } from '@/hooks/use-accounts'
+import { AlertCircle, RefreshCw, Database, CreditCard } from 'lucide-react'
 
-// Dados de teste para espaços e contas
-const mockSpaces = [
-  { id: '1', name: 'Pessoal' },
-  { id: '2', name: 'Trabalho' },
-  { id: '3', name: 'Família' },
-  { id: '4', name: 'Negócios' },
-]
+function TransactionManagerWrapper() {
+  const { 
+    data: spacesData, 
+    isLoading: spacesLoading, 
+    error: spacesError,
+    refetch: refetchSpaces 
+  } = useSpaces()
+  
+  const { 
+    data: accountsData, 
+    isLoading: accountsLoading, 
+    error: accountsError,
+    refetch: refetchAccounts 
+  } = useAccounts()
 
-const mockAccounts = [
-  { id: '1', name: 'Conta Corrente', type: 'checking' },
-  { id: '2', name: 'Conta Poupança', type: 'savings' },
-  { id: '3', name: 'Cartão de Crédito', type: 'credit_card' },
-  { id: '4', name: 'Dinheiro', type: 'cash' },
-  { id: '5', name: 'Conta Investimento', type: 'investment' },
-]
+  // Estados de loading
+  if (spacesLoading || accountsLoading) {
+    return <TransactionManagerSkeleton />
+  }
 
-function TransactionManagerSuspense() {
+  // Estados de erro
+  if (spacesError || accountsError) {
+    return (
+      <Card>
+        <CardContent className="pt-6">
+          <EmptyState
+            icon={<AlertCircle className="w-16 h-16" />}
+            title="Erro ao carregar dados"
+            description={
+              spacesError 
+                ? "Não foi possível carregar os espaços. Verifique sua conexão e tente novamente."
+                : "Não foi possível carregar as contas. Verifique sua conexão e tente novamente."
+            }
+            action={{
+              label: "Tentar novamente",
+              onClick: () => {
+                if (spacesError) refetchSpaces()
+                if (accountsError) refetchAccounts()
+              }
+            }}
+          />
+        </CardContent>
+      </Card>
+    )
+  }
+
+  // Extrair dados dos resultados paginados
+  const spaces = spacesData?.spaces || []
+  const accounts = accountsData?.accounts || []
+
+  // Transformar dados para o formato esperado pelo TransactionManager
+  const transformedSpaces = spaces.map(space => ({
+    id: space.id,
+    name: space.name
+  }))
+
+  const transformedAccounts = accounts.map(account => ({
+    id: account.id,
+    name: account.name,
+    type: account.type.toLowerCase()
+  }))
+
+  // Estado vazio - sem espaços ou contas
+  if (spaces.length === 0 && accounts.length === 0) {
+    return (
+      <Card>
+        <CardContent className="pt-6">
+          <EmptyState
+            icon={<Database className="w-16 h-16" />}
+            title="Configure seus espaços e contas"
+            description="Para começar a gerenciar suas transações, você precisa criar pelo menos um espaço e uma conta."
+            action={{
+              label: "Recarregar",
+              onClick: () => {
+                refetchSpaces()
+                refetchAccounts()
+              }
+            }}
+          />
+        </CardContent>
+      </Card>
+    )
+  }
+
+  // Estado vazio - sem espaços
+  if (spaces.length === 0) {
+    return (
+      <Card>
+        <CardContent className="pt-6">
+          <EmptyState
+            icon={<Database className="w-16 h-16" />}
+            title="Nenhum espaço encontrado"
+            description="Você precisa criar pelo menos um espaço para organizar suas transações."
+            action={{
+              label: "Recarregar",
+              onClick: () => refetchSpaces()
+            }}
+          />
+        </CardContent>
+      </Card>
+    )
+  }
+
+  // Estado vazio - sem contas
+  if (accounts.length === 0) {
+    return (
+      <Card>
+        <CardContent className="pt-6">
+          <EmptyState
+            icon={<CreditCard className="w-16 h-16" />}
+            title="Nenhuma conta encontrada"
+            description="Você precisa criar pelo menos uma conta para registrar suas transações."
+            action={{
+              label: "Recarregar",
+              onClick: () => refetchAccounts()
+            }}
+          />
+        </CardContent>
+      </Card>
+    )
+  }
+
   return (
-    <Suspense fallback={<TransactionManagerSkeleton />}>
-      <TransactionManager
-        spaces={mockSpaces}
-        accounts={mockAccounts}
-      />
-    </Suspense>
+    <TransactionManager
+      spaces={transformedSpaces}
+      accounts={transformedAccounts}
+    />
   )
 }
 
@@ -107,10 +215,12 @@ export default function TransactionsPage() {
         </div>
       </div>
 
-      {/* Upcoming Transactions */}
+      {/* Main content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <TransactionManagerSuspense />
+          <Suspense fallback={<TransactionManagerSkeleton />}>
+            <TransactionManagerWrapper />
+          </Suspense>
         </div>
         <div className="lg:col-span-1">
           <Suspense fallback={<UpcomingTransactionsSkeleton />}>

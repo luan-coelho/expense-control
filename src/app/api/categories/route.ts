@@ -106,7 +106,7 @@ export async function GET(request: NextRequest) {
     const response: PaginatedCategories = {
       categories: categories.map(category => ({
         ...category,
-        user: category.user.id ? category.user : null,
+        user: category.user?.id ? category.user : null,
       })) as CategoryWithRelations[],
       pagination: {
         page,
@@ -223,7 +223,7 @@ export async function POST(request: NextRequest) {
     const result = categoryWithRelations[0]
     return NextResponse.json({
       ...result,
-      user: result.user.id ? result.user : null,
+      user: result.user?.id ? result.user : null,
     } as CategoryWithRelations, { status: 201 })
   } catch (error) {
     console.error('Erro ao criar categoria:', error)

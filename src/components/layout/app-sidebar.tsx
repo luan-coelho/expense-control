@@ -2,7 +2,7 @@
 
 import { UserAvatar } from '@/components/auth/user-avatar'
 import { useThemeConfig } from '@/lib/theme-config'
-import { BarChart3, FileText, Home, CreditCard, TrendingUp } from 'lucide-react'
+import { BarChart3, FileText, Home, CreditCard, TrendingUp, Tag, Banknote, Building } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useTheme } from 'next-themes'
 
@@ -34,9 +34,19 @@ const items = [
     icon: CreditCard,
   },
   {
-    title: 'Demo CRUD',
-    url: '/demo',
-    icon: FileText,
+    title: 'Contas',
+    url: '/accounts',
+    icon: Banknote,
+  },
+  {
+    title: 'Espaços',
+    url: '/spaces',
+    icon: Building,
+  },
+  {
+    title: 'Categorias',
+    url: '/categories',
+    icon: Tag,
   },
 ]
 

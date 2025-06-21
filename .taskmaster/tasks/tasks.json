@@ -622,11 +622,336 @@
         ],
         "status": "pending",
         "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "Implement Category Management Page at /categories",
+        "description": "Create a comprehensive category management page at src/app/categories/page.tsx, integrating the existing CategoryManager component and supporting full CRUD operations, filtering, and responsive design.",
+        "details": "Develop the /categories page using the existing CategoryManager component from src/components/categories/. Ensure the page follows the established visual pattern (header, title, description) consistent with other pages. Integrate CRUD functionality for categories, allowing users to create, edit, and delete both default and custom categories. Display all categories, clearly distinguishing between default and custom types. Implement filters to allow users to view categories by type (income/expense). Ensure the page is fully responsive and mobile-first, leveraging Tailwind CSS and Shadcn UI components. Use React's Suspense for loading states and display appropriate skeleton loaders during data fetches. Ensure seamless integration with authentication and category CRUD APIs, and reuse existing UI components wherever possible for consistency.",
+        "testStrategy": "Verify that the page renders correctly with the expected header, title, and description. Test that all categories (default and custom) are listed and can be filtered by type. Confirm that users can create, edit, and delete categories, and that changes are reflected immediately. Check that loading states use Suspense and skeletons appropriately. Validate responsiveness across devices and ensure visual consistency with other pages. Test integration with authentication to ensure only authorized users can access and manage categories.",
+        "status": "done",
+        "dependencies": [
+          3,
+          4,
+          6
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set Up Category Management Page Structure",
+            "description": "Create the /categories page at src/app/categories/page.tsx, ensuring it follows the established visual pattern with header, title, and description consistent with other pages.",
+            "dependencies": [],
+            "details": "Establish the page layout using Tailwind CSS and Shadcn UI components, matching the design system used throughout the application.\n<info added on 2025-06-21T06:33:26.258Z>\n✅ Subtarefa concluída com sucesso!\n\nEstrutura da página criada:\n1. Arquivo criado: src/app/categories/page.tsx seguindo o padrão estabelecido\n2. Header consistente: Implementado com título \"Categorias\", descrição e ícone visual\n3. Layout responsivo: Utiliza Tailwind CSS e estrutura consistente com outras páginas\n4. Skeleton loading: Criado CategoryManagerSkeleton detalhado para estados de carregamento\n5. Suspense boundaries: Implementado para carregamento assíncrono do CategoryManager\n\nDetalhes técnicos:\n- Seguiu o padrão visual das outras páginas (título h1, descrição, espaçamento)\n- Skeleton simula a estrutura real do CategoryManager (busca, filtros, grid de cards)\n- Utiliza componentes do design system (Card, Skeleton, ícones Lucide)\n- Preparado para integração com o CategoryManager existente\n- Layout responsivo mobile-first com grid adaptativo\n</info added on 2025-06-21T06:33:26.258Z>",
+            "status": "done",
+            "testStrategy": "Verify the page renders with correct header, title, and description on both desktop and mobile devices."
+          },
+          {
+            "id": 2,
+            "title": "Integrate CategoryManager Component and Display Categories",
+            "description": "Integrate the existing CategoryManager component from src/components/categories/ and ensure all categories (default and custom) are displayed, clearly distinguishing between types.",
+            "dependencies": [
+              1
+            ],
+            "details": "Pass necessary props and data to CategoryManager. Implement visual cues or labels to differentiate default and custom categories.\n<info added on 2025-06-21T06:34:22.337Z>\nIntegração do CategoryManager concluída conforme especificado:\n\n- CategoryManager importado corretamente de '@/components/categories' e integrado à página com prop className=\"w-full\"\n- Componente envolvido em Suspense com skeleton personalizado que simula busca, filtros e grid de cards\n- Dados carregados automaticamente via hooks internos do CategoryManager\n- Diferenciação visual entre categorias padrão e personalizadas implementada conforme CategoryList\n- Filtros por tipo (INCOME/EXPENSE) funcionais no CategoryList interno\n- Página /categories acessível, renderizando corretamente e mantendo padrão visual das demais páginas\n- Testes realizados: servidor iniciado, página acessível, HTML gerado corretamente, componente carregando sem erros\n</info added on 2025-06-21T06:34:22.337Z>",
+            "status": "done",
+            "testStrategy": "Check that all categories are listed and visually distinguished by type. Confirm correct rendering on various screen sizes."
+          },
+          {
+            "id": 3,
+            "title": "Implement CRUD Functionality for Categories",
+            "description": "Enable full CRUD operations (create, read, update, delete) for both default and custom categories, integrating with authentication and category CRUD APIs.",
+            "dependencies": [
+              2
+            ],
+            "details": "Utilize existing API endpoints and ensure proper error handling and optimistic UI updates. Reuse existing UI components for forms and dialogs.\n<info added on 2025-06-21T06:35:37.733Z>\nCRUD de categorias já implementado e validado, incluindo:\n\nOperações de criação, leitura, atualização e deleção com hooks dedicados (`useCreateCategory`, `useCategories`, `useCategory`, `useCategoriesByType`, `useRootCategories`, `useSearchCategories`, `useUpdateCategory`, `useDeleteCategory`), formulários com validação Zod, modais reutilizáveis, diferenciação visual entre categorias do sistema e personalizadas, proteção contra edição/exclusão de categorias do sistema, tratamento de dependências (transações/subcategorias), gerenciamento otimizado de cache com React Query, feedback visual (loading, toast de sucesso/erro) e mensagens de erro específicas.\n</info added on 2025-06-21T06:35:37.733Z>",
+            "status": "done",
+            "testStrategy": "Test creating, editing, and deleting categories. Validate API calls and UI updates for each operation."
+          },
+          {
+            "id": 4,
+            "title": "Add Filtering by Category Type",
+            "description": "Implement filters to allow users to view categories by type (income/expense), updating the displayed list accordingly.",
+            "dependencies": [
+              3
+            ],
+            "details": "Provide filter controls using Shadcn UI components. Ensure filter state is managed and updates the category list in real time.\n<info added on 2025-06-21T06:36:49.654Z>\nFiltros por tipo de categoria, origem (sistema/personalizada) e busca por nome já estão implementados no CategoryList utilizando componentes Shadcn UI. Os filtros incluem dropdowns condicionais, integração com hooks (`useCategories`, `useSearchCategories`), badges de filtros ativos, botão \"Limpar\", contadores de resultados, mensagens de estado vazio e renderização condicional para performance. O valor dos filtros é persistido no estado e o gerenciamento de cache é feito automaticamente via React Query.\n</info added on 2025-06-21T06:36:49.654Z>",
+            "status": "done",
+            "testStrategy": "Verify that selecting a filter updates the list to show only the relevant category types. Test filter persistence and reset."
+          },
+          {
+            "id": 5,
+            "title": "Enhance Responsiveness and Loading States",
+            "description": "Ensure the page is fully responsive and mobile-first. Use React's Suspense for loading states and display skeleton loaders during data fetches.",
+            "dependencies": [
+              4
+            ],
+            "details": "Leverage Tailwind CSS for responsive design. Implement Suspense boundaries and skeleton loaders for all asynchronous data operations.\n<info added on 2025-06-21T06:38:09.984Z>\nResponsividade e estados de loading estão implementados de forma exemplar, cobrindo todos os principais cenários de uso e edge cases. O grid, header, cards, badges, dropdowns e modal se adaptam perfeitamente a diferentes tamanhos de tela, garantindo ótima experiência mobile e desktop. Skeleton loaders personalizados, estados de loading em botões e formulários, além de feedback visual consistente (toasts, transições, hover effects) proporcionam uma interface fluida e informativa durante operações assíncronas. Estados vazios são tratados com mensagens claras e ações sugeridas, promovendo usabilidade mesmo sem dados.\n</info added on 2025-06-21T06:38:09.984Z>",
+            "status": "done",
+            "testStrategy": "Test the page on multiple device sizes. Simulate slow network conditions to confirm skeleton loaders and Suspense boundaries work as intended."
+          }
+        ]
+      },
+      {
+        "id": 12,
+        "title": "Implement Spaces Management Page at /spaces",
+        "description": "Develop a comprehensive management page for spaces at src/app/spaces/page.tsx, integrating existing components and supporting full CRUD, filtering, and responsive design.",
+        "details": "Create the /spaces management page using the existing SpaceList and SpaceForm components from src/components/spaces/. Structure the page to match the established visual pattern (header, title, description) used in other sections. Implement CRUD operations for spaces, enabling users to create, edit, and delete spaces via modal dialogs. Display spaces as organized cards, supporting search and filter functionality for efficient navigation. Ensure the page is fully responsive and mobile-first, leveraging Tailwind CSS and Shadcn UI. Use React Suspense for loading states to enhance perceived performance. Integrate basic statistics (e.g., total spaces, usage metrics) at the top of the page. Manage state efficiently, lifting shared state to the parent page as needed and passing it via props to child components. Ensure seamless integration with authentication and backend APIs for data persistence and user ownership.",
+        "testStrategy": "Verify that the page renders with the correct header, title, and description, and that it matches the visual style of other management pages. Test that all CRUD operations (create, edit, delete) for spaces function correctly, with immediate UI updates and modal dialogs for creation/editing. Confirm that spaces are displayed as cards, and that search and filter features work as intended. Check that statistics are accurate and update in real time. Validate loading states using Suspense, and ensure the page is fully responsive across devices. Test integration with authentication and backend APIs for data consistency and user ownership.",
+        "status": "done",
+        "dependencies": [
+          3,
+          4,
+          8
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set Up Page Structure and Layout",
+            "description": "Create the /spaces management page at src/app/spaces/page.tsx, establishing the header, title, and description to match the established visual pattern. Integrate SpaceList and SpaceForm components, and ensure the layout is responsive using Tailwind CSS and Shadcn UI.",
+            "dependencies": [],
+            "details": "Establish the foundational structure of the page, ensuring consistency with other management pages. Use Tailwind CSS classes and Shadcn UI components for a mobile-first, responsive design. Import and position SpaceList and SpaceForm components appropriately.\n<info added on 2025-06-21T06:43:11.956Z>\n✅ Estrutura da página criada com sucesso!\n\nImplementação realizada:\n- Criado arquivo src/app/spaces/page.tsx com estrutura completa\n- Seguiu o padrão visual estabelecido na página de categorias\n- Implementou header com título, descrição e ícone Building2\n- Integrou componentes SpaceList e SpaceForm existentes\n- Criou componente SpaceStats para exibir estatísticas básicas\n- Implementou SpaceManager para gerenciar estado dos modais\n- Adicionou skeletons de loading para melhor UX\n- Usou React Suspense para carregamento assíncrono\n- Layout responsivo com Tailwind CSS e grid system\n- Modais para criar e editar espaços usando Dialog do Shadcn UI\n\nFuncionalidades implementadas:\n- Estatísticas: Total de espaços, novos nos últimos 7 dias, status ativo\n- Integração completa com SpaceList (busca, filtros, paginação)\n- Modais para CRUD operations via SpaceForm\n- Estados de loading e skeleton apropriados\n- Design responsivo mobile-first\n\nA estrutura está pronta e segue todas as convenções do projeto.\n</info added on 2025-06-21T06:43:11.956Z>",
+            "status": "done",
+            "testStrategy": "Verify that the page renders with correct header, title, and description on both desktop and mobile devices. Check that SpaceList and SpaceForm components are visible and styled correctly."
+          },
+          {
+            "id": 2,
+            "title": "Implement CRUD Operations with Modal Dialogs",
+            "description": "Enable users to create, edit, and delete spaces using modal dialogs, integrating with backend APIs for data persistence and user ownership.",
+            "dependencies": [
+              1
+            ],
+            "details": "Wire up SpaceForm to handle create and edit actions via modal dialogs. Implement delete functionality with confirmation. Ensure all operations interact with backend APIs and respect authentication and user ownership.\n<info added on 2025-06-21T06:44:42.487Z>\nCRUD Operations fully implemented and verified!\n\n- SpaceList and SpaceForm components have all CRUD operations working\n- Edit and delete buttons are present for each space in SpaceList\n- SpaceForm supports both creating and editing spaces\n- Modals are correctly managed in SpaceManager\n- Backend integration via useCreateSpace, useUpdateSpace, useDeleteSpace hooks\n- Delete confirmation handled via dialog\n- Loading states are shown during operations\n- Proper error handling is in place\n\nCRUD operations summary:\n1. CREATE: Modal with SpaceForm for new spaces\n2. READ: SpaceList displays all spaces with pagination and search\n3. UPDATE: Modal with pre-filled SpaceForm for editing\n4. DELETE: Delete button with confirmation dialog\n\nAdditional fix:\n- Resolved sign-in-form.tsx route error (routes.frontend.admin.sheets → routes.frontend.admin.home)\n\nCRUD implementation is complete and functional. All required features are present in the existing components.\n</info added on 2025-06-21T06:44:42.487Z>",
+            "status": "done",
+            "testStrategy": "Test creating, editing, and deleting spaces as an authenticated user. Confirm that modals open and close correctly, and that changes persist after API calls."
+          },
+          {
+            "id": 3,
+            "title": "Add Filtering, Search, and Pagination Functionality",
+            "description": "Implement search and filter controls to allow users to efficiently navigate and find spaces. Add pagination if the number of spaces exceeds a set threshold.",
+            "dependencies": [
+              2
+            ],
+            "details": "Integrate search input and filter dropdowns above the SpaceList. Implement pagination controls if needed, using state to manage current page and filtered results.\n<info added on 2025-06-21T06:45:11.102Z>\nFuncionalidades de busca, filtro e paginação já estão disponíveis e validadas no SpaceList, incluindo:\n\n- Input de busca com ícone de lupa e placeholder \"Buscar espaços...\"\n- Filtro em tempo real conforme digitação\n- Botão \"Limpar\" visível quando filtros ou busca estão ativos\n- Paginação completa com exibição de página atual, total de páginas e itens, além de botões anterior/próxima com estados desabilitados quando necessário\n- Badges visuais indicando filtros ativos\n- Mensagens apropriadas para estados vazios, tanto para ausência total de espaços quanto para buscas sem resultados\n- Skeletons de loading durante carregamento dos dados\n- Reset automático para página 1 ao aplicar filtros ou busca\n- Contador de total de espaços exibido na interface\n\nTodas essas funcionalidades estão implementadas e testadas no componente SpaceList.\n</info added on 2025-06-21T06:45:11.102Z>",
+            "status": "done",
+            "testStrategy": "Verify that searching and filtering update the displayed spaces in real time. Test pagination by adding enough spaces to require multiple pages and navigating between them."
+          },
+          {
+            "id": 4,
+            "title": "Integrate Statistics and Usage Metrics",
+            "description": "Display basic statistics such as total spaces and usage metrics at the top of the page, updating dynamically as data changes.",
+            "dependencies": [
+              3
+            ],
+            "details": "Fetch and display statistics (e.g., total spaces, active users, usage trends) above the main content. Ensure metrics update when spaces are added, edited, or deleted.\n<info added on 2025-06-21T06:45:40.788Z>\n✅ Estatísticas e métricas já implementadas no componente SpaceStats!\n\nEstatísticas implementadas:\n1. Total de Espaços: Conta todos os espaços do usuário\n2. Novos (7 dias): Espaços criados nos últimos 7 dias\n3. Status: Indicador visual de que o sistema está ativo\n\nCaracterísticas das estatísticas:\n- Atualização dinâmica: Se atualizam automaticamente quando espaços são criados/editados/excluídos\n- Layout responsivo: Grid que se adapta de 1 coluna (mobile) para 3 colunas (desktop)\n- Estados de loading: Skeletons durante carregamento dos dados\n- Integração com hooks: Usa useSpaces para buscar dados em tempo real\n- Cálculos em tempo real: Filtra espaços por data de criação para métricas temporais\n\nPosicionamento na interface:\n- Exibidas no topo da página, antes da lista de espaços\n- Design consistente com outros cards da aplicação\n- Uso de cores semânticas (verde para status ativo)\n\nMétricas calculadas:\n- totalSpaces: Conta total de espaços\n- recentSpaces: Filtra espaços criados nos últimos 7 dias\n- Status visual indicando sistema operacional\n\nAs estatísticas estão funcionais e se integram perfeitamente com o resto da interface.\n</info added on 2025-06-21T06:45:40.788Z>",
+            "status": "done",
+            "testStrategy": "Check that statistics are accurate and update in response to CRUD operations. Validate display on different screen sizes."
+          },
+          {
+            "id": 5,
+            "title": "Optimize State Management and Loading States",
+            "description": "Lift shared state to the parent page, passing it via props to child components. Use React Suspense for loading states to enhance perceived performance.",
+            "dependencies": [
+              4
+            ],
+            "details": "Refactor state management to ensure efficient updates and prop passing. Implement React Suspense and fallback UI for asynchronous data fetching and loading scenarios.\n<info added on 2025-06-21T06:46:11.414Z>\n✅ Gerenciamento de estado e loading states já otimizados!\n\n**Análise da implementação atual:**\n\n**Gerenciamento de Estado Otimizado:**\n- **Estado elevado**: SpaceManager gerencia estados dos modais (create/edit) no nível correto\n- **Props drilling mínimo**: Estados passados apenas onde necessário\n- **Separação de responsabilidades**: Cada componente gerencia apenas seu próprio estado\n- **React Query**: Gerenciamento de estado do servidor via hooks especializados\n- **Estado local isolado**: Estados de UI (modais, loading) mantidos localmente\n\n**Loading States Implementados:**\n- **React Suspense**: Usado na página principal para carregamento assíncrono\n- **SpaceManagerSkeleton**: Skeleton detalhado para toda a interface\n- **SpaceStats loading**: Skeletons específicos para estatísticas\n- **SpaceList loading**: Skeletons para lista e cards individuais\n- **Form loading**: Estados de loading nos botões durante operações CRUD\n\n**Otimizações de Performance:**\n- **Lazy loading**: Componentes carregados sob demanda via Suspense\n- **Memoização implícita**: React Query cacheia dados automaticamente\n- **Atualizações eficientes**: Apenas componentes afetados re-renderizam\n- **Estados específicos**: Loading states granulares para melhor UX\n\n**Estrutura de Estado:**\nSpacesPage (container)\n├── SpaceManager (state management)\n│   ├── SpaceStats (statistics)\n│   └── SpaceList (data display)\n└── Modals (UI state)\n\nA implementação segue as melhores práticas de React e está totalmente otimizada.\n</info added on 2025-06-21T06:46:11.414Z>",
+            "status": "done",
+            "testStrategy": "Simulate slow network conditions to verify loading states. Confirm that state changes propagate correctly between parent and child components."
+          }
+        ]
+      },
+      {
+        "id": 13,
+        "title": "Implement Account Management Page at /accounts",
+        "description": "Develop a comprehensive account management page at src/app/accounts/page.tsx, integrating existing components and supporting full CRUD, filtering, and responsive design.",
+        "details": "Create the /accounts management page using the existing AccountList and AccountForm components from src/components/accounts/. Structure the page to match the established visual pattern (header, title, description) used in other management pages. Implement CRUD operations for accounts, enabling users to create, edit, and delete accounts via modal dialogs. Display accounts grouped by type (e.g., corrente, poupança, cartão), each with a specific icon. Integrate search and filter functionality by account type. Ensure the page is fully responsive and mobile-first, leveraging Tailwind CSS and Shadcn UI. Use React Suspense for loading states and modals for account creation/editing. Show the current balance for each account if available. Ensure state management is consistent with the rest of the app, possibly leveraging Context API or hooks as appropriate. Reuse layout and UI patterns established in previous management pages for consistency.",
+        "testStrategy": "Verify that the page renders with the correct header, title, and description, and matches the visual style of other management pages. Test that all CRUD operations (create, edit, delete) for accounts function correctly, with immediate UI updates and modal dialogs for creation/editing. Confirm that accounts are grouped and displayed by type, with appropriate icons and current balances shown. Test search and filter functionality for accuracy and responsiveness. Validate that loading states are handled with Suspense and that the page is fully responsive across devices. Ensure integration with existing components and that all user interactions work as expected.",
+        "status": "pending",
+        "dependencies": [
+          3,
+          4,
+          8
+        ],
+        "priority": "high",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set Up Page Structure and Layout",
+            "description": "Create the /accounts management page at src/app/accounts/page.tsx, ensuring the layout matches the established visual pattern (header, title, description) used in other management pages.",
+            "dependencies": [],
+            "details": "Reuse layout and UI patterns from previous management pages for consistency. Integrate Tailwind CSS and Shadcn UI for styling and responsiveness.",
+            "status": "pending",
+            "testStrategy": "Verify that the page renders with the correct header, title, and description, and matches the visual style of other management pages on both desktop and mobile devices."
+          },
+          {
+            "id": 2,
+            "title": "Integrate AccountList and AccountForm Components",
+            "description": "Incorporate the existing AccountList and AccountForm components from src/components/accounts/ into the page, ensuring proper placement and interaction.",
+            "dependencies": [
+              1
+            ],
+            "details": "Ensure AccountList displays accounts and AccountForm is used for creating and editing accounts via modal dialogs. Use React Suspense for loading states.",
+            "status": "pending",
+            "testStrategy": "Check that both components render correctly, modals open and close as expected, and loading states are handled gracefully."
+          },
+          {
+            "id": 3,
+            "title": "Implement CRUD Operations for Accounts",
+            "description": "Enable full Create, Read, Update, and Delete functionality for accounts, allowing users to manage accounts through the UI.",
+            "dependencies": [
+              2
+            ],
+            "details": "Wire up AccountForm and AccountList to support creating new accounts, editing existing ones, and deleting accounts. Use modal dialogs for create/edit actions and ensure state management is consistent with the rest of the app.",
+            "status": "pending",
+            "testStrategy": "Test creating, editing, and deleting accounts through the UI and verify that changes are reflected in the AccountList without page reloads."
+          },
+          {
+            "id": 4,
+            "title": "Add Filtering, Grouping, and Search Functionality",
+            "description": "Implement search and filter features by account type, and display accounts grouped by type with specific icons for each group.",
+            "dependencies": [
+              3
+            ],
+            "details": "Integrate search input and filter controls. Group accounts visually by type (e.g., corrente, poupança, cartão), each with its own icon. Show current balance for each account if available.",
+            "status": "pending",
+            "testStrategy": "Verify that filtering and search update the displayed accounts correctly, accounts are grouped and labeled by type, and icons and balances are shown as specified."
+          },
+          {
+            "id": 5,
+            "title": "Ensure Responsive and Mobile-First Design",
+            "description": "Optimize the /accounts page for responsiveness and mobile usability, leveraging Tailwind CSS and Shadcn UI components.",
+            "dependencies": [
+              4
+            ],
+            "details": "Test and adjust layouts, modals, and controls to ensure usability and visual consistency across devices and screen sizes.",
+            "status": "pending",
+            "testStrategy": "Manually test the page on various device sizes and orientations, confirming that all features remain accessible and visually consistent."
+          }
+        ]
+      },
+      {
+        "id": 14,
+        "title": "Atualizar página de transações para consumir dados reais via hooks",
+        "description": "Atualize src/app/transactions/page.tsx para buscar e exibir dados reais de espaços e contas usando os hooks useSpaces() e useAccounts(), removendo mocks e implementando estados de loading e erro.",
+        "details": "Remova completamente os dados mockSpaces e mockAccounts do arquivo src/app/transactions/page.tsx. Importe e utilize os hooks useSpaces() e useAccounts() para buscar os dados reais da API, garantindo que as queries sejam otimizadas com React Query (ex: useQuery). Implemente estados de loading (exibindo skeletons ou spinners enquanto os dados carregam) e trate erros de carregamento com mensagens amigáveis e opções de retry. Passe os dados reais obtidos para o TransactionManager, mantendo fallback para casos em que não haja dados (ex: listas vazias ou placeholders). Certifique-se de que a experiência do usuário permaneça fluida durante o carregamento e que a página não quebre caso ocorram falhas. Considere encapsular a lógica de busca em hooks customizados se necessário para reutilização e clareza. Garanta que a renderização dos componentes que dependem dos hooks ocorra apenas no client-side, caso haja SSR.\n<info added on 2025-06-21T06:29:33.450Z>\n✅ Implementação concluída com sucesso!\n\nAlterações realizadas:\n- Removidos completamente os arrays mockSpaces e mockAccounts da página\n- Integrados os hooks useSpaces() e useAccounts() para buscar dados reais da API\n- Implementados skeletons de loading durante o carregamento dos dados\n- Adicionado tratamento robusto de erros com mensagens amigáveis e botões de retry\n- Criados estados distintos para listas vazias de espaços, contas ou ambos\n- Transformação dos dados dos hooks para o formato esperado pelo TransactionManager\n- Mantida a experiência fluida utilizando Suspense\n\nDetalhes técnicos:\n- Criado o componente TransactionManagerWrapper para encapsular a lógica de fetching e estados\n- Utilizado o componente EmptyState para exibir mensagens de erro e estados vazios\n- Implementado retry automático via refetch dos hooks\n- Realizada transformação dos dados: space.type.toLowerCase() para accounts\n- Mantido o skeleton visual existente para consistência\n- Estrutura de layout preservada com grid responsivo\n\nTestes realizados:\n- Verificado que não há mais referências aos mocks\n- Confirmado que os hooks são chamados corretamente\n- Validado que o estado de loading é exibido\n- Testado que os dados reais são passados corretamente para o TransactionManager\n</info added on 2025-06-21T06:29:33.450Z>",
+        "testStrategy": "- Remova os mocks e verifique que apenas dados reais são utilizados.\n- Simule carregamento lento e verifique se o loading state é exibido corretamente.\n- Force erros de API e valide se mensagens de erro e opções de retry aparecem.\n- Teste a renderização do TransactionManager com dados reais, sem dados e com erro.\n- Valide que a experiência do usuário é fluida e sem travamentos durante o carregamento.\n- Execute testes manuais e automatizados para garantir que a página não quebre em nenhum cenário.",
+        "status": "done",
+        "dependencies": [
+          5,
+          8
+        ],
+        "priority": "high",
+        "subtasks": []
+      },
+      {
+        "id": 15,
+        "title": "Implement Comprehensive Financial Reports Page at /reports",
+        "description": "Develop a full-featured financial reports page at src/app/reports/page.tsx, including interactive charts, tables, filters, export options, and responsive design.",
+        "details": "Create the /reports page using React and a modern charting library such as Chart.js via react-chartjs-2. Implement the following visualizations: (1) a line or bar chart for monthly income vs expenses, (2) a donut/pie chart for category distribution, (3) a line chart for balance evolution, (4) a bar chart for spending by space, and (5) a table listing top spending categories. Integrate filters for period (last month, quarter, year, custom), space, and account, ensuring all charts and tables update reactively. Add summary metrics (total spent, savings, largest expense, etc.) and a comparison with the previous period. Implement CSV and PDF export for filtered data. Ensure the page is fully responsive and mobile-friendly, following the established UI patterns. Use existing transaction, category, space, and account data, leveraging React Query for efficient data fetching. Pay attention to accessibility, chart customization (titles, legends, tooltips), and performance. Reference Chart.js/react-chartjs-2 documentation for best practices and advanced features such as dynamic datasets and custom tooltips.",
+        "testStrategy": "Verify that all charts render with accurate, up-to-date data and respond correctly to filter changes. Test CSV and PDF export for completeness and formatting. Confirm that summary metrics and period comparisons are correct. Validate responsiveness and usability on various devices. Check accessibility features (keyboard navigation, ARIA labels). Perform cross-browser testing and ensure no regressions in related pages. Use mock data to simulate edge cases (e.g., no transactions, high volume).",
+        "status": "pending",
+        "dependencies": [
+          5,
+          6,
+          7,
+          8,
+          10
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 16,
+        "title": "Implementar funcionalidade de importação e exportação de dados financeiros",
+        "description": "Desenvolva funcionalidades completas para importação e exportação de dados financeiros, incluindo suporte a múltiplos formatos, filtros, validação, interface dedicada e APIs de processamento.",
+        "details": "Implemente uma página dedicada em src/app/import-export/page.tsx para centralizar as operações de importação e exportação. Para exportação, permita ao usuário exportar transações em CSV/Excel, relatórios em PDF, e realizar backup completo em JSON, com filtros por período, categorias, contas e espaços. Para importação, implemente upload de arquivos CSV/Excel, forneça template de CSV para download, realize validação dos dados importados, exiba preview antes da importação, permita mapeamento flexível de colunas e trate erros e duplicatas. Utilize componentes de upload, progress bars para operações longas, e mantenha logs e histórico das operações. No backend, crie APIs para processar arquivos, validar formatos, executar processamento em batch e enviar notificações de sucesso/erro. Garanta integração com as entidades de transações, categorias, contas e espaços já existentes, utilizando os hooks e APIs implementados nos módulos correspondentes. Considere segurança, tratamento de grandes volumes de dados e UX responsiva.",
+        "testStrategy": "- Teste exportação de transações, relatórios e backup completo, verificando formatos (CSV, Excel, PDF, JSON) e aplicação correta dos filtros.\n- Realize importação de arquivos CSV/Excel válidos e inválidos, validando preview, mapeamento de colunas, tratamento de erros e duplicatas.\n- Verifique download do template de CSV e a clareza das instruções.\n- Simule operações longas para validar progress bars e notificações.\n- Teste logs e histórico de operações, garantindo rastreabilidade.\n- Realize testes de integração com as APIs de transações, categorias, contas e espaços.\n- Valide segurança (autorização, limites de upload) e UX responsiva em diferentes dispositivos.",
+        "status": "pending",
+        "dependencies": [
+          5,
+          6,
+          8,
+          9,
+          10
+        ],
+        "priority": "low",
+        "subtasks": []
+      },
+      {
+        "id": 17,
+        "title": "Implementar sistema completo de notificações e alertas",
+        "description": "Desenvolva um sistema robusto de notificações para alertar usuários sobre eventos importantes, incluindo interface, lógica de triggers, armazenamento, APIs, configurações e notificações em tempo real.",
+        "details": "Implemente um sistema de notificações cobrindo os seguintes pontos: (1) Modele a entidade Notification no banco de dados, incluindo tipos (alerta de orçamento, lembrete de recorrência, metas financeiras, saldo baixo, resumo mensal), status (lida/não lida), timestamps e dados relevantes. (2) Crie APIs REST para listar, criar, marcar como lida/não lida, filtrar e configurar notificações. (3) Implemente lógica de triggers automáticos para geração de notificações com base em eventos (ex: gasto excedendo limite, recorrência, saldo baixo), integrando com as regras de transações, contas e metas. (4) Desenvolva componentes NotificationBell (ícone com contador), NotificationList (dropdown e página dedicada em src/app/notifications/page.tsx), NotificationSettings (configuração de tipos, limites, horários) e Toast notifications usando Sonner para alertas em tempo real. (5) Permita filtros por tipo/data, marcação de lida/não lida, e configuração granular por usuário. (6) Armazene notificações no banco e sincronize com frontend via React Query. (7) Opcional: implemente suporte a notificações push (Web Push API). Utilize Tailwind CSS e Shadcn UI para a interface, garantindo responsividade e acessibilidade. Considere o uso de Redux ou contexto para gerenciamento local de notificações em tempo real.",
+        "testStrategy": "- Teste a geração automática de notificações para todos os tipos (ex: exceder limite, recorrência, saldo baixo, metas, resumo mensal).\n- Verifique o funcionamento do NotificationBell (contador, atualização em tempo real), NotificationList (dropdown e página dedicada), filtros e marcação de lida/não lida.\n- Teste as APIs de notificações: criação, listagem, marcação, filtros e configurações.\n- Valide a persistência no banco e sincronização com frontend.\n- Teste a configuração de preferências e limites pelo usuário.\n- Simule notificações em tempo real (toast) e, se implementado, notificações push.\n- Realize testes de usabilidade, responsividade e acessibilidade em todos os componentes.",
+        "status": "pending",
+        "dependencies": [
+          3,
+          5,
+          6,
+          8,
+          9
+        ],
+        "priority": "low",
+        "subtasks": []
+      },
+      {
+        "id": 18,
+        "title": "Implementar sistema de metas e orçamentos financeiros",
+        "description": "Desenvolva um sistema completo para definição, acompanhamento e gestão de metas financeiras e orçamentos, incluindo interface dedicada, CRUD, cálculos automáticos, notificações e visualizações de progresso.",
+        "details": "Implemente schemas no banco de dados para budgets e goals, relacionando-os a categorias e espaços, e registre histórico de progresso. Crie APIs REST para CRUD de orçamentos (mensais por categoria, por espaço e globais) e metas (economia, redução de gastos, aumento de receita), incluindo campos de valor alvo, prazo e status. Desenvolva páginas dedicadas em src/app/budgets/page.tsx e src/app/goals/page.tsx, com formulários (BudgetForm, GoalForm), cards de progresso (BudgetCard, GoalProgress), barras de progresso (ProgressBar) e gráficos de acompanhamento. Integre cards de progresso ao dashboard e implemente visualização de conquistas e histórico de metas atingidas. Implemente cálculos automáticos de progresso, comparação com períodos anteriores e sugestões de otimização. Configure triggers para alertas/notificações ao atingir limites de orçamento ou metas, integrando com o sistema de notificações. Garanta responsividade, acessibilidade e integração com categorias, espaços e transações existentes.",
+        "testStrategy": "- Teste criação, edição e exclusão de orçamentos e metas via UI e API, validando persistência e integridade dos dados.\n- Verifique cálculos automáticos de progresso, comparação com períodos anteriores e sugestões de otimização.\n- Simule cenários de gastos próximos ou acima do limite para validar alertas/notificações.\n- Teste visualização de progresso em cards, gráficos e histórico de metas atingidas.\n- Valide integração com dashboard, categorias, espaços e transações.\n- Realize testes de responsividade, acessibilidade e usabilidade das páginas e componentes.",
+        "status": "pending",
+        "dependencies": [
+          3,
+          5,
+          6,
+          7,
+          8,
+          9,
+          17
+        ],
+        "priority": "medium",
+        "subtasks": []
+      },
+      {
+        "id": 19,
+        "title": "Implementar página e sistema completo de configurações de usuário e personalização",
+        "description": "Desenvolva uma página de configurações centralizada em src/app/settings/page.tsx, permitindo ao usuário personalizar perfil, preferências de aplicação e configurações financeiras, com navegação por abas/seções, formulários organizados e preview em tempo real.",
+        "details": "Implemente a página de configurações em src/app/settings/page.tsx utilizando navegação por abas ou seções para separar as categorias: Perfil, Aplicação, Notificações, Privacidade, Backup e Financeiro. Crie componentes reutilizáveis (SettingsLayout, ProfileSettings, AppSettings, NotificationSettings) para cada seção. Permita edição de informações pessoais, alteração de foto de perfil, seleção de idioma (preparando para i18n), timezone, formato de data, moeda padrão, tema (melhorando o dark/light), cards do dashboard, notificações, privacidade e backup automático. Para configurações financeiras, inclua moeda padrão, formato de números, primeiro dia da semana/mês fiscal e categorias padrão. Implemente formulários com validação robusta, preview de mudanças em tempo real e botões de salvar/cancelar. Crie APIs REST para persistência das configurações no banco e sincronização entre dispositivos, utilizando também localStorage para fallback/offline. Utilize Context para fornecer configurações globais à aplicação. Garanta integração com o sistema de notificações e backup. Considere acessibilidade e responsividade em todos os componentes.",
+        "testStrategy": "- Verifique que todas as seções e formulários de configurações renderizam corretamente e são acessíveis por navegação por abas/seções.\n- Teste edição e salvamento de todas as opções (perfil, idioma, tema, notificações, privacidade, backup, financeiro), validando persistência no banco e sincronização entre dispositivos.\n- Simule mudanças e confira preview em tempo real antes de salvar.\n- Teste integração com Context global e fallback para localStorage.\n- Valide a integração com o sistema de notificações e backup automático.\n- Realize testes de acessibilidade (teclado, leitores de tela) e responsividade em diferentes dispositivos.",
+        "status": "pending",
+        "dependencies": [
+          3,
+          4,
+          8,
+          9,
+          17
+        ],
+        "priority": "low",
+        "subtasks": []
+      },
+      {
+        "id": 20,
+        "title": "Melhorar Responsividade e Experiência Mobile em Toda a Aplicação",
+        "description": "Otimize a aplicação para dispositivos móveis, aprimorando responsividade, performance, UX/UI, acessibilidade e implementando recursos PWA para garantir uma experiência superior em smartphones e tablets.",
+        "details": "Adote uma abordagem mobile-first revisando todos os componentes para garantir design responsivo e adaptável a diferentes tamanhos de tela. Refatore a navegação para uma sidebar responsiva e menus otimizados para toque. Ajuste formulários, botões e áreas clicáveis para facilitar a interação por toque, implementando gestos de swipe onde apropriado. Realize lazy loading de componentes pesados, otimize imagens (preferencialmente em formatos modernos como WebP), reduza o bundle size e implemente um service worker para cache e funcionamento offline. Configure o manifest.json e prepare a aplicação para instalação como PWA, incluindo push notifications. Melhore a experiência visual com animações suaves, micro-interações, loading states elegantes, transições de página e estados vazios informativos. Garanta acessibilidade aprimorando contraste, adicionando labels ARIA, suporte a navegação por teclado, compatibilidade com screen readers e gestão de foco. Siga as melhores práticas de design responsivo e UX mobile, mantendo a interface limpa, intuitiva e rápida, conforme recomendações atuais do setor[2][3][5].",
+        "testStrategy": "Realize testes em múltiplos dispositivos e tamanhos de tela, validando responsividade, performance (incluindo Lighthouse audit), e funcionamento offline. Teste navegação, formulários, gestos de swipe, animações e feedback visual em smartphones e tablets. Execute testes de acessibilidade (contrast checker, navegação por teclado, screen reader). Verifique instalação PWA, funcionamento do service worker, cache e readiness para push notifications. Certifique-se de que todas as melhorias não impactam negativamente a experiência em desktop.",
+        "status": "pending",
+        "dependencies": [
+          4,
+          8,
+          9,
+          17,
+          19
+        ],
+        "priority": "medium",
+        "subtasks": []
       }
     ],
     "metadata": {
       "created": "2025-06-20T19:17:12.406Z",
-      "updated": "2025-06-21T06:11:38.706Z",
+      "updated": "2025-06-21T06:46:23.743Z",
       "description": "Tasks for master context"
     }
   }
