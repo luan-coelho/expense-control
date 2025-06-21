@@ -1,0 +1,11 @@
+# Task ID: 7
+# Title: Dashboard and Saldo Total
+# Status: pending
+# Dependencies: 5, 6
+# Priority: medium
+# Description: Develop dashboard with saldo total and basic transaction list.
+# Details:
+Create dashboard page with summary of total balance (sum of incomes minus expenses). Display recent transactions with basic filters (period, category). Use React Query for data fetching. Ensure mobile-first design.
+
+# Test Strategy:
+Test balance calculation accuracy, transaction list rendering, and basic filter functionality. Validate responsiveness.

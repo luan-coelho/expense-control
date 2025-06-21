@@ -1,0 +1,11 @@
+# Task ID: 5
+# Title: CRUD for Transactions
+# Status: pending
+# Dependencies: 2, 3, 4
+# Priority: high
+# Description: Implement basic CRUD operations for transactions via API and UI.
+# Details:
+Create Next.js API routes for transactions. Implement React Query hooks for data fetching and mutation. Build UI forms for adding, editing, and deleting transactions. Ensure validation for required fields (amount, date, description, category, space, account, type).
+
+# Test Strategy:
+Test all CRUD operations via UI and API. Validate data integrity and error handling. Check for proper validation feedback.

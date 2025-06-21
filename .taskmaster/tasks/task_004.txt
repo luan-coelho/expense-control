@@ -1,0 +1,11 @@
+# Task ID: 4
+# Title: Core UI Components and Layout
+# Status: pending
+# Dependencies: 1
+# Priority: medium
+# Description: Develop reusable UI components and main layout using Tailwind CSS and Shadcn UI.
+# Details:
+Create responsive, mobile-first layout. Implement header, sidebar, and main content area. Develop reusable components for buttons, forms, cards, and modals. Ensure dark/light theme toggle is present but not fully functional yet.
+
+# Test Strategy:
+Test responsiveness across devices, component rendering, and basic theme toggle UI. Validate accessibility and visual consistency.

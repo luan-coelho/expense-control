@@ -1,0 +1,198 @@
+<context>
+# Visão Geral  
+O projeto Finanças Pessoais Web é um aplicativo responsivo para controle de finanças pessoais focado em simplicidade e usabilidade mobile. Ele permite aos usuários cadastrar transações, organizá-las em categorias e espaços, e visualizar relatórios claros sobre seus gastos e ganhos.
+
+# Funcionalidades Principais  
+- **Cadastro de Transações**: Permite registrar entradas (receitas) e saídas (despesas) com informações como valor, data, descrição, categoria, espaço e conta.
+- **Listagem de Transações**: Exibe transações com filtros por período, categoria, conta e espaço.
+- **Agrupamento por Espaços**: Organiza transações em "espaços" personalizáveis como Casa, Trabalho, etc.
+- **Categorias**: Inclui categorias predefinidas e personalizáveis vinculadas ao usuário.
+- **Saldo Total**: Calcula automaticamente o saldo com base nas entradas e saídas.
+- **Gráficos e Relatórios**: Visualiza gastos por categoria e evolução mensal de entradas/saídas.
+- **Recorrência de Transações**: Configura transações recorrentes com diferentes periodicidades.
+- **Autenticação**: Oferece login via Google OAuth.
+
+# Experiência do Usuário  
+- **Perfil de Usuário**: Pessoas que desejam controlar suas finanças pessoais de forma prática.
+- **Fluxo Principal**: Login > Visualização do Dashboard > Cadastro de Transações > Consulta de Relatórios.
+- **Interface**: Design responsivo, mobile-first, com UI minimalista focada em visualização clara dos dados.
+- **Modo Escuro**: Suporte a tema claro/escuro com alternância manual ou detecção automática.
+</context>
+<PRD>
+# Arquitetura Técnica  
+## Componentes do Sistema
+- **Frontend**: Next.js (App Router) com React e TypeScript
+- **UI**: Tailwind CSS com Shadcn UI
+- **Gerenciamento de Estado**: React Query para estado do servidor
+- **Backend**: API RESTful implementada com rotas Next.js API
+- **Banco de Dados**: PostgreSQL com Drizzle ORM
+- **Autenticação**: NextAuth.js com OAuth Google
+
+## Modelos de Dados
+### Usuários
+```typescript
+users: {
+  id: uuid (PK),
+  name: text,
+  email: text (unique),
+  image: text,
+  createdAt: timestamp,
+  updatedAt: timestamp
+}
+```
+
+### Transações
+```typescript
+transactions: {
+  id: uuid (PK),
+  userId: uuid (FK),
+  amount: decimal,
+  date: timestamp,
+  description: text,
+  categoryId: uuid (FK),
+  spaceId: uuid (FK),
+  accountId: uuid (FK),
+  type: enum('INCOME', 'EXPENSE'),
+  isRecurrent: boolean,
+  recurrencePattern: text,
+  createdAt: timestamp,
+  updatedAt: timestamp
+}
+```
+
+### Categorias
+```typescript
+categories: {
+  id: uuid (PK),
+  userId: uuid (FK),
+  name: text,
+  isDefault: boolean,
+  icon: text,
+  createdAt: timestamp,
+  updatedAt: timestamp
+}
+```
+
+### Espaços
+```typescript
+spaces: {
+  id: uuid (PK),
+  userId: uuid (FK),
+  name: text,
+  createdAt: timestamp,
+  updatedAt: timestamp
+}
+```
+
+### Contas
+```typescript
+accounts: {
+  id: uuid (PK),
+  userId: uuid (FK),
+  name: text,
+  type: text,
+  createdAt: timestamp,
+  updatedAt: timestamp
+}
+```
+
+## APIs e Integrações
+- **API RESTful**: Endpoints para gerenciamento de todas as entidades
+- **OAuth**: Integração com Google para autenticação
+- **Estrutura da API**:
+  - `/api/transactions` - Gerenciamento de transações
+  - `/api/categories` - Gerenciamento de categorias
+  - `/api/spaces` - Gerenciamento de espaços
+  - `/api/accounts` - Gerenciamento de contas
+  - `/api/auth` - Rotas de autenticação
+
+## Infraestrutura
+- **Hospedagem**: Vercel para frontend e API
+- **Banco de Dados**: PostgreSQL hospedado em serviço gerenciado (Vercel Postgres)
+- **CI/CD**: Integração contínua via GitHub Actions
+
+# Roadmap de Desenvolvimento  
+## MVP (Fase 1)
+- Sistema de autenticação básico com Google OAuth
+- CRUD básico de transações (entrada/saída)
+- Cadastro de categorias predefinidas
+- Dashboard simples com saldo total
+- Listagem de transações com filtros básicos
+
+## Fase 2
+- Implementação de espaços para organização
+- Sistema completo de contas (múltiplas contas)
+- Gráficos de distribuição de gastos por categoria
+- Sistema de recorrência de transações
+- Melhorias de UI/UX e responsividade
+
+## Fase 3
+- Relatórios avançados (comparativos, previsões)
+- Modo escuro/claro
+- Otimizações de performance
+
+## Fase 4 (Futuro)
+- Importação/exportação de dados (CSV, Excel)
+- Notificações e alertas
+- Metas financeiras
+- Compartilhamento de espaços com outros usuários
+
+# Dependências Lógicas
+1. **Fundação**:
+   - Configuração do projeto Next.js
+   - Setup do banco de dados e Drizzle ORM
+   - Implementação de autenticação
+   - Estrutura base de componentes UI
+
+2. **Core**:
+   - CRUD de transações
+   - Sistema de categorias
+   - Dashboard básico
+
+3. **Features estendidas**:
+   - Sistema de espaços
+   - Gerenciamento de contas
+   - Recorrências
+   - Relatórios e gráficos
+
+4. **Refinamentos**:
+   - Melhorias de UX
+   - Temas (claro/escuro)
+   - Otimizações de performance
+
+# Riscos e Mitigações  
+## Desafios Técnicos
+- **Complexidade de recorrências**: Implementar lógica avançada de forma sustentável
+  - *Mitigação*: Começar com modelo simples e expandir gradualmente
+  
+- **Performance com grande volume de dados**:
+  - *Mitigação*: Paginação, índices no banco, virtualização de listas
+
+## Escopo
+- **Definição clara do MVP**:
+  - *Mitigação*: Foco inicial apenas nas funcionalidades de registro e visualização de transações
+
+## Recursos
+- **Limitações de tempo para desenvolvimento**:
+  - *Mitigação*: Priorização clara de features para o MVP
+
+# Apêndice  
+## Especificações Técnicas
+- **Versões de Tecnologias**:
+  - Node.js: v20
+  - React: v19
+  - Next.js: v15 (App Router)
+  - TypeScript: v5
+  - Tailwind CSS: v4
+  - Shadcn UI: última versão compatível
+  - Drizzle ORM com PostgreSQL
+  - React Query (TanStack Query)
+
+## Convenções de Código
+- Estrutura de diretórios organizada por funcionalidades
+- Componentes React separados por responsabilidade
+- Utilização de Server Components quando possível
+- Serviços para encapsular chamadas de API
+- Hooks personalizados para React Query
+- Schemas de banco bem definidos com relações explícitas
+</PRD> 

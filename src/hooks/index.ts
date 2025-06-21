@@ -1,0 +1,75 @@
+// Arquivo de exportação para hooks
+// Adicione exportações de hooks aqui conforme necessário
+
+export { useIsMobile } from './use-mobile'
+
+// Hooks de transações
+export {
+  useTransactions,
+  useTransaction,
+  useCreateTransaction,
+  useUpdateTransaction,
+  useDeleteTransaction,
+  useInvalidateTransactions,
+  type UseTransactionsParams,
+} from './use-transactions'
+
+// Hooks de categorias
+export {
+  useCategories,
+  useCategory,
+  useCategoriesByType,
+  useRootCategories,
+  useCategoryChildren,
+  useDefaultCategories,
+  useSearchCategories,
+  useCreateCategory,
+  useUpdateCategory,
+  useDeleteCategory,
+  useInvalidateCategories,
+  type UseCategoriesParams,
+} from './use-categories'
+
+// Hooks de espaços
+export {
+  useSpaces,
+  useSpace,
+  useSearchSpaces,
+  useCreateSpace,
+  useUpdateSpace,
+  useDeleteSpace,
+  useInvalidateSpaces,
+  spaceQueryKeys,
+  type UseSpacesParams,
+} from './use-spaces'
+
+// Hooks de contas
+export {
+  useAccounts,
+  useAccount,
+  useAccountsByType,
+  useSearchAccounts,
+  useCreateAccount,
+  useUpdateAccount,
+  useDeleteAccount,
+  useInvalidateAccounts,
+  accountQueryKeys,
+  type UseAccountsParams,
+} from './use-accounts'
+
+// Hooks de dashboard
+export {
+  useDashboardStats,
+  formatCurrency,
+  type DashboardStats,
+} from './use-dashboard-stats'
+
+// Hooks de transações recorrentes
+export {
+  useRecurringTransactionInstances,
+  useCreateRecurringTransaction,
+  useRecurringTransactionsStats,
+  recurringTransactionKeys,
+} from './use-recurring-transactions'
+
+export {}

@@ -1,0 +1,32 @@
+{
+  "mcpServers": {
+    "task-master-ai": {
+      "command": "npx",
+      "args": ["-y", "--package=task-master-ai", "task-master-ai"]
+    },
+    "server-sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@smithery/cli@latest",
+        "run",
+        "@smithery-ai/server-sequential-thinking"
+      ]
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/"
+    },
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    },
+    "context7": {
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "browsermcp": {
+      "command": "npx",
+      "args": ["@browsermcp/mcp@latest"]
+    }
+  }
+}

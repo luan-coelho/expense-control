@@ -1,0 +1,49 @@
+# Task ID: 1
+# Title: Setup Project Repository and Initial Configuration
+# Status: pending
+# Dependencies: None
+# Priority: high
+# Description: Initialize the Next.js project with App Router, TypeScript, Tailwind CSS, Shadcn UI, and configure the basic project structure.
+# Details:
+Create a new Next.js project using `npx create-next-app@latest` with TypeScript. Install Tailwind CSS and Shadcn UI. Set up initial directory structure for components, services, and hooks. Configure ESLint and Prettier for code quality. Initialize Git repository and basic CI/CD workflow with GitHub Actions.
+
+# Test Strategy:
+Verify project creation, successful installation of dependencies, and that the app runs locally. Check that linting and formatting scripts work.
+
+# Subtasks:
+## 1. Initialize Next.js Project with TypeScript and App Router [pending]
+### Dependencies: None
+### Description: Create a new Next.js project using the App Router and enable TypeScript support during setup.
+### Details:
+Run `npx create-next-app@latest my-nextjs-app --typescript` to scaffold the project. Confirm that the `/app` directory is present for App Router support. Verify TypeScript files are generated and the `tsconfig.json` is present.
+
+## 2. Install and Configure Tailwind CSS [pending]
+### Dependencies: 1.1
+### Description: Add Tailwind CSS to the Next.js project and configure it for use with TypeScript.
+### Details:
+Follow the official Tailwind CSS installation guide for Next.js: install dependencies, generate `tailwind.config.js` and `postcss.config.js`, and add Tailwind directives to the global CSS file. Ensure TypeScript compatibility.
+
+## 3. Install and Set Up Shadcn UI [pending]
+### Dependencies: 1.2
+### Description: Integrate Shadcn UI into the project for ready-to-use UI components.
+### Details:
+Install Shadcn UI following its documentation. Run the setup command, configure the theme, and import a sample component to verify integration.
+
+## 4. Establish Initial Project Directory Structure [pending]
+### Dependencies: 1.3
+### Description: Organize the project by creating directories for components, services, and hooks.
+### Details:
+Create `/components`, `/services`, and `/hooks` directories in the project root. Add placeholder files (e.g., `index.ts`) in each to ensure structure is recognized by the IDE and version control.
+
+## 5. Configure ESLint and Prettier for Code Quality [pending]
+### Dependencies: 1.4
+### Description: Set up ESLint and Prettier to enforce code style and quality standards across the project.
+### Details:
+Install ESLint and Prettier along with recommended plugins for Next.js and TypeScript. Create or update `.eslintrc` and `.prettierrc` configuration files. Add lint and format scripts to `package.json`.
+
+## 6. Initialize Git Repository and Configure GitHub Actions CI/CD [pending]
+### Dependencies: 1.5
+### Description: Set up version control with Git and add a basic GitHub Actions workflow for continuous integration.
+### Details:
+Run `git init` to initialize the repository. Create a `.gitignore` file for Node/Next.js. Push to GitHub. Add a `.github/workflows/ci.yml` file to run lint, type-check, and build on push and pull requests.
+

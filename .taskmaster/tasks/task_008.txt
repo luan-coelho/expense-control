@@ -1,0 +1,11 @@
+# Task ID: 8
+# Title: Space and Account Management
+# Status: pending
+# Dependencies: 2, 3, 4
+# Priority: medium
+# Description: Implement CRUD for spaces and accounts.
+# Details:
+Create API routes for spaces and accounts. Build UI for managing spaces (e.g., Casa, Trabalho) and accounts (e.g., checking, savings). Allow users to create, edit, and delete spaces and accounts. Ensure proper user ownership.
+
+# Test Strategy:
+Test space and account CRUD operations, user ownership, and UI consistency. Validate data integrity.

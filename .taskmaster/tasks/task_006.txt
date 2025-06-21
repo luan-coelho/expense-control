@@ -1,0 +1,11 @@
+# Task ID: 6
+# Title: Category Management
+# Status: pending
+# Dependencies: 2, 3, 4
+# Priority: medium
+# Description: Implement CRUD for categories, including predefinidas and custom.
+# Details:
+Create API routes for categories. Implement UI for listing, adding, editing, and deleting categories. Allow users to mark categories as default or custom. Store icons for categories.
+
+# Test Strategy:
+Test category CRUD operations, default/custom distinction, and icon display. Validate data consistency.

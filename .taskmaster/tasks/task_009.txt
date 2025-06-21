@@ -1,0 +1,11 @@
+# Task ID: 9
+# Title: Recurring Transactions
+# Status: pending
+# Dependencies: 5, 8
+# Priority: low
+# Description: Implement recurring transaction functionality.
+# Details:
+Extend transaction model to support recurrence (isRecurrent, recurrencePattern). Add UI for setting up recurring transactions. Implement backend logic to handle recurrence patterns and scheduled creation of transactions.
+
+# Test Strategy:
+Test creation and management of recurring transactions. Validate that transactions are created according to the recurrence pattern.

@@ -1,0 +1,11 @@
+# Task ID: 2
+# Title: Database Setup and Schema Definition
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Configure PostgreSQL database and define schemas using Drizzle ORM.
+# Details:
+Set up PostgreSQL instance (Vercel Postgres). Define Drizzle ORM schemas for users, transactions, categories, spaces, and accounts as per PRD. Create migration scripts for initial tables. Ensure foreign key relationships are correctly defined.
+
+# Test Strategy:
+Test database connection, schema creation, and basic CRUD operations on each table. Validate foreign key constraints.

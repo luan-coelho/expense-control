@@ -1,0 +1,11 @@
+# Task ID: 10
+# Title: Graphs and Reports
+# Status: pending
+# Dependencies: 5, 6, 7, 8
+# Priority: low
+# Description: Implement graphs and reports for financial analysis.
+# Details:
+Add charts (e.g., pie, line) to visualize spending by category and monthly trends. Use a library like Chart.js or Recharts. Create reports page with filterable data. Ensure mobile-friendly rendering.
+
+# Test Strategy:
+Test chart rendering, data accuracy, and report filtering. Validate responsiveness and accessibility.
