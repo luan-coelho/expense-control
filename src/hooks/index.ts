@@ -56,11 +56,7 @@ export {
 } from './use-accounts'
 
 // Hooks de dashboard
-export {
-  useDashboardStats,
-  formatCurrency,
-  type DashboardStats,
-} from './use-dashboard-stats'
+export { useDashboardStats, formatCurrency, type DashboardStats } from './use-dashboard-stats'
 
 // Hooks de transações recorrentes
 export {
@@ -80,18 +76,27 @@ export {
 } from './use-analytics'
 
 // Hooks de exportação
-export {
-  useExport,
-} from './use-export'
+export { useExport } from './use-export'
 
 // Hooks de performance
-export {
-  useChartPerformance,
-} from './use-chart-performance'
+export { useChartPerformance } from './use-chart-performance'
 
 // Hooks de layout responsivo
+export { useResponsiveLayout } from './use-responsive-layout'
+
+// Hooks de notificações
 export {
-  useResponsiveLayout,
-} from './use-responsive-layout'
+  useNotifications,
+  useNotification,
+  useUnreadNotificationsCount,
+  useNotificationSettings,
+  useCreateNotification,
+  useUpdateNotification,
+  useDeleteNotification,
+  useMarkAsRead,
+  useMarkAsUnread,
+  useMarkAllAsRead,
+  useUpdateNotificationSettings,
+} from './use-notifications'
 
 export {}

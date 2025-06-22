@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 
 /**
  * Testes de Documentação - Ownership Enforcement
- * 
+ *
  * Estes testes documentam como a lógica de ownership enforcement
  * está implementada nas rotas de API do sistema.
  */
@@ -16,21 +16,21 @@ describe('Ownership Enforcement Documentation', () => {
           return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
         }
       `
-      
+
       expect(authenticationPattern).toBeDefined()
-      
+
       // Rotas que implementam este padrão:
       const routesWithAuth = [
         '/api/spaces (GET, POST)',
         '/api/spaces/[id] (GET, PUT, DELETE)',
-        '/api/accounts (GET, POST)', 
+        '/api/accounts (GET, POST)',
         '/api/accounts/[id] (GET, PUT, DELETE)',
         '/api/transactions (GET, POST)',
         '/api/transactions/[id] (GET, PUT, DELETE)',
         '/api/categories (GET, POST)',
-        '/api/categories/[id] (GET, PUT, DELETE)'
+        '/api/categories/[id] (GET, PUT, DELETE)',
       ]
-      
+
       expect(routesWithAuth.length).toBeGreaterThan(0)
     })
   })
@@ -41,11 +41,11 @@ describe('Ownership Enforcement Documentation', () => {
         spaces: `eq(spacesTable.userId, session.user.id)`,
         accounts: `eq(accountsTable.userId, session.user.id)`,
         transactions: `eq(transactionsTable.userId, session.user.id)`,
-        categories: `or(isNull(categoriesTable.userId), eq(categoriesTable.userId, session.user.id))`
+        categories: `or(isNull(categoriesTable.userId), eq(categoriesTable.userId, session.user.id))`,
       }
-      
+
       expect(Object.keys(userFilteringPatterns)).toHaveLength(4)
-      
+
       // Todas as queries de listagem filtram por usuário
       Object.values(userFilteringPatterns).forEach(pattern => {
         expect(pattern).toContain('session.user.id')
@@ -66,10 +66,10 @@ describe('Ownership Enforcement Documentation', () => {
           return NextResponse.json({ error: 'Recurso não encontrado' }, { status: 404 })
         }
       `
-      
+
       expect(accessControlPattern).toBeDefined()
-      
-      // Este padrão retorna 404 tanto para recursos inexistentes 
+
+      // Este padrão retorna 404 tanto para recursos inexistentes
       // quanto para recursos que não pertencem ao usuário
       const securityBenefit = 'Não revela se o recurso existe para outros usuários'
       expect(securityBenefit).toBeDefined()
@@ -96,15 +96,15 @@ describe('Ownership Enforcement Documentation', () => {
           }, { status: 403 })
         }
       `
-      
+
       expect(ownershipCheckPattern).toBeDefined()
-      
+
       // Diferença entre 404 e 403:
       const statusCodes = {
         404: 'Recurso não existe',
-        403: 'Recurso existe mas não pertence ao usuário'
+        403: 'Recurso existe mas não pertence ao usuário',
       }
-      
+
       expect(statusCodes[404]).toBeDefined()
       expect(statusCodes[403]).toBeDefined()
     })
@@ -126,7 +126,7 @@ describe('Ownership Enforcement Documentation', () => {
             }, { status: 400 })
           }
         `,
-        
+
         accountsDeletion: `
           // Verificar se existem transações vinculadas
           const [{ transactionCount }] = await db
@@ -139,11 +139,11 @@ describe('Ownership Enforcement Documentation', () => {
               error: 'Não é possível excluir esta conta pois existem transações vinculadas' 
             }, { status: 400 })
           }
-        `
+        `,
       }
-      
+
       expect(Object.keys(integrityChecks)).toHaveLength(2)
-      
+
       // Ambos os checks impedem exclusão de recursos em uso
       Object.values(integrityChecks).forEach(check => {
         expect(check).toContain('transactionCount > 0')
@@ -171,9 +171,9 @@ describe('Ownership Enforcement Documentation', () => {
           }, { status: 400 })
         }
       `
-      
+
       expect(duplicatePreventionPattern).toBeDefined()
-      
+
       // Duplicatas são verificadas apenas dentro do escopo do usuário
       const scopeIsolation = 'Usuários diferentes podem ter recursos com nomes iguais'
       expect(scopeIsolation).toBeDefined()
@@ -188,11 +188,11 @@ describe('Ownership Enforcement Documentation', () => {
         isolation: 'Usuários só veem seus próprios dados',
         modification: 'Verificação explícita de ownership antes de PUT/DELETE',
         integrity: 'Prevenção de exclusão de recursos em uso',
-        privacy: 'Não revelação de existência de recursos de outros usuários'
+        privacy: 'Não revelação de existência de recursos de outros usuários',
       }
-      
+
       expect(Object.keys(securityLayers)).toHaveLength(6)
-      
+
       // Cada camada contribui para a segurança geral
       Object.values(securityLayers).forEach(layer => {
         expect(layer).toBeTruthy()
@@ -202,17 +202,17 @@ describe('Ownership Enforcement Documentation', () => {
     it('should document implementation status', () => {
       const implementationStatus = {
         spaces: '✅ Completo - Auth, ownership, integrity checks',
-        accounts: '✅ Completo - Auth, ownership, integrity checks', 
+        accounts: '✅ Completo - Auth, ownership, integrity checks',
         transactions: '✅ Completo - Auth, ownership, filtering',
-        categories: '✅ Completo - Auth, ownership + padrões globais'
+        categories: '✅ Completo - Auth, ownership + padrões globais',
       }
-      
+
       expect(Object.keys(implementationStatus)).toHaveLength(4)
-      
+
       // Todos os recursos principais estão protegidos
       Object.values(implementationStatus).forEach(status => {
         expect(status).toContain('✅ Completo')
       })
     })
   })
-}) 
+})

@@ -1,15 +1,13 @@
 'use client'
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { spaceService } from '@/services'
 import { queryKeys } from '@/lib/routes'
-import { 
+import { spaceService } from '@/services'
+import {
   type CreateSpaceInput,
-  type UpdateSpaceInput,
   type SpaceFilters,
-  type SpaceWithRelations,
-  type PaginatedSpaces,
+  type UpdateSpaceInput
 } from '@/types/space'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 // Parâmetros para busca de espaços
 export interface UseSpacesParams {
@@ -61,10 +59,10 @@ export function useCreateSpace() {
 
   return useMutation({
     mutationFn: (data: CreateSpaceInput) => spaceService.create(data),
-    onSuccess: (newSpace) => {
+    onSuccess: newSpace => {
       // Invalidar listas de espaços
       queryClient.invalidateQueries({ queryKey: queryKeys.spaces.lists() })
-      
+
       // Adicionar o novo espaço ao cache
       queryClient.setQueryData(queryKeys.spaces.detail(newSpace.id), newSpace)
     },
@@ -78,12 +76,11 @@ export function useUpdateSpace() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdateSpaceInput }) =>
-      spaceService.update(id, data),
-    onSuccess: (updatedSpace) => {
+    mutationFn: ({ id, data }: { id: string; data: UpdateSpaceInput }) => spaceService.update(id, data),
+    onSuccess: updatedSpace => {
       // Atualizar o espaço específico no cache
       queryClient.setQueryData(queryKeys.spaces.detail(updatedSpace.id), updatedSpace)
-      
+
       // Invalidar listas de espaços
       queryClient.invalidateQueries({ queryKey: queryKeys.spaces.lists() })
     },
@@ -101,7 +98,7 @@ export function useDeleteSpace() {
     onSuccess: (_, deletedId) => {
       // Remover o espaço do cache
       queryClient.removeQueries({ queryKey: queryKeys.spaces.detail(deletedId) })
-      
+
       // Invalidar listas de espaços
       queryClient.invalidateQueries({ queryKey: queryKeys.spaces.lists() })
     },
@@ -113,8 +110,8 @@ export function useDeleteSpace() {
  */
 export function useInvalidateSpaces() {
   const queryClient = useQueryClient()
-  
+
   return () => {
     queryClient.invalidateQueries({ queryKey: queryKeys.spaces.all })
   }
-} 
+}

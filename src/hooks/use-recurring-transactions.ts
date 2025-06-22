@@ -69,25 +69,32 @@ export function useRecurringTransactionInstances(days: number = 30) {
     queryFn: async (): Promise<RecurringTransactionsResponse> => {
       const url = `${routes.api.transactions.list}/recurring?days=${days}&limit=50`
       const response = await fetch(url)
-      
+
       if (!response.ok) {
         const error = await response.json()
         throw new Error(error.error || 'Erro ao buscar transações recorrentes')
       }
-      
+
       const data = await response.json()
-      
+
       // Converter strings de data para objetos Date
       return {
         ...data,
-        instances: data.instances.map((instance: RecurringTransactionInstance & { scheduledDate: string; originalTransaction: { createdAt: string } }) => ({
-          ...instance,
-          scheduledDate: new Date(instance.scheduledDate),
-          originalTransaction: {
-            ...instance.originalTransaction,
-            createdAt: new Date(instance.originalTransaction.createdAt),
-          }
-        }))
+        instances: data.instances.map(
+          (
+            instance: RecurringTransactionInstance & {
+              scheduledDate: string
+              originalTransaction: { createdAt: string }
+            },
+          ) => ({
+            ...instance,
+            scheduledDate: new Date(instance.scheduledDate),
+            originalTransaction: {
+              ...instance.originalTransaction,
+              createdAt: new Date(instance.originalTransaction.createdAt),
+            },
+          }),
+        ),
       }
     },
     staleTime: 5 * 60 * 1000, // 5 minutos
@@ -115,14 +122,16 @@ export function useCreateRecurringTransaction() {
       }
 
       const result = await response.json()
-      
+
       // Converter strings de data para objetos Date nas instâncias
       return {
         ...result,
-        nextInstances: result.nextInstances.map((instance: RecurringTransactionInstance & { scheduledDate: string }) => ({
-          ...instance,
-          scheduledDate: new Date(instance.scheduledDate),
-        }))
+        nextInstances: result.nextInstances.map(
+          (instance: RecurringTransactionInstance & { scheduledDate: string }) => ({
+            ...instance,
+            scheduledDate: new Date(instance.scheduledDate),
+          }),
+        ),
       }
     },
     onSuccess: () => {
@@ -153,7 +162,7 @@ export function useRecurringTransactionsStats(days: number = 30) {
 
     for (const instance of instances.instances) {
       const amount = instance.amount
-      
+
       if (instance.type === 'INCOME') {
         stats.totalIncome += amount
       } else {
@@ -177,4 +186,4 @@ export function useRecurringTransactionsStats(days: number = 30) {
     stats,
     ...rest,
   }
-} 
+}

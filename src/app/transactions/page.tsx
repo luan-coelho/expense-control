@@ -10,11 +10,11 @@ import { useAccounts } from '@/hooks/use-accounts'
 import { AlertCircle, RefreshCw, CreditCard } from 'lucide-react'
 
 function TransactionManagerWrapper() {
-  const { 
-    data: accountsData, 
-    isLoading: accountsLoading, 
+  const {
+    data: accountsData,
+    isLoading: accountsLoading,
     error: accountsError,
-    refetch: refetchAccounts 
+    refetch: refetchAccounts,
   } = useAccounts()
 
   // Estados de loading
@@ -31,10 +31,12 @@ function TransactionManagerWrapper() {
             icon={<AlertCircle className="w-16 h-16" />}
             title="Erro ao carregar dados"
             description="Não foi possível carregar as contas. Verifique sua conexão e tente novamente."
-            action={{
-              label: "Tentar novamente",
-              onClick: () => refetchAccounts()
-            }}
+            action={
+              <Button onClick={() => refetchAccounts()} variant="outline" className="mt-4">
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Tentar novamente
+              </Button>
+            }
           />
         </CardContent>
       </Card>
@@ -48,7 +50,7 @@ function TransactionManagerWrapper() {
   const transformedAccounts = accounts.map(account => ({
     id: account.id,
     name: account.name,
-    type: account.type.toLowerCase()
+    type: account.type.toLowerCase(),
   }))
 
   // Estado vazio - sem contas
@@ -60,21 +62,19 @@ function TransactionManagerWrapper() {
             icon={<CreditCard className="w-16 h-16" />}
             title="Nenhuma conta encontrada"
             description="Você precisa criar pelo menos uma conta para registrar suas transações."
-            action={{
-              label: "Recarregar",
-              onClick: () => refetchAccounts()
-            }}
+            action={
+              <Button onClick={() => refetchAccounts()} variant="outline" className="mt-4">
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Recarregar
+              </Button>
+            }
           />
         </CardContent>
       </Card>
     )
   }
 
-  return (
-    <TransactionManager
-      accounts={transformedAccounts}
-    />
-  )
+  return <TransactionManager accounts={transformedAccounts} />
 }
 
 function TransactionManagerSkeleton() {
@@ -146,9 +146,7 @@ export default function TransactionsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Transações</h1>
-          <p className="text-muted-foreground">
-            Gerencie suas receitas e despesas
-          </p>
+          <p className="text-muted-foreground">Gerencie suas receitas e despesas</p>
         </div>
       </div>
 
@@ -194,4 +192,4 @@ function UpcomingTransactionsSkeleton() {
       </CardContent>
     </Card>
   )
-} 
+}

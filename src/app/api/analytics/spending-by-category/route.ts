@@ -47,19 +47,21 @@ export async function GET(request: NextRequest) {
       .where(and(...conditions))
       .groupBy(transactionsTable.categoryId, categoriesTable.name, categoriesTable.color, categoriesTable.icon)
       .having(sql`SUM(CASE WHEN ${transactionsTable.type} = 'EXPENSE' THEN ${transactionsTable.amount} ELSE 0 END) > 0`)
-      .orderBy(desc(sql`SUM(CASE WHEN ${transactionsTable.type} = 'EXPENSE' THEN ${transactionsTable.amount} ELSE 0 END)`))
+      .orderBy(
+        desc(sql`SUM(CASE WHEN ${transactionsTable.type} = 'EXPENSE' THEN ${transactionsTable.amount} ELSE 0 END)`),
+      )
 
     // Calcular total geral para percentuais
     const totalSpending = spendingByCategory.reduce((sum, item) => sum + item.totalAmount, 0)
 
     // Formatar dados para o gráfico
-    const chartData = spendingByCategory.map((item) => ({
+    const chartData = spendingByCategory.map(item => ({
       categoryId: item.categoryId,
       categoryName: item.categoryName || 'Sem categoria',
       color: item.categoryColor || '#6b7280',
       icon: item.categoryIcon || 'Tag',
       amount: item.totalAmount,
-      percentage: totalSpending > 0 ? ((item.totalAmount / totalSpending) * 100) : 0,
+      percentage: totalSpending > 0 ? (item.totalAmount / totalSpending) * 100 : 0,
       transactionCount: item.transactionCount,
       formattedAmount: new Intl.NumberFormat('pt-BR', {
         style: 'currency',
@@ -80,9 +82,6 @@ export async function GET(request: NextRequest) {
     })
   } catch (error) {
     console.error('Erro ao buscar gastos por categoria:', error)
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
-} 
+}

@@ -1,10 +1,10 @@
 import { routes } from '@/lib/routes'
-import { 
+import {
   type CreateTransactionInput,
   type UpdateTransactionInput,
   type TransactionWithRelations,
   type PaginatedTransactions,
-  type TransactionFilters
+  type TransactionFilters,
 } from '@/types/transaction'
 
 /**
@@ -38,9 +38,9 @@ class TransactionService {
     }
 
     const url = `${routes.api.transactions.list}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`
-    
+
     const response = await fetch(url)
-    
+
     if (!response.ok) {
       const error = await response.json().catch(() => ({ error: 'Erro desconhecido' }))
       throw new Error(error.error || `Erro ${response.status}: ${response.statusText}`)
@@ -54,7 +54,7 @@ class TransactionService {
    */
   async getById(id: string): Promise<TransactionWithRelations> {
     const response = await fetch(routes.api.transactions.byId(id))
-    
+
     if (!response.ok) {
       const error = await response.json().catch(() => ({ error: 'Erro desconhecido' }))
       throw new Error(error.error || `Erro ${response.status}: ${response.statusText}`)
@@ -122,4 +122,4 @@ class TransactionService {
 
 // Exportar instância única do serviço
 export const transactionService = new TransactionService()
-export default transactionService 
+export default transactionService

@@ -58,9 +58,10 @@ export function CategoryCard({
   const hasActions = (canEdit && onEdit) || canDelete || onCreateSubcategory
 
   return (
-    <Card className={`relative transition-all hover:shadow-md ${
-      isSystemCategory ? 'border-muted-foreground/20 bg-muted/20' : 'hover:border-primary/50'
-    } ${className}`}>
+    <Card
+      className={`relative transition-all hover:shadow-md ${
+        isSystemCategory ? 'border-muted-foreground/20 bg-muted/20' : 'hover:border-primary/50'
+      } ${className}`}>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -69,8 +70,7 @@ export function CategoryCard({
               className={`w-10 h-10 rounded-full flex items-center justify-center text-lg font-medium text-white relative ${
                 isSystemCategory ? 'ring-2 ring-muted-foreground/30' : ''
               }`}
-              style={{ backgroundColor: category.color || '#6B7280' }}
-            >
+              style={{ backgroundColor: category.color || '#6B7280' }}>
               {category.icon || '📁'}
               {isSystemCategory && (
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-muted-foreground rounded-full flex items-center justify-center">
@@ -78,7 +78,7 @@ export function CategoryCard({
                 </div>
               )}
             </div>
-            
+
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <h3 className="font-semibold text-sm">{category.name}</h3>
@@ -96,17 +96,11 @@ export function CategoryCard({
               </div>
               {showType && (
                 <div className="flex items-center gap-2 mt-1">
-                  <Badge
-                    variant={category.type === 'INCOME' ? 'default' : 'secondary'}
-                    className="text-xs"
-                  >
+                  <Badge variant={category.type === 'INCOME' ? 'default' : 'secondary'} className="text-xs">
                     {category.type === 'INCOME' ? 'Receita' : 'Despesa'}
                   </Badge>
                   {isSystemCategory && (
-                    <Badge 
-                      variant="outline" 
-                      className="text-xs border-muted-foreground/50 text-muted-foreground"
-                    >
+                    <Badge variant="outline" className="text-xs border-muted-foreground/50 text-muted-foreground">
                       Sistema
                     </Badge>
                   )}
@@ -131,22 +125,16 @@ export function CategoryCard({
               <DropdownMenuContent align="end">
                 {onCreateSubcategory && (
                   <>
-                    <DropdownMenuItem
-                      onClick={() => onCreateSubcategory(category)}
-                      className="cursor-pointer"
-                    >
+                    <DropdownMenuItem onClick={() => onCreateSubcategory(category)} className="cursor-pointer">
                       <Plus className="mr-2 h-4 w-4" />
                       Adicionar Subcategoria
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                   </>
                 )}
-                
+
                 {canEdit && onEdit ? (
-                  <DropdownMenuItem
-                    onClick={() => onEdit(category)}
-                    className="cursor-pointer"
-                  >
+                  <DropdownMenuItem onClick={() => onEdit(category)} className="cursor-pointer">
                     <Edit className="mr-2 h-4 w-4" />
                     Editar
                   </DropdownMenuItem>
@@ -163,13 +151,12 @@ export function CategoryCard({
                     </TooltipContent>
                   </Tooltip>
                 )}
-                
+
                 {canDelete ? (
                   <DropdownMenuItem
                     onClick={handleDelete}
                     disabled={isDeleting}
-                    className="cursor-pointer text-destructive focus:text-destructive"
-                  >
+                    className="cursor-pointer text-destructive focus:text-destructive">
                     <Trash2 className="mr-2 h-4 w-4" />
                     {isDeleting ? 'Excluindo...' : 'Excluir'}
                   </DropdownMenuItem>
@@ -196,17 +183,14 @@ export function CategoryCard({
       {category.children && category.children.length > 0 && (
         <CardContent className="pt-0">
           <div className="space-y-2">
-            <p className="text-xs text-muted-foreground font-medium">
-              Subcategorias ({category.children.length})
-            </p>
+            <p className="text-xs text-muted-foreground font-medium">Subcategorias ({category.children.length})</p>
             <div className="flex flex-wrap gap-1">
-              {category.children.slice(0, 3).map((child) => (
+              {category.children.slice(0, 3).map(child => (
                 <Badge
                   key={child.id}
                   variant="outline"
                   className="text-xs"
-                  style={{ borderColor: child.color || '#6B7280' }}
-                >
+                  style={{ borderColor: child.color || '#6B7280' }}>
                   {child.icon} {child.name}
                 </Badge>
               ))}
@@ -221,4 +205,4 @@ export function CategoryCard({
       )}
     </Card>
   )
-} 
+}

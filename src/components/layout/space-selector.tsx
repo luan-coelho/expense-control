@@ -1,18 +1,8 @@
 'use client'
 
-import { 
-  useActiveSpaceState, 
-  useSetActiveSpace,
-  useSpaceLoading 
-} from '@/components/providers/space-provider'
+import { useActiveSpaceState, useSetActiveSpace, useSpaceLoading } from '@/components/providers/space-provider'
 import { useSpaces } from '@/hooks/use-spaces'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Building2, Loader2 } from 'lucide-react'
 
 export function SpaceSelector() {
@@ -43,18 +33,17 @@ export function SpaceSelector() {
       <Building2 className="h-4 w-4 text-muted-foreground" />
       <Select
         value={activeSpace?.id || ''}
-        onValueChange={(spaceId) => {
+        onValueChange={spaceId => {
           const space = spaces.find(s => s.id === spaceId)
           if (space) {
             setActiveSpace(space)
           }
-        }}
-      >
+        }}>
         <SelectTrigger className="w-[180px] h-8 text-sm">
           <SelectValue placeholder="Selecionar espaço" />
         </SelectTrigger>
         <SelectContent>
-          {spaces.map((space) => (
+          {spaces.map(space => (
             <SelectItem key={space.id} value={space.id}>
               {space.name}
             </SelectItem>
@@ -63,4 +52,4 @@ export function SpaceSelector() {
       </Select>
     </div>
   )
-} 
+}

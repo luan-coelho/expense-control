@@ -17,28 +17,31 @@ interface RecurringCalendarProps {}
 export function RecurringCalendar({}: RecurringCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date())
   const activeSpaceId = useActiveSpaceId()
-  
+
   const monthStart = startOfMonth(currentDate)
   const monthEnd = endOfMonth(currentDate)
   const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd })
-  
+
   // Buscar transações para o mês atual (30 dias à frente do início do mês)
   const { data, isLoading } = useRecurringTransactionInstances(60)
-  
+
   const instances = data?.instances || []
-  const filteredInstances = activeSpaceId 
+  const filteredInstances = activeSpaceId
     ? instances.filter(instance => instance.space.id === activeSpaceId)
     : instances
 
   // Agrupar transações por data
-  const transactionsByDate = filteredInstances.reduce((acc, instance) => {
-    const dateKey = format(new Date(instance.scheduledDate), 'yyyy-MM-dd')
-    if (!acc[dateKey]) {
-      acc[dateKey] = []
-    }
-    acc[dateKey].push(instance)
-    return acc
-  }, {} as Record<string, Array<typeof filteredInstances[0]>>)
+  const transactionsByDate = filteredInstances.reduce(
+    (acc, instance) => {
+      const dateKey = format(new Date(instance.scheduledDate), 'yyyy-MM-dd')
+      if (!acc[dateKey]) {
+        acc[dateKey] = []
+      }
+      acc[dateKey].push(instance)
+      return acc
+    },
+    {} as Record<string, Array<(typeof filteredInstances)[0]>>,
+  )
 
   const navigateMonth = (direction: 'prev' | 'next') => {
     setCurrentDate(direction === 'prev' ? subMonths(currentDate, 1) : addMonths(currentDate, 1))
@@ -81,26 +84,16 @@ export function RecurringCalendar({}: RecurringCalendarProps) {
           Calendário de Recorrências
         </CardTitle>
       </CardHeader>
-      
+
       <CardContent className="space-y-4">
         {/* Navigation */}
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold">
-            {format(currentDate, 'MMMM yyyy', { locale: ptBR })}
-          </h3>
+          <h3 className="text-lg font-semibold">{format(currentDate, 'MMMM yyyy', { locale: ptBR })}</h3>
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => navigateMonth('prev')}
-            >
+            <Button variant="outline" size="sm" onClick={() => navigateMonth('prev')}>
               <ChevronLeft className="h-4 w-4" />
             </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => navigateMonth('next')}
-            >
+            <Button variant="outline" size="sm" onClick={() => navigateMonth('next')}>
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
@@ -119,19 +112,12 @@ export function RecurringCalendar({}: RecurringCalendarProps) {
 
         {/* Calendar grid */}
         <div className="grid grid-cols-7 gap-2">
-          {daysInMonth.map((day) => {
+          {daysInMonth.map(day => {
             const dateKey = format(day, 'yyyy-MM-dd')
             const dayTransactions = transactionsByDate[dateKey] || []
             const isCurrentDay = isToday(day)
-            
-            return (
-              <CalendarDay
-                key={dateKey}
-                date={day}
-                transactions={dayTransactions}
-                isToday={isCurrentDay}
-              />
-            )
+
+            return <CalendarDay key={dateKey} date={day} transactions={dayTransactions} isToday={isCurrentDay} />
           })}
         </div>
 
@@ -163,42 +149,36 @@ interface CalendarDayProps {
 function CalendarDay({ date, transactions, isToday }: CalendarDayProps) {
   const dayNumber = format(date, 'd')
   const hasTransactions = transactions.length > 0
-  
+
   // Calcular totais
-  const income = transactions
-    .filter(t => t.type === 'INCOME')
-    .reduce((sum, t) => sum + t.amount, 0)
-  
-  const expense = transactions
-    .filter(t => t.type === 'EXPENSE')
-    .reduce((sum, t) => sum + t.amount, 0)
+  const income = transactions.filter(t => t.type === 'INCOME').reduce((sum, t) => sum + t.amount, 0)
+
+  const expense = transactions.filter(t => t.type === 'EXPENSE').reduce((sum, t) => sum + t.amount, 0)
 
   return (
-    <div className={`
+    <div
+      className={`
       min-h-12 p-1 border rounded-lg text-xs
       ${isToday ? 'bg-primary/10 border-primary' : 'border-border'}
       ${hasTransactions ? 'hover:bg-muted/50 cursor-pointer' : ''}
     `}>
-      <div className={`
+      <div
+        className={`
         font-medium mb-1
         ${isToday ? 'text-primary' : 'text-foreground'}
       `}>
         {dayNumber}
       </div>
-      
+
       {hasTransactions && (
         <div className="space-y-1">
           {income > 0 && (
-            <div className="bg-green-100 text-green-700 px-1 py-0.5 rounded text-xs">
-              +{formatCurrency(income)}
-            </div>
+            <div className="bg-green-100 text-green-700 px-1 py-0.5 rounded text-xs">+{formatCurrency(income)}</div>
           )}
           {expense > 0 && (
-            <div className="bg-red-100 text-red-700 px-1 py-0.5 rounded text-xs">
-              -{formatCurrency(expense)}
-            </div>
+            <div className="bg-red-100 text-red-700 px-1 py-0.5 rounded text-xs">-{formatCurrency(expense)}</div>
           )}
-          
+
           {transactions.length > 2 && (
             <Badge variant="secondary" className="text-xs px-1 py-0">
               +{transactions.length - 2}
@@ -208,4 +188,4 @@ function CalendarDay({ date, transactions, isToday }: CalendarDayProps) {
       )}
     </div>
   )
-} 
+}

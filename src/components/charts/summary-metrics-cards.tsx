@@ -6,19 +6,19 @@ import { EmptyState } from '@/components/ui/empty-state'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { type AnalyticsFilters } from '@/services/analytics.service'
-import { 
-  AlertCircle, 
-  TrendingUp, 
-  TrendingDown, 
-  DollarSign, 
-  PiggyBank, 
-  ArrowUpDown, 
-  Receipt, 
+import {
+  AlertCircle,
+  TrendingUp,
+  TrendingDown,
+  DollarSign,
+  PiggyBank,
+  ArrowUpDown,
+  Receipt,
   Target,
   Building2,
   Tag,
   CreditCard,
-  Wallet
+  Wallet,
 } from 'lucide-react'
 
 interface SummaryMetricsCardsProps {
@@ -69,19 +69,13 @@ function MetricCard({ title, value, description, icon, trend, variant = 'default
   return (
     <Card className={`${getVariantStyles()} transition-all hover:shadow-md`}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">
-          {title}
-        </CardTitle>
-        <div className={`${getIconColor()}`}>
-          {icon}
-        </div>
+        <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
+        <div className={`${getIconColor()}`}>{icon}</div>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
           <div className="text-2xl font-bold">{value}</div>
-          {description && (
-            <p className="text-xs text-muted-foreground">{description}</p>
-          )}
+          {description && <p className="text-xs text-muted-foreground">{description}</p>}
           {trend && (
             <div className="flex items-center space-x-1">
               {trend.isPositive ? (
@@ -89,11 +83,9 @@ function MetricCard({ title, value, description, icon, trend, variant = 'default
               ) : (
                 <TrendingDown className="h-3 w-3 text-red-600" />
               )}
-              <Badge 
-                variant={trend.isPositive ? 'default' : 'destructive'}
-                className="text-xs"
-              >
-                {trend.isPositive ? '+' : ''}{trend.value.toFixed(1)}%
+              <Badge variant={trend.isPositive ? 'default' : 'destructive'} className="text-xs">
+                {trend.isPositive ? '+' : ''}
+                {trend.value.toFixed(1)}%
               </Badge>
               <span className="text-xs text-muted-foreground">{trend.label}</span>
             </div>
@@ -158,7 +150,7 @@ export function SummaryMetricsCards({ filters, className }: SummaryMetricsCardsP
     return {
       value: comparison.totalIncomeChange,
       isPositive: comparison.totalIncomeChange >= 0,
-      label: 'vs período anterior'
+      label: 'vs período anterior',
     }
   }
 
@@ -167,7 +159,7 @@ export function SummaryMetricsCards({ filters, className }: SummaryMetricsCardsP
     return {
       value: Math.abs(comparison.totalExpensesChange),
       isPositive: comparison.totalExpensesChange <= 0, // Menos despesa é positivo
-      label: 'vs período anterior'
+      label: 'vs período anterior',
     }
   }
 
@@ -176,7 +168,7 @@ export function SummaryMetricsCards({ filters, className }: SummaryMetricsCardsP
     return {
       value: comparison.netIncomeChange,
       isPositive: comparison.netIncomeChange >= 0,
-      label: 'vs período anterior'
+      label: 'vs período anterior',
     }
   }
 
@@ -185,7 +177,7 @@ export function SummaryMetricsCards({ filters, className }: SummaryMetricsCardsP
     return {
       value: Math.abs(comparison.transactionCountChange),
       isPositive: comparison.transactionCountChange >= 0,
-      label: 'vs período anterior'
+      label: 'vs período anterior',
     }
   }
 
@@ -206,7 +198,7 @@ export function SummaryMetricsCards({ filters, className }: SummaryMetricsCardsP
             trend={getIncomeComparison()}
             variant="income"
           />
-          
+
           <MetricCard
             title="Total de Despesas"
             value={current.formattedTotalExpenses}
@@ -215,7 +207,7 @@ export function SummaryMetricsCards({ filters, className }: SummaryMetricsCardsP
             trend={getExpenseComparison()}
             variant="expense"
           />
-          
+
           <MetricCard
             title="Saldo Líquido"
             value={current.formattedNetIncome}
@@ -224,7 +216,7 @@ export function SummaryMetricsCards({ filters, className }: SummaryMetricsCardsP
             trend={getBalanceComparison()}
             variant="balance"
           />
-          
+
           <MetricCard
             title="Total de Transações"
             value={current.transactionCount.toString()}
@@ -247,32 +239,40 @@ export function SummaryMetricsCards({ filters, className }: SummaryMetricsCardsP
             value={current.formattedAverageIncome}
             description="Por transação de receita"
             icon={<Wallet className="h-4 w-4" />}
-            trend={comparison ? {
-              value: Math.abs(comparison.averageIncomeChange),
-              isPositive: comparison.averageIncomeChange >= 0,
-              label: 'vs período anterior'
-            } : undefined}
+            trend={
+              comparison
+                ? {
+                    value: Math.abs(comparison.averageIncomeChange),
+                    isPositive: comparison.averageIncomeChange >= 0,
+                    label: 'vs período anterior',
+                  }
+                : undefined
+            }
           />
-          
+
           <MetricCard
             title="Despesa Média"
             value={current.formattedAverageExpense}
             description="Por transação de despesa"
             icon={<CreditCard className="h-4 w-4" />}
-            trend={comparison ? {
-              value: Math.abs(comparison.averageExpenseChange),
-              isPositive: comparison.averageExpenseChange <= 0,
-              label: 'vs período anterior'
-            } : undefined}
+            trend={
+              comparison
+                ? {
+                    value: Math.abs(comparison.averageExpenseChange),
+                    isPositive: comparison.averageExpenseChange <= 0,
+                    label: 'vs período anterior',
+                  }
+                : undefined
+            }
           />
-          
+
           <MetricCard
             title="Categorias Ativas"
             value={current.uniqueCategories.toString()}
             description="Categorias utilizadas"
             icon={<Tag className="h-4 w-4" />}
           />
-          
+
           <MetricCard
             title="Espaços Ativos"
             value={current.uniqueSpaces.toString()}
@@ -300,12 +300,8 @@ export function SummaryMetricsCards({ filters, className }: SummaryMetricsCardsP
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    <div className="text-xl font-bold text-green-800">
-                      {current.largestIncome.formattedAmount}
-                    </div>
-                    <p className="text-sm text-green-700 font-medium">
-                      {current.largestIncome.description}
-                    </p>
+                    <div className="text-xl font-bold text-green-800">{current.largestIncome.formattedAmount}</div>
+                    <p className="text-sm text-green-700 font-medium">{current.largestIncome.description}</p>
                     <div className="flex items-center gap-2 text-xs text-green-600">
                       {current.largestIncome.categoryName && (
                         <Badge variant="outline" className="border-green-300 text-green-700">
@@ -322,7 +318,7 @@ export function SummaryMetricsCards({ filters, className }: SummaryMetricsCardsP
                 </CardContent>
               </Card>
             )}
-            
+
             {current.largestExpense && (
               <Card className="border-red-200 bg-red-50/50">
                 <CardHeader>
@@ -333,12 +329,8 @@ export function SummaryMetricsCards({ filters, className }: SummaryMetricsCardsP
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    <div className="text-xl font-bold text-red-800">
-                      {current.largestExpense.formattedAmount}
-                    </div>
-                    <p className="text-sm text-red-700 font-medium">
-                      {current.largestExpense.description}
-                    </p>
+                    <div className="text-xl font-bold text-red-800">{current.largestExpense.formattedAmount}</div>
+                    <p className="text-sm text-red-700 font-medium">{current.largestExpense.description}</p>
                     <div className="flex items-center gap-2 text-xs text-red-600">
                       {current.largestExpense.categoryName && (
                         <Badge variant="outline" className="border-red-300 text-red-700">
@@ -360,4 +352,4 @@ export function SummaryMetricsCards({ filters, className }: SummaryMetricsCardsP
       )}
     </div>
   )
-} 
+}

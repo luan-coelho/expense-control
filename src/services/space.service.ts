@@ -9,18 +9,14 @@ import {
 
 /**
  * Serviço para gerenciamento de espaços
- * 
+ *
  * Encapsula todas as operações CRUD de espaços com a API
  */
 class SpaceService {
   /**
    * Buscar todos os espaços com filtros e paginação
    */
-  async getAll(params?: {
-    page?: number
-    limit?: number
-    filters?: SpaceFilters
-  }): Promise<PaginatedSpaces> {
+  async getAll(params?: { page?: number; limit?: number; filters?: SpaceFilters }): Promise<PaginatedSpaces> {
     const searchParams = new URLSearchParams()
 
     if (params?.page) {
@@ -37,9 +33,10 @@ class SpaceService {
       })
     }
 
-    const url = params && (params.page || params.limit || params.filters) 
-      ? `${routes.api.spaces.list}?${searchParams.toString()}`
-      : routes.api.spaces.list
+    const url =
+      params && (params.page || params.limit || params.filters)
+        ? `${routes.api.spaces.list}?${searchParams.toString()}`
+        : routes.api.spaces.list
 
     const response = await fetch(url)
 
@@ -133,4 +130,4 @@ class SpaceService {
 
 // Exportar instância singleton
 const spaceService = new SpaceService()
-export default spaceService 
+export default spaceService

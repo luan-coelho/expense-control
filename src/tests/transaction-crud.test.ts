@@ -4,13 +4,13 @@
  */
 
 import { describe, it, expect } from 'vitest'
-import { 
-  createTransactionSchema, 
+import {
+  createTransactionSchema,
   updateTransactionSchema,
   transactionFiltersSchema,
   TransactionType,
   parseTransactionAmount,
-  formatTransactionAmount 
+  formatTransactionAmount,
 } from '@/types/transaction'
 
 describe('Transaction CRUD - Schema Validation', () => {
@@ -33,7 +33,7 @@ describe('Transaction CRUD - Schema Validation', () => {
   it('should reject invalid transaction data', () => {
     const invalidData = {
       amount: '', // Invalid: empty amount
-      date: '',   // Invalid: empty date
+      date: '', // Invalid: empty date
       description: '', // Invalid: empty description
       categoryId: 'invalid-uuid',
       spaceId: 'invalid-uuid',
@@ -86,14 +86,14 @@ describe('Transaction CRUD - Utility Functions', () => {
     const result1 = formatTransactionAmount('100.50')
     const result2 = formatTransactionAmount('1000.00')
     const result3 = formatTransactionAmount('0.99')
-    
+
     // Verificar se contém os elementos esperados
     expect(result1).toContain('100,50')
     expect(result1).toContain('R$')
-    
+
     expect(result2).toContain('1.000,00')
     expect(result2).toContain('R$')
-    
+
     expect(result3).toContain('0,99')
     expect(result3).toContain('R$')
   })
@@ -180,7 +180,7 @@ describe('Transaction CRUD - Integration Tests', () => {
 
     const result = createTransactionSchema.safeParse(invalidTransaction)
     expect(result.success).toBe(false)
-    
+
     if (!result.success) {
       expect(result.error.issues.length).toBeGreaterThan(0)
     }
@@ -205,7 +205,7 @@ describe('Transaction CRUD - React Query Integration', () => {
           category: { id: '1', name: 'Food', icon: '🍔' },
           space: { id: '1', name: 'Personal' },
           account: { id: '1', name: 'Checking', type: 'checking' },
-        }
+        },
       ],
       pagination: {
         page: 1,
@@ -214,11 +214,11 @@ describe('Transaction CRUD - React Query Integration', () => {
         totalPages: 1,
         hasNext: false,
         hasPrev: false,
-      }
+      },
     }
 
     expect(mockApiResponse.transactions).toHaveLength(1)
     expect(mockApiResponse.pagination.total).toBe(1)
     expect(mockApiResponse.transactions[0].category.name).toBe('Food')
   })
-}) 
+})

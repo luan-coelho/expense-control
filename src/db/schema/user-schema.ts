@@ -12,4 +12,4 @@ export const usersTable = pgTable('users', {
 
 // Tipos TypeScript para a tabela de usuários
 export type User = typeof usersTable.$inferSelect
-export type NewUser = typeof usersTable.$inferInsert 
+export type NewUser = typeof usersTable.$inferInsert

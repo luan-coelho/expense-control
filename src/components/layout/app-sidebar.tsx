@@ -2,7 +2,7 @@
 
 import { UserAvatar } from '@/components/auth/user-avatar'
 import { useThemeConfig } from '@/lib/theme-config'
-import { BarChart3, FileText, Home, CreditCard, TrendingUp, Tag, Banknote } from 'lucide-react'
+import { BarChart3, FileText, Home, CreditCard, TrendingUp, Tag, Banknote, Bell } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useTheme } from 'next-themes'
 
@@ -47,6 +47,11 @@ const items = [
 
 // Menu items de sistema e relatórios
 const systemItems = [
+  {
+    title: 'Notificações',
+    url: '/notifications',
+    icon: Bell,
+  },
   {
     title: 'Relatórios',
     url: '/reports',

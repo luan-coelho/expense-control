@@ -3,13 +3,13 @@ import { db } from '@/db'
 import { accountsTable, usersTable } from '@/db/schema'
 import { eq, and, ilike, desc, count } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
-import { 
-  createAccountSchema, 
+import {
+  createAccountSchema,
   accountQuerySchema,
   sanitizeAccountName,
   isValidAccountType,
   type AccountWithRelations,
-  type PaginatedAccounts
+  type PaginatedAccounts,
 } from '@/types/account'
 import { ZodError } from 'zod'
 
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url)
-    
+
     // Validar parâmetros de consulta
     const queryValidation = accountQuerySchema.safeParse({
       page: searchParams.get('page'),
@@ -32,22 +32,23 @@ export async function GET(request: NextRequest) {
     })
 
     if (!queryValidation.success) {
-      return NextResponse.json({ 
-        error: 'Parâmetros de consulta inválidos',
-        details: queryValidation.error.issues.map(issue => ({
-          field: issue.path.join('.'),
-          message: issue.message
-        }))
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Parâmetros de consulta inválidos',
+          details: queryValidation.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+          })),
+        },
+        { status: 400 },
+      )
     }
 
     const { page, limit, type, search } = queryValidation.data
     const offset = (page - 1) * limit
 
     // Construir condições WHERE
-    const conditions = [
-      eq(accountsTable.userId, session.user.id)
-    ]
+    const conditions = [eq(accountsTable.userId, session.user.id)]
 
     if (type) {
       conditions.push(eq(accountsTable.type, type))
@@ -120,18 +121,21 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    
+
     // Validar dados
     const validationResult = createAccountSchema.safeParse(body)
-    
+
     if (!validationResult.success) {
-      return NextResponse.json({ 
-        error: 'Dados inválidos',
-        details: validationResult.error.issues.map(issue => ({
-          field: issue.path.join('.'),
-          message: issue.message
-        }))
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Dados inválidos',
+          details: validationResult.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+          })),
+        },
+        { status: 400 },
+      )
     }
 
     const validatedData = validationResult.data
@@ -141,29 +145,30 @@ export async function POST(request: NextRequest) {
 
     // Validar tipo de conta
     if (!isValidAccountType(validatedData.type)) {
-      return NextResponse.json({ 
-        error: 'Tipo de conta inválido',
-        field: 'type'
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Tipo de conta inválido',
+          field: 'type',
+        },
+        { status: 400 },
+      )
     }
 
     // Verificar se já existe uma conta com o mesmo nome para o usuário
     const existingAccount = await db
       .select({ id: accountsTable.id })
       .from(accountsTable)
-      .where(
-        and(
-          eq(accountsTable.name, sanitizedName),
-          eq(accountsTable.userId, session.user.id)
-        )
-      )
+      .where(and(eq(accountsTable.name, sanitizedName), eq(accountsTable.userId, session.user.id)))
       .limit(1)
 
     if (existingAccount.length > 0) {
-      return NextResponse.json({ 
-        error: 'Já existe uma conta com este nome',
-        field: 'name'
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Já existe uma conta com este nome',
+          field: 'name',
+        },
+        { status: 400 },
+      )
     }
 
     // Criar conta
@@ -195,24 +200,30 @@ export async function POST(request: NextRequest) {
       .limit(1)
 
     const result = accountWithRelations[0]
-    return NextResponse.json({
-      ...result,
-      userId: result.user?.id || '',
-      user: result.user?.id ? result.user : null,
-    } as AccountWithRelations, { status: 201 })
+    return NextResponse.json(
+      {
+        ...result,
+        userId: result.user?.id || '',
+        user: result.user?.id ? result.user : null,
+      } as AccountWithRelations,
+      { status: 201 },
+    )
   } catch (error) {
     console.error('Erro ao criar conta:', error)
-    
+
     if (error instanceof ZodError) {
-      return NextResponse.json({ 
-        error: 'Dados inválidos',
-        details: error.issues.map(issue => ({
-          field: issue.path.join('.'),
-          message: issue.message
-        }))
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Dados inválidos',
+          details: error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+          })),
+        },
+        { status: 400 },
+      )
     }
-    
+
     return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
-} 
+}

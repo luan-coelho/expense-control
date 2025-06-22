@@ -36,15 +36,9 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
     return (
       <div className="bg-card border rounded-lg p-3 shadow-lg max-w-xs">
         <p className="font-medium text-foreground truncate">{data.spaceName}</p>
-        <p className="text-sm text-muted-foreground">
-          Valor: {data.formattedAmount}
-        </p>
-        <p className="text-sm text-muted-foreground">
-          Percentual: {data.percentage.toFixed(1)}%
-        </p>
-        <p className="text-sm text-muted-foreground">
-          Transações: {data.transactionCount}
-        </p>
+        <p className="text-sm text-muted-foreground">Valor: {data.formattedAmount}</p>
+        <p className="text-sm text-muted-foreground">Percentual: {data.percentage.toFixed(1)}%</p>
+        <p className="text-sm text-muted-foreground">Transações: {data.transactionCount}</p>
       </div>
     )
   }
@@ -133,7 +127,7 @@ export function SpendingBySpaceChart({ filters, height = 400, className }: Spend
   }
 
   // Preparar dados para o gráfico (converter centavos para reais)
-  const chartData = response.data.map((item) => ({
+  const chartData = response.data.map(item => ({
     ...item,
     amount: item.amount / 100, // Converter centavos para reais
   }))
@@ -155,7 +149,7 @@ export function SpendingBySpaceChart({ filters, height = 400, className }: Spend
       value: new Intl.NumberFormat('pt-BR', {
         style: 'currency',
         currency: 'BRL',
-      }).format((response.summary.totalSpending / 100) / response.summary.totalSpaces),
+      }).format(response.summary.totalSpending / 100 / response.summary.totalSpaces),
       description: 'Distribuição',
     },
   ]
@@ -166,9 +160,7 @@ export function SpendingBySpaceChart({ filters, height = 400, className }: Spend
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold">Gastos por Espaço</h3>
-          <p className="text-sm text-muted-foreground">
-            Distribuição dos gastos entre os espaços
-          </p>
+          <p className="text-sm text-muted-foreground">Distribuição dos gastos entre os espaços</p>
         </div>
       </div>
 
@@ -189,12 +181,9 @@ export function SpendingBySpaceChart({ filters, height = 400, className }: Spend
 
       {/* Gráfico */}
       <BaseChart height={height}>
-        <BarChart
-          data={chartData}
-          margin={config.margin}
-        >
+        <BarChart data={chartData} margin={config.margin}>
           <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-          <XAxis 
+          <XAxis
             dataKey="spaceName"
             tick={{ fontSize: 12 }}
             tickFormatter={formatXAxisLabel}
@@ -202,26 +191,17 @@ export function SpendingBySpaceChart({ filters, height = 400, className }: Spend
             textAnchor={breakpoint === 'mobile' ? 'end' : 'middle'}
             height={breakpoint === 'mobile' ? 80 : 60}
           />
-          <YAxis 
-            tick={{ fontSize: 12 }}
-            tickFormatter={formatYAxisValue}
-            width={breakpoint === 'mobile' ? 60 : 80}
-          />
-          <Tooltip 
+          <YAxis tick={{ fontSize: 12 }} tickFormatter={formatYAxisValue} width={breakpoint === 'mobile' ? 60 : 80} />
+          <Tooltip
             content={<CustomTooltip />}
-            wrapperStyle={{ 
+            wrapperStyle={{
               outline: 'none',
-              zIndex: 1000 
+              zIndex: 1000,
             }}
           />
-          <Bar 
-            dataKey="amount" 
-            fill="hsl(var(--primary))"
-            radius={[4, 4, 0, 0]}
-            maxBarSize={config.barSize}
-          />
+          <Bar dataKey="amount" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} maxBarSize={config.barSize} />
         </BarChart>
       </BaseChart>
     </div>
   )
-} 
+}

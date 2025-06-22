@@ -26,6 +26,7 @@ if (!session?.user?.id) {
 ```
 
 **Rotas protegidas:**
+
 - `/api/spaces` (GET, POST)
 - `/api/spaces/[id]` (GET, PUT, DELETE)
 - `/api/accounts` (GET, POST)
@@ -67,12 +68,7 @@ Para recursos específicos, o sistema verifica ownership:
 const resource = await db
   .select()
   .from(resourceTable)
-  .where(
-    and(
-      eq(resourceTable.id, resourceId),
-      eq(resourceTable.userId, session.user.id)
-    )
-  )
+  .where(and(eq(resourceTable.id, resourceId), eq(resourceTable.userId, session.user.id)))
   .limit(1)
 
 if (resource.length === 0) {
@@ -99,13 +95,17 @@ if (existingResource.length === 0) {
 }
 
 if (existingResource[0].userId !== session.user.id) {
-  return NextResponse.json({ 
-    error: 'Você não tem permissão para modificar este recurso' 
-  }, { status: 403 })
+  return NextResponse.json(
+    {
+      error: 'Você não tem permissão para modificar este recurso',
+    },
+    { status: 403 },
+  )
 }
 ```
 
 **Códigos de Status:**
+
 - **404:** Recurso não existe
 - **403:** Recurso existe mas não pertence ao usuário
 
@@ -121,9 +121,12 @@ const [{ transactionCount }] = await db
   .where(eq(transactionsTable.spaceId, spaceId)) // ou accountId
 
 if (transactionCount > 0) {
-  return NextResponse.json({ 
-    error: 'Não é possível excluir este recurso pois existem transações vinculadas' 
-  }, { status: 400 })
+  return NextResponse.json(
+    {
+      error: 'Não é possível excluir este recurso pois existem transações vinculadas',
+    },
+    { status: 400 },
+  )
 }
 ```
 
@@ -135,18 +138,16 @@ Duplicatas são verificadas apenas no escopo do usuário:
 const existingResource = await db
   .select({ id: resourceTable.id })
   .from(resourceTable)
-  .where(
-    and(
-      eq(resourceTable.name, validatedData.name),
-      eq(resourceTable.userId, session.user.id)
-    )
-  )
+  .where(and(eq(resourceTable.name, validatedData.name), eq(resourceTable.userId, session.user.id)))
   .limit(1)
 
 if (existingResource.length > 0) {
-  return NextResponse.json({ 
-    error: 'Já existe um recurso com este nome' 
-  }, { status: 400 })
+  return NextResponse.json(
+    {
+      error: 'Já existe um recurso com este nome',
+    },
+    { status: 400 },
+  )
 }
 ```
 
@@ -154,12 +155,12 @@ if (existingResource.length > 0) {
 
 ## Status de Implementação
 
-| Recurso | Autenticação | Ownership | Integridade | Status |
-|---------|--------------|-----------|-------------|--------|
-| Spaces | ✅ | ✅ | ✅ | Completo |
-| Accounts | ✅ | ✅ | ✅ | Completo |
-| Transactions | ✅ | ✅ | ✅ | Completo |
-| Categories | ✅ | ✅ | N/A | Completo |
+| Recurso      | Autenticação | Ownership | Integridade | Status   |
+| ------------ | ------------ | --------- | ----------- | -------- |
+| Spaces       | ✅           | ✅        | ✅          | Completo |
+| Accounts     | ✅           | ✅        | ✅          | Completo |
+| Transactions | ✅           | ✅        | ✅          | Completo |
+| Categories   | ✅           | ✅        | N/A         | Completo |
 
 ## Validação
 
@@ -174,6 +175,7 @@ Os padrões de segurança são validados através de:
 ### Categorias Padrão
 
 As categorias têm uma lógica especial onde:
+
 - Categorias com `userId = null` são visíveis para todos (categorias padrão)
 - Categorias com `userId` específico são visíveis apenas para o proprietário
 - Usuários podem criar suas próprias categorias personalizadas
@@ -181,6 +183,7 @@ As categorias têm uma lógica especial onde:
 ### Middleware de Autenticação
 
 O sistema utiliza NextAuth.js com:
+
 - Estratégia JWT para sessões
 - Verificação de usuário ativo no banco
 - Integração com Google OAuth
@@ -188,6 +191,7 @@ O sistema utiliza NextAuth.js com:
 ### Performance
 
 Os filtros de `userId` são aplicados diretamente nas queries SQL, garantindo:
+
 - Eficiência nas consultas
 - Uso adequado de índices do banco
-- Segurança no nível de dados 
+- Segurança no nível de dados

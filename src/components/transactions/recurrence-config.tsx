@@ -6,19 +6,9 @@ import { CalendarDays, Repeat, X } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  FormControl,
-  FormField,
-  FormItem,
-} from '@/components/ui/form'
+import { FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 import { Switch } from '@/components/ui/switch'
 
@@ -45,7 +35,7 @@ export function RecurrenceConfig({ control, setValue, watch }: RecurrenceConfigP
   const isRecurrent = watch('isRecurrent')
   const recurrencePattern = watch('recurrencePattern')
   const watchedDate = watch('date')
-  
+
   const [recurrenceData, setRecurrenceData] = useState<RecurrenceData>({
     pattern: RecurrencePattern.MONTHLY,
     interval: 1,
@@ -91,7 +81,7 @@ export function RecurrenceConfig({ control, setValue, watch }: RecurrenceConfigP
   }
 
   return (
-    <Card className="w-full">
+    <Card className="w-full rounded-xl">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg flex items-center gap-2">
@@ -117,9 +107,7 @@ export function RecurrenceConfig({ control, setValue, watch }: RecurrenceConfigP
           />
         </div>
         {isRecurrent && (
-          <div className="text-sm text-muted-foreground">
-            {getRecurrenceDescription(recurrencePattern || null)}
-          </div>
+          <div className="text-sm text-muted-foreground">{getRecurrenceDescription(recurrencePattern || null)}</div>
         )}
       </CardHeader>
 
@@ -131,10 +119,7 @@ export function RecurrenceConfig({ control, setValue, watch }: RecurrenceConfigP
               <label className="text-sm font-medium">Repetir</label>
               <Select
                 value={recurrenceData.pattern}
-                onValueChange={(value: keyof typeof RecurrencePattern) =>
-                  updateRecurrenceData({ pattern: value })
-                }
-              >
+                onValueChange={(value: keyof typeof RecurrencePattern) => updateRecurrenceData({ pattern: value })}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -155,9 +140,7 @@ export function RecurrenceConfig({ control, setValue, watch }: RecurrenceConfigP
                 min="1"
                 max="365"
                 value={recurrenceData.interval}
-                onChange={(e) =>
-                  updateRecurrenceData({ interval: parseInt(e.target.value) || 1 })
-                }
+                onChange={e => updateRecurrenceData({ interval: parseInt(e.target.value) || 1 })}
                 placeholder="1"
               />
             </div>
@@ -166,7 +149,7 @@ export function RecurrenceConfig({ control, setValue, watch }: RecurrenceConfigP
           {/* Opções de fim */}
           <div className="space-y-3">
             <label className="text-sm font-medium">Fim da recorrência (opcional)</label>
-            
+
             <div className="grid grid-cols-1 gap-3">
               {/* Data de fim */}
               <div className="space-y-2">
@@ -178,8 +161,7 @@ export function RecurrenceConfig({ control, setValue, watch }: RecurrenceConfigP
                       type="button"
                       variant="ghost"
                       size="sm"
-                      onClick={() => updateRecurrenceData({ endDate: undefined })}
-                    >
+                      onClick={() => updateRecurrenceData({ endDate: undefined })}>
                       <X className="h-3 w-3" />
                     </Button>
                   )}
@@ -187,7 +169,7 @@ export function RecurrenceConfig({ control, setValue, watch }: RecurrenceConfigP
                 <Input
                   type="date"
                   value={formatDateForInput(recurrenceData.endDate)}
-                  onChange={(e) =>
+                  onChange={e =>
                     updateRecurrenceData({
                       endDate: e.target.value ? formatDateFromInput(e.target.value) : undefined,
                       maxOccurrences: undefined, // Limpar a outra opção
@@ -205,7 +187,7 @@ export function RecurrenceConfig({ control, setValue, watch }: RecurrenceConfigP
                     min="1"
                     max="1000"
                     value={recurrenceData.maxOccurrences || ''}
-                    onChange={(e) =>
+                    onChange={e =>
                       updateRecurrenceData({
                         maxOccurrences: e.target.value ? parseInt(e.target.value) : undefined,
                         endDate: undefined, // Limpar a outra opção
@@ -220,8 +202,7 @@ export function RecurrenceConfig({ control, setValue, watch }: RecurrenceConfigP
                       type="button"
                       variant="ghost"
                       size="sm"
-                      onClick={() => updateRecurrenceData({ maxOccurrences: undefined })}
-                    >
+                      onClick={() => updateRecurrenceData({ maxOccurrences: undefined })}>
                       <X className="h-3 w-3" />
                     </Button>
                   )}
@@ -256,7 +237,7 @@ function generatePreviewDates(recurrence: RecurrenceData, startDate: string): Da
   const dates: Date[] = []
   const start = new Date(startDate)
   const current = new Date(start)
-  
+
   // Gerar até 5 próximas ocorrências para preview
   for (let i = 0; i < 5; i++) {
     switch (recurrence.pattern) {
@@ -264,7 +245,7 @@ function generatePreviewDates(recurrence: RecurrenceData, startDate: string): Da
         current.setDate(current.getDate() + recurrence.interval)
         break
       case RecurrencePattern.WEEKLY:
-        current.setDate(current.getDate() + (7 * recurrence.interval))
+        current.setDate(current.getDate() + 7 * recurrence.interval)
         break
       case RecurrencePattern.MONTHLY:
         current.setMonth(current.getMonth() + recurrence.interval)
@@ -273,19 +254,19 @@ function generatePreviewDates(recurrence: RecurrenceData, startDate: string): Da
         current.setFullYear(current.getFullYear() + recurrence.interval)
         break
     }
-    
+
     // Verificar se passou da data limite
     if (recurrence.endDate && current > new Date(recurrence.endDate)) {
       break
     }
-    
+
     // Verificar se passou do máximo de ocorrências
     if (recurrence.maxOccurrences && i >= recurrence.maxOccurrences - 1) {
       break
     }
-    
+
     dates.push(new Date(current))
   }
-  
+
   return dates
-} 
+}

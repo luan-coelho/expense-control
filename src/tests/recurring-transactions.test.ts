@@ -201,12 +201,7 @@ describe('Recurring Transactions Service', () => {
         interval: 1,
       }
 
-      const instances = generateRecurringTransactionInstances(
-        transactionData,
-        recurrence,
-        'trans-1',
-        3
-      )
+      const instances = generateRecurringTransactionInstances(transactionData, recurrence, 'trans-1', 3)
 
       expect(instances).toHaveLength(3)
       expect(instances[0]).toMatchObject({
@@ -220,4 +215,4 @@ describe('Recurring Transactions Service', () => {
       expect(instances[2].scheduledDate).toEqual(new Date('2024-04-01T12:00:00.000Z'))
     })
   })
-}) 
+})

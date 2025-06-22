@@ -5,46 +5,75 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Lock, AlertTriangle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { 
-  createCategorySchema, 
+import {
+  createCategorySchema,
   updateCategorySchema,
   type CreateCategoryInput,
   type UpdateCategoryInput,
-  type CategoryWithRelations 
+  type CategoryWithRelations,
 } from '@/types/category'
 import { useCreateCategory, useUpdateCategory, useRootCategories } from '@/hooks'
 import { CategorySelect } from './category-select'
 
 // Ícones predefinidos para categorias
 const CATEGORY_ICONS = [
-  '💰', '💸', '🏠', '🚗', '🍔', '🛒', '⚡', '💊', '🎓', '🎬',
-  '✈️', '🏋️', '👕', '💻', '📱', '🎵', '🎮', '📚', '🍕', '☕',
-  '🎁', '💳', '🏦', '📈', '💼', '🔧', '🎨', '🌟', '📊', '🎯'
+  '💰',
+  '💸',
+  '🏠',
+  '🚗',
+  '🍔',
+  '🛒',
+  '⚡',
+  '💊',
+  '🎓',
+  '🎬',
+  '✈️',
+  '🏋️',
+  '👕',
+  '💻',
+  '📱',
+  '🎵',
+  '🎮',
+  '📚',
+  '🍕',
+  '☕',
+  '🎁',
+  '💳',
+  '🏦',
+  '📈',
+  '💼',
+  '🔧',
+  '🎨',
+  '🌟',
+  '📊',
+  '🎯',
 ]
 
 // Cores predefinidas para categorias
 const CATEGORY_COLORS = [
-  '#EF4444', '#F97316', '#F59E0B', '#EAB308', '#84CC16', '#22C55E',
-  '#10B981', '#14B8A6', '#06B6D4', '#0EA5E9', '#3B82F6', '#6366F1',
-  '#8B5CF6', '#A855F7', '#C026D3', '#EC4899', '#F43F5E', '#6B7280'
+  '#EF4444',
+  '#F97316',
+  '#F59E0B',
+  '#EAB308',
+  '#84CC16',
+  '#22C55E',
+  '#10B981',
+  '#14B8A6',
+  '#06B6D4',
+  '#0EA5E9',
+  '#3B82F6',
+  '#6366F1',
+  '#8B5CF6',
+  '#A855F7',
+  '#C026D3',
+  '#EC4899',
+  '#F43F5E',
+  '#6B7280',
 ]
 
 interface CategoryFormProps {
@@ -56,21 +85,14 @@ interface CategoryFormProps {
   className?: string
 }
 
-export function CategoryForm({
-  category,
-  onSuccess,
-  onCancel,
-  parentId,
-  type,
-  className,
-}: CategoryFormProps) {
+export function CategoryForm({ category, onSuccess, onCancel, parentId, type, className }: CategoryFormProps) {
   const [selectedIcon, setSelectedIcon] = useState(category?.icon || '📁')
   const [selectedColor, setSelectedColor] = useState(category?.color || '#6B7280')
-  
+
   const isEditing = !!category
   const isSystemCategory = category?.isDefault && !category?.user?.id
   const schema = isEditing ? updateCategorySchema : createCategorySchema
-  
+
   const form = useForm<CreateCategoryInput | UpdateCategoryInput>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -84,7 +106,7 @@ export function CategoryForm({
 
   const createCategory = useCreateCategory()
   const updateCategory = useUpdateCategory()
-  
+
   // Buscar categorias raiz para seleção de pai
   const { data: rootCategories = [] } = useRootCategories(form.watch('type'))
 
@@ -136,9 +158,8 @@ export function CategoryForm({
             </CardTitle>
             <CardDescription className="flex items-start gap-2">
               <AlertTriangle className="h-4 w-4 text-amber-500 mt-0.5 flex-shrink-0" />
-              Esta é uma categoria predefinida do sistema e não pode ser editada. 
-              As categorias do sistema garantem consistência e são compartilhadas 
-              entre todos os usuários.
+              Esta é uma categoria predefinida do sistema e não pode ser editada. As categorias do sistema garantem
+              consistência e são compartilhadas entre todos os usuários.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -155,14 +176,13 @@ export function CategoryForm({
                 </Badge>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-4">
               <div>
                 <label className="text-sm font-medium text-muted-foreground">Ícone</label>
                 <div
                   className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-medium text-white mt-1"
-                  style={{ backgroundColor: category?.color || '#6B7280' }}
-                >
+                  style={{ backgroundColor: category?.color || '#6B7280' }}>
                   {category?.icon || '📁'}
                 </div>
               </div>
@@ -177,12 +197,7 @@ export function CategoryForm({
 
             <div className="flex gap-3 pt-4">
               {onCancel && (
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={onCancel}
-                  className="flex-1"
-                >
+                <Button type="button" variant="outline" onClick={onCancel} className="flex-1">
                   Voltar
                 </Button>
               )}
@@ -205,10 +220,7 @@ export function CategoryForm({
               <FormItem>
                 <FormLabel>Nome da Categoria</FormLabel>
                 <FormControl>
-                  <Input 
-                    placeholder="Ex: Alimentação, Transporte..." 
-                    {...field} 
-                  />
+                  <Input placeholder="Ex: Alimentação, Transporte..." {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -222,8 +234,8 @@ export function CategoryForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Tipo</FormLabel>
-                <Select 
-                  onValueChange={field.onChange} 
+                <Select
+                  onValueChange={field.onChange}
                   defaultValue={field.value}
                   disabled={!!parentId} // Se tem pai, herda o tipo
                 >
@@ -235,13 +247,17 @@ export function CategoryForm({
                   <SelectContent>
                     <SelectItem value="INCOME">
                       <div className="flex items-center gap-2">
-                        <Badge variant="default" className="text-xs">Receita</Badge>
+                        <Badge variant="default" className="text-xs">
+                          Receita
+                        </Badge>
                         <span>Dinheiro que entra</span>
                       </div>
                     </SelectItem>
                     <SelectItem value="EXPENSE">
                       <div className="flex items-center gap-2">
-                        <Badge variant="secondary" className="text-xs">Despesa</Badge>
+                        <Badge variant="secondary" className="text-xs">
+                          Despesa
+                        </Badge>
                         <span>Dinheiro que sai</span>
                       </div>
                     </SelectItem>
@@ -281,20 +297,18 @@ export function CategoryForm({
             <div className="flex items-center gap-3">
               <div
                 className="w-12 h-12 rounded-full flex items-center justify-center text-xl"
-                style={{ backgroundColor: selectedColor }}
-              >
+                style={{ backgroundColor: selectedColor }}>
                 {selectedIcon}
               </div>
               <div className="grid grid-cols-10 gap-2 flex-1">
-                {CATEGORY_ICONS.map((icon) => (
+                {CATEGORY_ICONS.map(icon => (
                   <button
                     key={icon}
                     type="button"
                     onClick={() => setSelectedIcon(icon)}
                     className={`w-8 h-8 rounded-lg flex items-center justify-center text-lg hover:bg-muted transition-colors ${
                       selectedIcon === icon ? 'bg-primary text-primary-foreground' : 'bg-muted/50'
-                    }`}
-                  >
+                    }`}>
                     {icon}
                   </button>
                 ))}
@@ -311,7 +325,7 @@ export function CategoryForm({
                 style={{ backgroundColor: selectedColor }}
               />
               <div className="grid grid-cols-9 gap-2 flex-1">
-                {CATEGORY_COLORS.map((color) => (
+                {CATEGORY_COLORS.map(color => (
                   <button
                     key={color}
                     type="button"
@@ -338,13 +352,13 @@ export function CategoryForm({
                     <Input
                       type="color"
                       value={selectedColor}
-                      onChange={(e) => setSelectedColor(e.target.value)}
+                      onChange={e => setSelectedColor(e.target.value)}
                       className="w-16 h-10 p-1"
                     />
                     <Input
                       placeholder="#6B7280"
                       value={selectedColor}
-                      onChange={(e) => setSelectedColor(e.target.value)}
+                      onChange={e => setSelectedColor(e.target.value)}
                       className="flex-1"
                     />
                   </div>
@@ -356,21 +370,12 @@ export function CategoryForm({
 
           {/* Botões de ação */}
           <div className="flex gap-3 pt-4">
-            <Button
-              type="submit"
-              disabled={isLoading || isSystemCategory}
-              className="flex-1"
-            >
+            <Button type="submit" disabled={isLoading || isSystemCategory} className="flex-1">
               {isLoading ? 'Salvando...' : isEditing ? 'Atualizar' : 'Criar Categoria'}
             </Button>
-            
+
             {onCancel && (
-              <Button
-                type="button"
-                variant="outline"
-                onClick={onCancel}
-                disabled={isLoading}
-              >
+              <Button type="button" variant="outline" onClick={onCancel} disabled={isLoading}>
                 Cancelar
               </Button>
             )}
@@ -379,4 +384,4 @@ export function CategoryForm({
       </Form>
     </div>
   )
-} 
+}

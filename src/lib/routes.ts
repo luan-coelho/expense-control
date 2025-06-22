@@ -62,12 +62,30 @@ export const routes = {
       update: (id: string) => `/api/accounts/${validateId(id)}`,
       delete: (id: string) => `/api/accounts/${validateId(id)}`,
     },
+
+    // Importação e Exportação
+    export: '/api/export',
+    import: '/api/import',
+
+    // Notificações
+    notifications: {
+      list: '/api/notifications',
+      create: '/api/notifications',
+      byId: (id: string) => `/api/notifications/${validateId(id)}`,
+      update: (id: string) => `/api/notifications/${validateId(id)}`,
+      delete: (id: string) => `/api/notifications/${validateId(id)}`,
+      markAsRead: (id: string) => `/api/notifications/${validateId(id)}/read`,
+      markAsUnread: (id: string) => `/api/notifications/${validateId(id)}/unread`,
+      markAllAsRead: '/api/notifications/mark-all-read',
+      settings: '/api/notifications/settings',
+      triggers: '/api/notifications/triggers',
+    },
   },
 }
 
 /**
  * Query Keys para React Query
- * 
+ *
  * Centraliza todas as chaves de query para facilitar invalidação e cache management
  * Agora com suporte aprimorado para contexto de espaço
  */
@@ -108,11 +126,26 @@ export const queryKeys = {
 
   analytics: {
     all: ['analytics'] as const,
-    spendingByCategory: (filters?: Record<string, any>) => [...queryKeys.analytics.all, 'spending-by-category', filters] as const,
-    spendingBySpace: (filters?: Record<string, any>) => [...queryKeys.analytics.all, 'spending-by-space', filters] as const,
-    summaryMetrics: (filters?: Record<string, any>) => [...queryKeys.analytics.all, 'summary-metrics', filters] as const,
-    monthlyIncomeExpenses: (filters?: Record<string, any>) => [...queryKeys.analytics.all, 'monthly-income-expenses', filters] as const,
-    balanceEvolution: (filters?: Record<string, any>) => [...queryKeys.analytics.all, 'balance-evolution', filters] as const,
+    spendingByCategory: (filters?: Record<string, any>) =>
+      [...queryKeys.analytics.all, 'spending-by-category', filters] as const,
+    spendingBySpace: (filters?: Record<string, any>) =>
+      [...queryKeys.analytics.all, 'spending-by-space', filters] as const,
+    summaryMetrics: (filters?: Record<string, any>) =>
+      [...queryKeys.analytics.all, 'summary-metrics', filters] as const,
+    monthlyIncomeExpenses: (filters?: Record<string, any>) =>
+      [...queryKeys.analytics.all, 'monthly-income-expenses', filters] as const,
+    balanceEvolution: (filters?: Record<string, any>) =>
+      [...queryKeys.analytics.all, 'balance-evolution', filters] as const,
+  },
+
+  notifications: {
+    all: ['notifications'] as const,
+    lists: () => [...queryKeys.notifications.all, 'list'] as const,
+    list: (filters?: Record<string, any>) => [...queryKeys.notifications.lists(), { filters }] as const,
+    details: () => [...queryKeys.notifications.all, 'detail'] as const,
+    detail: (id: string) => [...queryKeys.notifications.details(), validateId(id)] as const,
+    unreadCount: () => [...queryKeys.notifications.all, 'unread-count'] as const,
+    settings: () => [...queryKeys.notifications.all, 'settings'] as const,
   },
 } as const
 

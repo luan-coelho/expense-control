@@ -157,7 +157,7 @@ const defaultSubcategories = [
     parentName: 'Alimentação',
     sortOrder: '10.2',
   },
-  
+
   // Subcategorias de Transporte
   {
     name: 'Combustível',
@@ -177,7 +177,7 @@ const defaultSubcategories = [
     parentName: 'Transporte',
     sortOrder: '11.2',
   },
-  
+
   // Subcategorias de Moradia
   {
     name: 'Aluguel',
@@ -207,7 +207,7 @@ export async function seedDefaultCategories() {
     const insertedCategories = await db
       .insert(categoriesTable)
       .values(
-        defaultCategories.map((category) => ({
+        defaultCategories.map(category => ({
           name: category.name,
           type: category.type,
           icon: category.icon,
@@ -215,20 +215,23 @@ export async function seedDefaultCategories() {
           isDefault: category.isDefault,
           sortOrder: category.sortOrder,
           userId: null, // null para categorias do sistema
-        }))
+        })),
       )
       .returning()
 
     console.log(`✅ ${insertedCategories.length} categorias principais inseridas`)
 
     // Mapear nomes para IDs das categorias pai
-    const categoryNameToId = insertedCategories.reduce((acc, cat) => {
-      acc[cat.name] = cat.id
-      return acc
-    }, {} as Record<string, string>)
+    const categoryNameToId = insertedCategories.reduce(
+      (acc, cat) => {
+        acc[cat.name] = cat.id
+        return acc
+      },
+      {} as Record<string, string>,
+    )
 
     // Inserir subcategorias
-    const subcategoriesToInsert = defaultSubcategories.map((subcat) => ({
+    const subcategoriesToInsert = defaultSubcategories.map(subcat => ({
       name: subcat.name,
       type: subcat.type,
       icon: subcat.icon,
@@ -239,10 +242,7 @@ export async function seedDefaultCategories() {
       parentId: categoryNameToId[subcat.parentName],
     }))
 
-    const insertedSubcategories = await db
-      .insert(categoriesTable)
-      .values(subcategoriesToInsert)
-      .returning()
+    const insertedSubcategories = await db.insert(categoriesTable).values(subcategoriesToInsert).returning()
 
     console.log(`✅ ${insertedSubcategories.length} subcategorias inseridas`)
     console.log('🎉 Seed das categorias concluído com sucesso!')
@@ -264,8 +264,8 @@ if (require.main === module) {
       console.log('✅ Seed executado com sucesso!')
       process.exit(0)
     })
-    .catch((error) => {
+    .catch(error => {
       console.error('❌ Erro no seed:', error)
       process.exit(1)
     })
-} 
+}

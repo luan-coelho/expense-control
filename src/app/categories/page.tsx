@@ -61,9 +61,7 @@ export default function CategoriesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Categorias</h1>
-          <p className="text-muted-foreground">
-            Organize suas transações em categorias personalizadas
-          </p>
+          <p className="text-muted-foreground">Organize suas transações em categorias personalizadas</p>
         </div>
         <div className="flex items-center gap-2 text-muted-foreground">
           <Tag className="h-5 w-5" />
@@ -77,4 +75,4 @@ export default function CategoriesPage() {
       </Suspense>
     </div>
   )
-} 
+}

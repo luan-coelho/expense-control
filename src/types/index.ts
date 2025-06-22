@@ -1,4 +1,5 @@
 export * from './transaction'
 export * from './category'
 export * from './space'
-export * from './account' 
+export * from './account'
+export * from './notification'

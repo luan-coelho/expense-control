@@ -15,14 +15,9 @@ interface ExportButtonsProps {
   size?: 'default' | 'sm' | 'lg'
 }
 
-export function ExportButtons({ 
-  filters, 
-  className,
-  variant = 'outline',
-  size = 'default'
-}: ExportButtonsProps) {
+export function ExportButtons({ filters, className, variant = 'outline', size = 'default' }: ExportButtonsProps) {
   const { isExporting, exportToCSV, exportToPDF } = useExport()
-  
+
   // Buscar dados para exportação
   const { data: summaryMetrics } = useSummaryMetrics(filters)
   const { data: spendingByCategory } = useSpendingByCategory(filters)
@@ -66,13 +61,8 @@ export function ExportButtons({
         size={size}
         onClick={handleExportCSV}
         disabled={isExporting || !hasData || isDataLoading}
-        className="flex items-center gap-2"
-      >
-        {isExporting ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
-        ) : (
-          <Download className="h-4 w-4" />
-        )}
+        className="flex items-center gap-2">
+        {isExporting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
         <span className="hidden sm:inline">Exportar CSV</span>
         <span className="sm:hidden">CSV</span>
       </Button>
@@ -82,28 +72,17 @@ export function ExportButtons({
         size={size}
         onClick={handleExportPDF}
         disabled={isExporting || !hasData || isDataLoading}
-        className="flex items-center gap-2"
-      >
-        {isExporting ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
-        ) : (
-          <FileText className="h-4 w-4" />
-        )}
+        className="flex items-center gap-2">
+        {isExporting ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileText className="h-4 w-4" />}
         <span className="hidden sm:inline">Exportar PDF</span>
         <span className="sm:hidden">PDF</span>
       </Button>
 
-      {isDataLoading && (
-        <span className="text-xs text-muted-foreground hidden lg:inline">
-          Carregando dados...
-        </span>
-      )}
+      {isDataLoading && <span className="text-xs text-muted-foreground hidden lg:inline">Carregando dados...</span>}
 
       {!hasData && !isDataLoading && (
-        <span className="text-xs text-muted-foreground hidden lg:inline">
-          Nenhum dado disponível
-        </span>
+        <span className="text-xs text-muted-foreground hidden lg:inline">Nenhum dado disponível</span>
       )}
     </div>
   )
-} 
+}

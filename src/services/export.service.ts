@@ -1,4 +1,9 @@
-import { type AnalyticsFilters, type SummaryMetricsResponse, type SpendingByCategoryResponse, type SpendingBySpaceResponse } from './analytics.service'
+import {
+  type AnalyticsFilters,
+  type SummaryMetricsResponse,
+  type SpendingByCategoryResponse,
+  type SpendingBySpaceResponse,
+} from './analytics.service'
 
 export interface ExportData {
   summaryMetrics?: SummaryMetricsResponse
@@ -26,13 +31,13 @@ class ExportService {
     // Para PDF, vamos usar uma abordagem simples primeiro
     // Em uma implementação mais robusta, usaríamos bibliotecas como jsPDF ou Puppeteer
     const htmlContent = this.generateHTMLContent(data)
-    
+
     // Criar uma nova janela para impressão/PDF
     const printWindow = window.open('', '_blank')
     if (printWindow) {
       printWindow.document.write(htmlContent)
       printWindow.document.close()
-      
+
       // Aguardar o carregamento e abrir diálogo de impressão
       printWindow.onload = () => {
         printWindow.print()
@@ -47,11 +52,11 @@ class ExportService {
    */
   private generateCSVContent(data: ExportData): string {
     const lines: string[] = []
-    
+
     // Cabeçalho do relatório
     lines.push('RELATÓRIO FINANCEIRO')
     lines.push(`Data de Geração: ${data.reportDate}`)
-    
+
     if (data.filters) {
       lines.push('FILTROS APLICADOS')
       if (data.filters.startDate) lines.push(`Data Inicial: ${data.filters.startDate}`)
@@ -59,21 +64,27 @@ class ExportService {
       if (data.filters.spaceId) lines.push(`Espaço: ${data.filters.spaceId}`)
       if (data.filters.accountId) lines.push(`Conta: ${data.filters.accountId}`)
     }
-    
+
     lines.push('') // Linha vazia
-    
+
     // Métricas de resumo
     if (data.summaryMetrics) {
       lines.push('MÉTRICAS DE RESUMO')
       lines.push('Métrica,Valor,Quantidade')
-      lines.push(`Total de Receitas,${data.summaryMetrics.current.formattedTotalIncome},${data.summaryMetrics.current.incomeCount}`)
-      lines.push(`Total de Despesas,${data.summaryMetrics.current.formattedTotalExpenses},${data.summaryMetrics.current.expenseCount}`)
-      lines.push(`Saldo Líquido,${data.summaryMetrics.current.formattedNetIncome},${data.summaryMetrics.current.transactionCount}`)
+      lines.push(
+        `Total de Receitas,${data.summaryMetrics.current.formattedTotalIncome},${data.summaryMetrics.current.incomeCount}`,
+      )
+      lines.push(
+        `Total de Despesas,${data.summaryMetrics.current.formattedTotalExpenses},${data.summaryMetrics.current.expenseCount}`,
+      )
+      lines.push(
+        `Saldo Líquido,${data.summaryMetrics.current.formattedNetIncome},${data.summaryMetrics.current.transactionCount}`,
+      )
       lines.push(`Receita Média,${data.summaryMetrics.current.formattedAverageIncome},-`)
       lines.push(`Despesa Média,${data.summaryMetrics.current.formattedAverageExpense},-`)
       lines.push(`Categorias Ativas,-,${data.summaryMetrics.current.uniqueCategories}`)
       lines.push(`Espaços Ativos,-,${data.summaryMetrics.current.uniqueSpaces}`)
-      
+
       // Comparação com período anterior
       if (data.summaryMetrics.comparison) {
         lines.push('')
@@ -84,47 +95,55 @@ class ExportService {
         lines.push(`Saldo Líquido,${data.summaryMetrics.comparison.netIncomeChange.toFixed(2)}%`)
         lines.push(`Transações,${data.summaryMetrics.comparison.transactionCountChange.toFixed(2)}%`)
       }
-      
+
       // Transações de destaque
       if (data.summaryMetrics.current.largestIncome || data.summaryMetrics.current.largestExpense) {
         lines.push('')
         lines.push('TRANSAÇÕES DE DESTAQUE')
         lines.push('Tipo,Valor,Descrição,Categoria,Espaço')
-        
+
         if (data.summaryMetrics.current.largestIncome) {
           const income = data.summaryMetrics.current.largestIncome
-          lines.push(`Maior Receita,${income.formattedAmount},"${income.description}",${income.categoryName || 'N/A'},${income.spaceName || 'N/A'}`)
+          lines.push(
+            `Maior Receita,${income.formattedAmount},"${income.description}",${income.categoryName || 'N/A'},${income.spaceName || 'N/A'}`,
+          )
         }
-        
+
         if (data.summaryMetrics.current.largestExpense) {
           const expense = data.summaryMetrics.current.largestExpense
-          lines.push(`Maior Despesa,${expense.formattedAmount},"${expense.description}",${expense.categoryName || 'N/A'},${expense.spaceName || 'N/A'}`)
+          lines.push(
+            `Maior Despesa,${expense.formattedAmount},"${expense.description}",${expense.categoryName || 'N/A'},${expense.spaceName || 'N/A'}`,
+          )
         }
       }
     }
-    
+
     // Gastos por categoria
     if (data.spendingByCategory && data.spendingByCategory.data.length > 0) {
       lines.push('')
       lines.push('GASTOS POR CATEGORIA')
       lines.push('Categoria,Valor,Percentual,Transações')
-      
+
       data.spendingByCategory.data.forEach(category => {
-        lines.push(`"${category.categoryName}",${category.formattedAmount},${category.percentage.toFixed(2)}%,${category.transactionCount}`)
+        lines.push(
+          `"${category.categoryName}",${category.formattedAmount},${category.percentage.toFixed(2)}%,${category.transactionCount}`,
+        )
       })
     }
-    
+
     // Gastos por espaço
     if (data.spendingBySpace && data.spendingBySpace.data.length > 0) {
       lines.push('')
       lines.push('GASTOS POR ESPAÇO')
       lines.push('Espaço,Valor,Percentual,Transações')
-      
+
       data.spendingBySpace.data.forEach(space => {
-        lines.push(`"${space.spaceName}",${space.formattedAmount},${space.percentage.toFixed(2)}%,${space.transactionCount}`)
+        lines.push(
+          `"${space.spaceName}",${space.formattedAmount},${space.percentage.toFixed(2)}%,${space.transactionCount}`,
+        )
       })
     }
-    
+
     return lines.join('\n')
   }
 
@@ -213,7 +232,7 @@ class ExportService {
         }
       </style>
     `
-    
+
     let content = `
       <!DOCTYPE html>
       <html>
@@ -228,7 +247,7 @@ class ExportService {
           <p>Gerado em: ${data.reportDate}</p>
         </div>
     `
-    
+
     // Filtros aplicados
     if (data.filters && Object.keys(data.filters).length > 0) {
       content += `
@@ -236,22 +255,24 @@ class ExportService {
           <div class="section-title">Filtros Aplicados</div>
           <div class="filters">
       `
-      
-      if (data.filters.startDate) content += `<p><strong>Data Inicial:</strong> ${new Date(data.filters.startDate).toLocaleDateString('pt-BR')}</p>`
-      if (data.filters.endDate) content += `<p><strong>Data Final:</strong> ${new Date(data.filters.endDate).toLocaleDateString('pt-BR')}</p>`
+
+      if (data.filters.startDate)
+        content += `<p><strong>Data Inicial:</strong> ${new Date(data.filters.startDate).toLocaleDateString('pt-BR')}</p>`
+      if (data.filters.endDate)
+        content += `<p><strong>Data Final:</strong> ${new Date(data.filters.endDate).toLocaleDateString('pt-BR')}</p>`
       if (data.filters.spaceId) content += `<p><strong>Espaço:</strong> ${data.filters.spaceId}</p>`
       if (data.filters.accountId) content += `<p><strong>Conta:</strong> ${data.filters.accountId}</p>`
-      
+
       content += `
           </div>
         </div>
       `
     }
-    
+
     // Métricas de resumo
     if (data.summaryMetrics) {
       const metrics = data.summaryMetrics.current
-      
+
       content += `
         <div class="section">
           <div class="section-title">Resumo Financeiro</div>
@@ -275,7 +296,7 @@ class ExportService {
           </div>
         </div>
       `
-      
+
       // Comparação com período anterior
       if (data.summaryMetrics.comparison) {
         const comp = data.summaryMetrics.comparison
@@ -309,7 +330,7 @@ class ExportService {
           </div>
         `
       }
-      
+
       // Transações de destaque
       if (metrics.largestIncome || metrics.largestExpense) {
         content += `
@@ -327,7 +348,7 @@ class ExportService {
               </thead>
               <tbody>
         `
-        
+
         if (metrics.largestIncome) {
           const income = metrics.largestIncome
           content += `
@@ -340,7 +361,7 @@ class ExportService {
             </tr>
           `
         }
-        
+
         if (metrics.largestExpense) {
           const expense = metrics.largestExpense
           content += `
@@ -353,7 +374,7 @@ class ExportService {
             </tr>
           `
         }
-        
+
         content += `
               </tbody>
             </table>
@@ -361,7 +382,7 @@ class ExportService {
         `
       }
     }
-    
+
     // Gastos por categoria
     if (data.spendingByCategory && data.spendingByCategory.data.length > 0) {
       content += `
@@ -378,7 +399,7 @@ class ExportService {
             </thead>
             <tbody>
       `
-      
+
       data.spendingByCategory.data.forEach(category => {
         content += `
           <tr>
@@ -389,14 +410,14 @@ class ExportService {
           </tr>
         `
       })
-      
+
       content += `
             </tbody>
           </table>
         </div>
       `
     }
-    
+
     // Gastos por espaço
     if (data.spendingBySpace && data.spendingBySpace.data.length > 0) {
       content += `
@@ -413,7 +434,7 @@ class ExportService {
             </thead>
             <tbody>
       `
-      
+
       data.spendingBySpace.data.forEach(space => {
         content += `
           <tr>
@@ -424,19 +445,19 @@ class ExportService {
           </tr>
         `
       })
-      
+
       content += `
             </tbody>
           </table>
         </div>
       `
     }
-    
+
     content += `
       </body>
       </html>
     `
-    
+
     return content
   }
 
@@ -446,11 +467,11 @@ class ExportService {
   private generateFilename(extension: 'csv' | 'pdf', filters?: AnalyticsFilters): string {
     const date = new Date().toISOString().slice(0, 10)
     let filename = `relatorio-financeiro-${date}`
-    
+
     if (filters?.startDate && filters?.endDate) {
       filename += `-${filters.startDate}-a-${filters.endDate}`
     }
-    
+
     return `${filename}.${extension}`
   }
 
@@ -460,15 +481,15 @@ class ExportService {
   private downloadFile(blob: Blob, filename: string): void {
     const link = document.createElement('a')
     const url = URL.createObjectURL(blob)
-    
+
     link.href = url
     link.download = filename
     link.style.display = 'none'
-    
+
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
-    
+
     // Limpar URL do objeto
     URL.revokeObjectURL(url)
   }

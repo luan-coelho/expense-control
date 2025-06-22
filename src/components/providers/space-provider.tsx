@@ -65,20 +65,24 @@ export function SpaceProvider({ children }: SpaceProviderProps) {
   }, [spacesData, spacesLoading, isInitialized])
 
   // Memoizar valores do contexto separadamente para otimizar re-renderizações
-  const stateValue = useMemo<SpaceStateContextType>(() => ({
-    activeSpace,
-    isLoading: spacesLoading || !isInitialized,
-  }), [activeSpace, spacesLoading, isInitialized])
+  const stateValue = useMemo<SpaceStateContextType>(
+    () => ({
+      activeSpace,
+      isLoading: spacesLoading || !isInitialized,
+    }),
+    [activeSpace, spacesLoading, isInitialized],
+  )
 
-  const actionsValue = useMemo<SpaceActionsContextType>(() => ({
-    setActiveSpace,
-  }), [setActiveSpace])
+  const actionsValue = useMemo<SpaceActionsContextType>(
+    () => ({
+      setActiveSpace,
+    }),
+    [setActiveSpace],
+  )
 
   return (
     <SpaceStateContext.Provider value={stateValue}>
-      <SpaceActionsContext.Provider value={actionsValue}>
-        {children}
-      </SpaceActionsContext.Provider>
+      <SpaceActionsContext.Provider value={actionsValue}>{children}</SpaceActionsContext.Provider>
     </SpaceStateContext.Provider>
   )
 }
@@ -87,15 +91,18 @@ export function SpaceProvider({ children }: SpaceProviderProps) {
 export function useActiveSpace() {
   const state = useContext(SpaceStateContext)
   const actions = useContext(SpaceActionsContext)
-  
+
   if (state === undefined || actions === undefined) {
     throw new Error('useActiveSpace deve ser usado dentro de um SpaceProvider')
   }
-  
-  return useMemo(() => ({
-    ...state,
-    ...actions,
-  }), [state, actions])
+
+  return useMemo(
+    () => ({
+      ...state,
+      ...actions,
+    }),
+    [state, actions],
+  )
 }
 
 // Hooks seletivos otimizados que consomem apenas o que precisam
@@ -167,4 +174,4 @@ export function useSpaceLoading(): boolean {
 export function useSetActiveSpace() {
   const { setActiveSpace } = useActiveSpaceActions()
   return setActiveSpace
-} 
+}

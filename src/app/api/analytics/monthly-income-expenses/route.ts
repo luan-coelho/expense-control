@@ -48,25 +48,16 @@ export async function GET(request: NextRequest) {
       })
       .from(transactionsTable)
       .where(and(...conditions))
-      .groupBy(
-        sql`EXTRACT(YEAR FROM ${transactionsTable.date})`,
-        sql`EXTRACT(MONTH FROM ${transactionsTable.date})`
-      )
-      .orderBy(
-        sql`EXTRACT(YEAR FROM ${transactionsTable.date})`,
-        sql`EXTRACT(MONTH FROM ${transactionsTable.date})`
-      )
+      .groupBy(sql`EXTRACT(YEAR FROM ${transactionsTable.date})`, sql`EXTRACT(MONTH FROM ${transactionsTable.date})`)
+      .orderBy(sql`EXTRACT(YEAR FROM ${transactionsTable.date})`, sql`EXTRACT(MONTH FROM ${transactionsTable.date})`)
 
     // Formatar dados para o gráfico
-    const chartData = monthlyData.map((item) => {
-      const monthNames = [
-        'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
-        'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
-      ]
-      
+    const chartData = monthlyData.map(item => {
+      const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+
       const monthLabel = `${monthNames[item.month - 1]} ${item.year}`
       const netBalance = item.totalIncome - item.totalExpenses
-      
+
       return {
         period: monthLabel,
         year: item.year,
@@ -120,9 +111,6 @@ export async function GET(request: NextRequest) {
     })
   } catch (error) {
     console.error('Erro ao buscar dados mensais de receitas vs despesas:', error)
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
-} 
+}

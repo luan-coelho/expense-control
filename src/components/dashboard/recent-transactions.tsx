@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowUpRight, ArrowDownLeft, Eye } from 'lucide-react'
+import { ArrowUpRight, ArrowDownLeft, Eye, Plus } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -38,9 +38,7 @@ export function RecentTransactions({ limit = 5 }: RecentTransactionsProps) {
           <CardTitle>Transações Recentes</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center text-red-600">
-            Erro ao carregar transações: {error.message}
-          </div>
+          <div className="text-center text-red-600">Erro ao carregar transações: {error.message}</div>
         </CardContent>
       </Card>
     )
@@ -89,18 +87,17 @@ export function RecentTransactions({ limit = 5 }: RecentTransactionsProps) {
             }
             title="Nenhuma transação encontrada"
             description="Adicione sua primeira transação para começar a controlar suas finanças"
-            action={{
-              label: 'Adicionar Transação',
-              onClick: () => window.location.href = '/transactions',
-            }}
+            action={
+              <Button onClick={() => (window.location.href = '/transactions')} variant="default" className="mt-4">
+                <Plus className="w-4 h-4 mr-2" />
+                Adicionar Transação
+              </Button>
+            }
           />
         ) : (
           <div className="space-y-3">
-            {data.transactions.map((transaction) => (
-              <div
-                key={transaction.id}
-                className="flex items-center justify-between py-2 border-b last:border-b-0"
-              >
+            {data.transactions.map(transaction => (
+              <div key={transaction.id} className="flex items-center justify-between py-2 border-b last:border-b-0">
                 <div className="flex items-center gap-3">
                   {/* Ícone da transação */}
                   <div
@@ -108,8 +105,7 @@ export function RecentTransactions({ limit = 5 }: RecentTransactionsProps) {
                       transaction.type === TransactionType.INCOME
                         ? 'bg-green-100 text-green-600'
                         : 'bg-red-100 text-red-600'
-                    }`}
-                  >
+                    }`}>
                     {transaction.type === TransactionType.INCOME ? (
                       <ArrowUpRight className="h-4 w-4" />
                     ) : (
@@ -119,9 +115,7 @@ export function RecentTransactions({ limit = 5 }: RecentTransactionsProps) {
 
                   {/* Informações da transação */}
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium text-gray-900 truncate">
-                      {transaction.description}
-                    </p>
+                    <p className="text-sm font-medium text-gray-900 truncate">{transaction.description}</p>
                     <div className="flex items-center gap-2 text-xs text-gray-500">
                       <span>{formatDate(transaction.date)}</span>
                       {transaction.category && (
@@ -142,8 +136,7 @@ export function RecentTransactions({ limit = 5 }: RecentTransactionsProps) {
                       transaction.type === TransactionType.INCOME
                         ? 'bg-green-100 text-green-800 hover:bg-green-100'
                         : 'bg-red-100 text-red-800 hover:bg-red-100'
-                    }`}
-                  >
+                    }`}>
                     {transaction.type === TransactionType.INCOME ? '+' : '-'}
                     {formatTransactionAmount(transaction.amount)}
                   </Badge>
@@ -155,4 +148,4 @@ export function RecentTransactions({ limit = 5 }: RecentTransactionsProps) {
       </CardContent>
     </Card>
   )
-} 
+}

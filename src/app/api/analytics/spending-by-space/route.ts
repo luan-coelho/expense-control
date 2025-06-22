@@ -45,7 +45,9 @@ export async function GET(request: NextRequest) {
       .where(and(...conditions))
       .groupBy(transactionsTable.spaceId, spacesTable.name)
       .having(sql`SUM(CASE WHEN ${transactionsTable.type} = 'EXPENSE' THEN ${transactionsTable.amount} ELSE 0 END) > 0`)
-      .orderBy(desc(sql`SUM(CASE WHEN ${transactionsTable.type} = 'EXPENSE' THEN ${transactionsTable.amount} ELSE 0 END)`))
+      .orderBy(
+        desc(sql`SUM(CASE WHEN ${transactionsTable.type} = 'EXPENSE' THEN ${transactionsTable.amount} ELSE 0 END)`),
+      )
 
     // Calcular total geral para percentuais
     const totalSpending = spendingBySpace.reduce((sum, item) => sum + item.totalAmount, 0)
@@ -70,7 +72,7 @@ export async function GET(request: NextRequest) {
       spaceName: item.spaceName || 'Sem espaço',
       color: spaceColors[index % spaceColors.length],
       amount: item.totalAmount,
-      percentage: totalSpending > 0 ? ((item.totalAmount / totalSpending) * 100) : 0,
+      percentage: totalSpending > 0 ? (item.totalAmount / totalSpending) * 100 : 0,
       transactionCount: item.transactionCount,
       formattedAmount: new Intl.NumberFormat('pt-BR', {
         style: 'currency',
@@ -91,9 +93,6 @@ export async function GET(request: NextRequest) {
     })
   } catch (error) {
     console.error('Erro ao buscar gastos por espaço:', error)
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
-} 
+}

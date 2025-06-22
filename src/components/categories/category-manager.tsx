@@ -10,10 +10,7 @@ interface CategoryManagerProps {
   className?: string
 }
 
-export function CategoryManager({
-  type,
-  className,
-}: CategoryManagerProps) {
+export function CategoryManager({ type, className }: CategoryManagerProps) {
   const [modalState, setModalState] = useState<{
     open: boolean
     category?: CategoryWithRelations
@@ -59,7 +56,7 @@ export function CategoryManager({
         onCreateSubcategory={handleCreateSubcategory}
         type={type}
       />
-      
+
       <CategoryModal
         open={modalState.open}
         onOpenChange={handleCloseModal}
@@ -69,4 +66,4 @@ export function CategoryManager({
       />
     </div>
   )
-} 
+}

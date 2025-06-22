@@ -15,4 +15,4 @@ export const accountsTable = pgTable('accounts', {
 
 // Tipos TypeScript para a tabela de contas
 export type Account = typeof accountsTable.$inferSelect
-export type NewAccount = typeof accountsTable.$inferInsert 
+export type NewAccount = typeof accountsTable.$inferInsert

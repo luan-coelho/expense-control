@@ -1,5 +1,5 @@
+import { Category } from '@/db/schema'
 import { z } from 'zod'
-import { Category, NewCategory } from '@/db/schema'
 
 // Enum para tipos de categoria
 export const CategoryType = {
@@ -7,30 +7,21 @@ export const CategoryType = {
   EXPENSE: 'EXPENSE',
 } as const
 
-export type CategoryTypeEnum = typeof CategoryType[keyof typeof CategoryType]
+export type CategoryTypeEnum = (typeof CategoryType)[keyof typeof CategoryType]
 
 // Schema de validação para criação de categoria
 export const createCategorySchema = z.object({
-  name: z
-    .string()
-    .min(1, 'O nome é obrigatório')
-    .max(100, 'O nome deve ter no máximo 100 caracteres'),
+  name: z.string().min(1, 'O nome é obrigatório').max(100, 'O nome deve ter no máximo 100 caracteres'),
   type: z.enum(['INCOME', 'EXPENSE'], {
     required_error: 'O tipo da categoria é obrigatório',
   }),
-  icon: z
-    .string()
-    .max(50, 'O ícone deve ter no máximo 50 caracteres')
-    .optional(),
+  icon: z.string().max(50, 'O ícone deve ter no máximo 50 caracteres').optional(),
   color: z
     .string()
     .regex(/^#[0-9A-F]{6}$/i, 'A cor deve estar no formato hexadecimal (#RRGGBB)')
     .optional(),
   parentId: z.string().uuid('Categoria pai inválida').optional().nullable(),
-  sortOrder: z
-    .string()
-    .max(10, 'A ordem deve ter no máximo 10 caracteres')
-    .optional(),
+  sortOrder: z.string().max(10, 'A ordem deve ter no máximo 10 caracteres').optional(),
 })
 
 // Schema para atualização de categoria
@@ -50,25 +41,20 @@ export const categoryQuerySchema = z.object({
     .string()
     .nullable()
     .optional()
-    .transform((val) => val ? parseInt(val, 10) : 1)
-    .refine((val) => val > 0, 'A página deve ser um número positivo'),
+    .transform(val => (val ? parseInt(val, 10) : 1))
+    .refine(val => val > 0, 'A página deve ser um número positivo'),
   limit: z
     .string()
     .nullable()
     .optional()
-    .transform((val) => val ? parseInt(val, 10) : 50)
-    .refine(
-      (val) => val > 0 && val <= 100,
-      'O limite deve ser entre 1 e 100'
-    ),
-  type: z.enum(['INCOME', 'EXPENSE'])
-    .nullable()
-    .optional(),
+    .transform(val => (val ? parseInt(val, 10) : 50))
+    .refine(val => val > 0 && val <= 100, 'O limite deve ser entre 1 e 100'),
+  type: z.enum(['INCOME', 'EXPENSE']).nullable().optional(),
   isDefault: z
     .string()
     .nullable()
     .optional()
-    .transform((val) => {
+    .transform(val => {
       if (!val) return undefined
       return val.toLowerCase() === 'true'
     }),
@@ -76,19 +62,13 @@ export const categoryQuerySchema = z.object({
     .string()
     .nullable()
     .optional()
-    .refine(
-      (val) => !val || z.string().uuid().safeParse(val).success,
-      'ID da categoria pai inválido'
-    ),
+    .refine(val => !val || z.string().uuid().safeParse(val).success, 'ID da categoria pai inválido'),
   search: z
     .string()
     .nullable()
     .optional()
-    .transform((val) => val ? val.trim() : undefined)
-    .refine(
-      (val) => !val || val.length <= 100,
-      'O termo de busca deve ter no máximo 100 caracteres'
-    ),
+    .transform(val => (val ? val.trim() : undefined))
+    .refine(val => !val || val.length <= 100, 'O termo de busca deve ter no máximo 100 caracteres'),
 })
 
 // Tipos derivados dos schemas
@@ -147,7 +127,7 @@ export function organizeCategoriesHierarchy(categories: Category[]): CategoryWit
   // Organizar hierarquia
   categories.forEach(category => {
     const categoryWithChildren = categoryMap.get(category.id)!
-    
+
     if (category.parentId) {
       const parent = categoryMap.get(category.parentId)
       if (parent) {
@@ -166,19 +146,11 @@ export function organizeCategoriesHierarchy(categories: Category[]): CategoryWit
 }
 
 // Utilitário para filtrar categorias por tipo
-export function filterCategoriesByType(
-  categories: Category[], 
-  type: CategoryTypeEnum
-): Category[] {
+export function filterCategoriesByType(categories: Category[], type: CategoryTypeEnum): Category[] {
   return categories.filter(category => category.type === type)
 }
 
 // Utilitário para obter categorias disponíveis para um usuário
-export function getAvailableCategories(
-  categories: Category[], 
-  userId?: string
-): Category[] {
-  return categories.filter(category => 
-    category.isDefault || category.userId === userId
-  )
-} 
+export function getAvailableCategories(categories: Category[], userId?: string): Category[] {
+  return categories.filter(category => category.isDefault || category.userId === userId)
+}

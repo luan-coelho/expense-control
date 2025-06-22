@@ -9,18 +9,14 @@ import {
 
 /**
  * Serviço para gerenciamento de categorias
- * 
+ *
  * Encapsula todas as operações CRUD de categorias com a API
  */
 class CategoryService {
   /**
    * Buscar todas as categorias com filtros e paginação
    */
-  async getAll(params?: {
-    page?: number
-    limit?: number
-    filters?: CategoryFilters
-  }): Promise<PaginatedCategories> {
+  async getAll(params?: { page?: number; limit?: number; filters?: CategoryFilters }): Promise<PaginatedCategories> {
     const searchParams = new URLSearchParams()
 
     if (params?.page) {
@@ -37,9 +33,10 @@ class CategoryService {
       })
     }
 
-    const url = params && (params.page || params.limit || params.filters) 
-      ? `${routes.api.categories.list}?${searchParams.toString()}`
-      : routes.api.categories.list
+    const url =
+      params && (params.page || params.limit || params.filters)
+        ? `${routes.api.categories.list}?${searchParams.toString()}`
+        : routes.api.categories.list
 
     const response = await fetch(url)
 
@@ -192,4 +189,4 @@ class CategoryService {
 
 // Exportar instância singleton
 const categoryService = new CategoryService()
-export default categoryService 
+export default categoryService

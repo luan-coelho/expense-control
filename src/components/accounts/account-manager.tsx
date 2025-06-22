@@ -9,9 +9,7 @@ interface AccountManagerProps {
   className?: string
 }
 
-export function AccountManager({
-  className,
-}: AccountManagerProps) {
+export function AccountManager({ className }: AccountManagerProps) {
   const [modalState, setModalState] = useState<{
     open: boolean
     account?: AccountWithRelations
@@ -40,16 +38,9 @@ export function AccountManager({
 
   return (
     <div className={className}>
-      <AccountList
-        onAdd={handleCreateAccount}
-        onEdit={handleEditAccount}
-      />
-      
-      <AccountModal
-        open={modalState.open}
-        onOpenChange={handleCloseModal}
-        account={modalState.account}
-      />
+      <AccountList onAdd={handleCreateAccount} onEdit={handleEditAccount} />
+
+      <AccountModal open={modalState.open} onOpenChange={handleCloseModal} account={modalState.account} />
     </div>
   )
-} 
+}

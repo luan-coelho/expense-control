@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const days = parseInt(searchParams.get('days') || '30')
-    
+
     // Mock data para desenvolvimento
     const mockInstances = [
       {
@@ -23,8 +23,8 @@ export async function GET(request: NextRequest) {
           id: 'trans-1',
           createdAt: new Date(),
           isRecurrent: true,
-          recurrencePattern: 'MONTHLY|1'
-        }
+          recurrencePattern: 'MONTHLY|1',
+        },
       },
       {
         id: 'inst-2',
@@ -41,8 +41,8 @@ export async function GET(request: NextRequest) {
           id: 'trans-2',
           createdAt: new Date(),
           isRecurrent: true,
-          recurrencePattern: 'MONTHLY|1'
-        }
+          recurrencePattern: 'MONTHLY|1',
+        },
       },
       {
         id: 'inst-3',
@@ -59,31 +59,25 @@ export async function GET(request: NextRequest) {
           id: 'trans-3',
           createdAt: new Date(),
           isRecurrent: true,
-          recurrencePattern: 'WEEKLY|1'
-        }
-      }
+          recurrencePattern: 'WEEKLY|1',
+        },
+      },
     ]
 
     // Filtrar por dias se especificado
     const cutoffDate = new Date()
     cutoffDate.setDate(cutoffDate.getDate() + days)
-    
-    const filteredInstances = mockInstances.filter(
-      instance => instance.scheduledDate <= cutoffDate
-    )
+
+    const filteredInstances = mockInstances.filter(instance => instance.scheduledDate <= cutoffDate)
 
     return NextResponse.json({
       instances: filteredInstances,
       total: filteredInstances.length,
-      hasMore: false
+      hasMore: false,
     })
-
   } catch (error) {
     console.error('Erro ao buscar transações recorrentes:', error)
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
 }
 
@@ -91,23 +85,19 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    
+
     // Mock response
     const mockTransaction = {
       id: 'trans-new',
       ...body,
       createdAt: new Date(),
       updatedAt: new Date(),
-      userId: 'user-1'
+      userId: 'user-1',
     }
 
     return NextResponse.json(mockTransaction, { status: 201 })
-
   } catch (error) {
     console.error('Erro ao criar transação recorrente:', error)
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
-} 
+}

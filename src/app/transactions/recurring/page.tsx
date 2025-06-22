@@ -71,9 +71,7 @@ export default function RecurringTransactionsPage() {
       {/* Page header */}
       <div>
         <h1 className="text-3xl font-bold text-foreground">Transações Recorrentes</h1>
-        <p className="text-muted-foreground">
-          Visualize e gerencie suas transações automáticas programadas
-        </p>
+        <p className="text-muted-foreground">Visualize e gerencie suas transações automáticas programadas</p>
       </div>
 
       {/* Content */}
@@ -92,4 +90,4 @@ export default function RecurringTransactionsPage() {
       </Suspense>
     </div>
   )
-} 
+}

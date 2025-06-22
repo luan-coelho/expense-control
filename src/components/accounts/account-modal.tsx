@@ -1,11 +1,6 @@
 'use client'
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 
 import { AccountForm } from './account-form'
 import { type AccountWithRelations } from '@/types/account'
@@ -16,11 +11,7 @@ interface AccountModalProps {
   account?: AccountWithRelations
 }
 
-export function AccountModal({
-  open,
-  onOpenChange,
-  account,
-}: AccountModalProps) {
+export function AccountModal({ open, onOpenChange, account }: AccountModalProps) {
   const isEditing = !!account
 
   const handleSuccess = () => {
@@ -35,16 +26,10 @@ export function AccountModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>
-            {isEditing ? 'Editar Conta' : 'Nova Conta'}
-          </DialogTitle>
+          <DialogTitle>{isEditing ? 'Editar Conta' : 'Nova Conta'}</DialogTitle>
         </DialogHeader>
-        <AccountForm
-          account={account}
-          onSuccess={handleSuccess}
-          onCancel={handleCancel}
-        />
+        <AccountForm account={account} onSuccess={handleSuccess} onCancel={handleCancel} />
       </DialogContent>
     </Dialog>
   )
-} 
+}

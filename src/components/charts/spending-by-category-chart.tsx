@@ -48,15 +48,9 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
     return (
       <div className="bg-card border rounded-lg p-3 shadow-lg max-w-xs">
         <p className="font-medium text-foreground truncate">{data.categoryName}</p>
-        <p className="text-sm text-muted-foreground">
-          Valor: {data.formattedAmount}
-        </p>
-        <p className="text-sm text-muted-foreground">
-          Percentual: {data.percentage.toFixed(1)}%
-        </p>
-        <p className="text-sm text-muted-foreground">
-          Transações: {data.transactionCount}
-        </p>
+        <p className="text-sm text-muted-foreground">Valor: {data.formattedAmount}</p>
+        <p className="text-sm text-muted-foreground">Percentual: {data.percentage.toFixed(1)}%</p>
+        <p className="text-sm text-muted-foreground">Transações: {data.transactionCount}</p>
       </div>
     )
   }
@@ -139,7 +133,7 @@ export function SpendingByCategoryChart({ filters, height = 400, className }: Sp
   // Função personalizada para renderizar labels responsivos
   const renderCustomLabel = ({ categoryName, percentage, cx, cy, midAngle, innerRadius, outerRadius }: any) => {
     if (!config.showLabels) return null
-    
+
     const RADIAN = Math.PI / 180
     const radius = innerRadius + (outerRadius - innerRadius) * 1.2
     const x = cx + radius * Math.cos(-midAngle * RADIAN)
@@ -149,14 +143,13 @@ export function SpendingByCategoryChart({ filters, height = 400, className }: Sp
     if (percentage < 5) return null
 
     return (
-      <text 
-        x={x} 
-        y={y} 
-        fill="hsl(var(--foreground))" 
-        textAnchor={x > cx ? 'start' : 'end'} 
+      <text
+        x={x}
+        y={y}
+        fill="hsl(var(--foreground))"
+        textAnchor={x > cx ? 'start' : 'end'}
         dominantBaseline="central"
-        className="text-xs font-medium"
-      >
+        className="text-xs font-medium">
         {`${percentage.toFixed(0)}%`}
       </text>
     )
@@ -182,35 +175,28 @@ export function SpendingByCategoryChart({ filters, height = 400, className }: Sp
             outerRadius={config.outerRadius}
             dataKey="amount"
             label={config.showLabels ? renderCustomLabel : false}
-            labelLine={false}
-          >
+            labelLine={false}>
             {chartData.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={entry.fill} />
             ))}
           </Pie>
-          <Tooltip 
+          <Tooltip
             content={<CustomTooltip />}
-            wrapperStyle={{ 
+            wrapperStyle={{
               outline: 'none',
-              zIndex: 1000 
+              zIndex: 1000,
             }}
           />
-          <Legend 
+          <Legend
             verticalAlign={config.legendPosition}
             height={config.legendHeight}
             wrapperStyle={{
               paddingTop: breakpoint === 'mobile' ? '20px' : '10px',
-              fontSize: breakpoint === 'mobile' ? '12px' : '14px'
+              fontSize: breakpoint === 'mobile' ? '12px' : '14px',
             }}
             formatter={(value, entry) => (
-              <span 
-                style={{ color: entry.color }}
-                className={breakpoint === 'mobile' ? 'text-xs' : 'text-sm'}
-              >
-                {breakpoint === 'mobile' && value.length > 15 
-                  ? `${value.substring(0, 12)}...` 
-                  : value
-                }
+              <span style={{ color: entry.color }} className={breakpoint === 'mobile' ? 'text-xs' : 'text-sm'}>
+                {breakpoint === 'mobile' && value.length > 15 ? `${value.substring(0, 12)}...` : value}
               </span>
             )}
           />
@@ -218,4 +204,4 @@ export function SpendingByCategoryChart({ filters, height = 400, className }: Sp
       </BaseChart>
     </div>
   )
-} 
+}

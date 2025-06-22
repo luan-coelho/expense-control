@@ -20,21 +20,9 @@ export function TestChart() {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line 
-          type="monotone" 
-          dataKey="income" 
-          stroke="#10b981" 
-          strokeWidth={2}
-          name="Receitas"
-        />
-        <Line 
-          type="monotone" 
-          dataKey="expenses" 
-          stroke="#ef4444" 
-          strokeWidth={2}
-          name="Despesas"
-        />
+        <Line type="monotone" dataKey="income" stroke="#10b981" strokeWidth={2} name="Receitas" />
+        <Line type="monotone" dataKey="expenses" stroke="#ef4444" strokeWidth={2} name="Despesas" />
       </LineChart>
     </BaseChart>
   )
-} 
+}

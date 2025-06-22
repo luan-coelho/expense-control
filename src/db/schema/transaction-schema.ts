@@ -34,4 +34,4 @@ export const transactionsTable = pgTable('transactions', {
 
 // Tipos TypeScript para a tabela de transações
 export type Transaction = typeof transactionsTable.$inferSelect
-export type NewTransaction = typeof transactionsTable.$inferInsert 
+export type NewTransaction = typeof transactionsTable.$inferInsert

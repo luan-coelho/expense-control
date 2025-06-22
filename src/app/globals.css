@@ -154,23 +154,25 @@
   * {
     @apply border-border outline-ring/50;
   }
-  
+
   body {
     @apply bg-background text-foreground;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
   }
-  
+
   /* Melhorar transições de tema */
   html {
     color-scheme: light;
   }
-  
+
   html.dark {
     color-scheme: dark;
   }
-  
+
   /* Evitar flash de conteúdo sem estilo */
-  html[style*="color-scheme: dark"] {
+  html[style*='color-scheme: dark'] {
     color-scheme: dark;
   }
 }

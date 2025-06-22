@@ -1,11 +1,6 @@
 'use client'
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { type CategoryWithRelations } from '@/types/category'
 import { CategoryForm } from './category-form'
 
@@ -17,13 +12,7 @@ interface CategoryModalProps {
   type?: 'INCOME' | 'EXPENSE'
 }
 
-export function CategoryModal({
-  open,
-  onOpenChange,
-  category,
-  parentId,
-  type,
-}: CategoryModalProps) {
+export function CategoryModal({ open, onOpenChange, category, parentId, type }: CategoryModalProps) {
   const isEditing = !!category
   const isCreatingSubcategory = !!parentId
 
@@ -52,7 +41,7 @@ export function CategoryModal({
         <DialogHeader>
           <DialogTitle>{getTitle()}</DialogTitle>
         </DialogHeader>
-        
+
         <CategoryForm
           category={category}
           parentId={parentId}
@@ -64,4 +53,4 @@ export function CategoryModal({
       </DialogContent>
     </Dialog>
   )
-} 
+}

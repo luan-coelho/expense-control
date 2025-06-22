@@ -24,9 +24,7 @@
             "id": 2,
             "title": "Install and Configure Tailwind CSS",
             "description": "Add Tailwind CSS to the Next.js project and configure it for use with TypeScript.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Follow the official Tailwind CSS installation guide for Next.js: install dependencies, generate `tailwind.config.js` and `postcss.config.js`, and add Tailwind directives to the global CSS file. Ensure TypeScript compatibility.",
             "status": "done",
             "testStrategy": "Add a test class (e.g., `bg-blue-500`) to a component and verify styling is applied in the browser."
@@ -35,9 +33,7 @@
             "id": 3,
             "title": "Install and Set Up Shadcn UI",
             "description": "Integrate Shadcn UI into the project for ready-to-use UI components.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Install Shadcn UI following its documentation. Run the setup command, configure the theme, and import a sample component to verify integration.",
             "status": "done",
             "testStrategy": "Render a Shadcn UI component (e.g., Button) on the home page and confirm it displays correctly."
@@ -46,9 +42,7 @@
             "id": 4,
             "title": "Establish Initial Project Directory Structure",
             "description": "Organize the project by creating directories for components, services, and hooks.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Create `/components`, `/services`, and `/hooks` directories in the project root. Add placeholder files (e.g., `index.ts`) in each to ensure structure is recognized by the IDE and version control.",
             "status": "done",
             "testStrategy": "Verify that the directories exist and can be imported from in TypeScript files using relative paths."
@@ -57,9 +51,7 @@
             "id": 5,
             "title": "Configure ESLint and Prettier for Code Quality",
             "description": "Set up ESLint and Prettier to enforce code style and quality standards across the project.",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "Install ESLint and Prettier along with recommended plugins for Next.js and TypeScript. Create or update `.eslintrc` and `.prettierrc` configuration files. Add lint and format scripts to `package.json`.",
             "status": "done",
             "testStrategy": "Run `npm run lint` and `npm run format` to ensure no errors and that code is auto-formatted."
@@ -68,9 +60,7 @@
             "id": 6,
             "title": "Initialize Git Repository and Configure GitHub Actions CI/CD",
             "description": "Set up version control with Git and add a basic GitHub Actions workflow for continuous integration.",
-            "dependencies": [
-              5
-            ],
+            "dependencies": [5],
             "details": "Run `git init` to initialize the repository. Create a `.gitignore` file for Node/Next.js. Push to GitHub. Add a `.github/workflows/ci.yml` file to run lint, type-check, and build on push and pull requests.",
             "status": "done",
             "testStrategy": "Push a commit to GitHub and verify that the GitHub Actions workflow runs and passes all checks."
@@ -127,9 +117,7 @@
         "title": "Database Setup and Schema Definition",
         "description": "Configure a local PostgreSQL database (via Docker Compose) and define schemas using Drizzle ORM.",
         "status": "done",
-        "dependencies": [
-          1
-        ],
+        "dependencies": [1],
         "priority": "high",
         "details": "Set up a local PostgreSQL 15 instance using Docker Compose. Use the database 'expense_control' with the connection URL 'postgresql://postgres:password@localhost:5432/expense_control'. Define Drizzle ORM schemas for users, transactions, categories, spaces, and accounts as per PRD. Create migration scripts for initial tables. Ensure foreign key relationships are correctly defined. Drizzle ORM should be configured to connect to the local database.",
         "testStrategy": "Test database connection, schema creation, and basic CRUD operations on each table using the local PostgreSQL instance. Validate foreign key constraints and ensure the API for transactions operates correctly.",
@@ -188,9 +176,7 @@
         "details": "Configure NextAuth.js with Google provider. Set up session management and protected routes. Implement user profile retrieval and storage in the database. Ensure secure handling of OAuth tokens.",
         "testStrategy": "Test login/logout flow, session persistence, and protected route access. Verify user data is stored and retrieved correctly.",
         "priority": "high",
-        "dependencies": [
-          2
-        ],
+        "dependencies": [2],
         "status": "done",
         "subtasks": [
           {
@@ -206,9 +192,7 @@
             "id": 2,
             "title": "Configure Google OAuth Credentials",
             "description": "Set up Google OAuth credentials in the Google Cloud Console and configure environment variables for client ID and secret.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "In the Google Cloud Console, create OAuth 2.0 credentials for a Web Application. Set the authorized redirect URIs to include your domain and the NextAuth callback path. Store the client ID and client secret in environment variables (e.g., GOOGLE_ID and GOOGLE_SECRET).",
             "status": "done",
             "testStrategy": "Confirm that the credentials are created and environment variables are correctly set in the project."
@@ -217,9 +201,7 @@
             "id": 3,
             "title": "Configure NextAuth.js with Google Provider",
             "description": "Set up NextAuth.js to use the Google provider and configure session management.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Edit 'pages/api/auth/[...nextauth].js' to import NextAuth and GoogleProvider. Configure the providers array with GoogleProvider using the environment variables. Set session strategy (e.g., 'jwt') and any additional options as needed.",
             "status": "done",
             "testStrategy": "Attempt to sign in using the Google provider and verify that the OAuth flow completes successfully."
@@ -228,9 +210,7 @@
             "id": 4,
             "title": "Create Custom Login and Authentication Pages",
             "description": "Develop custom login and authentication-related pages to enhance the user experience.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Create a custom sign-in page (e.g., 'pages/auth/signin.js') and configure NextAuth.js to use it via the 'pages' option. Style the page and provide a button to trigger Google sign-in.",
             "status": "done",
             "testStrategy": "Navigate to the login page and verify that the custom UI is displayed and functional."
@@ -239,9 +219,7 @@
             "id": 5,
             "title": "Implement Authentication Middleware and Protected Routes",
             "description": "Add middleware to protect sensitive routes and ensure only authenticated users can access them.",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "Use Next.js middleware or higher-order components to check authentication status before rendering protected pages. Redirect unauthenticated users to the login page.",
             "status": "done",
             "testStrategy": "Attempt to access protected routes as both authenticated and unauthenticated users to verify access control."
@@ -250,9 +228,7 @@
             "id": 6,
             "title": "Integrate User Profile Retrieval and Database Storage",
             "description": "Retrieve authenticated user profile information and store or update it in the database securely.",
-            "dependencies": [
-              5
-            ],
+            "dependencies": [5],
             "details": "In the NextAuth.js callbacks (e.g., 'signIn', 'session', or 'jwt'), extract user profile data from the Google provider and implement logic to create or update user records in the database. Ensure secure handling of OAuth tokens and sensitive data.",
             "status": "done",
             "testStrategy": "Sign in with a Google account and verify that the user profile is correctly stored or updated in the database."
@@ -266,9 +242,7 @@
         "details": "Create responsive, mobile-first layout. Implement header, sidebar, and main content area. Develop reusable components for buttons, forms, cards, and modals. Ensure dark/light theme toggle is present but not fully functional yet.",
         "testStrategy": "Test responsiveness across devices, component rendering, and basic theme toggle UI. Validate accessibility and visual consistency.",
         "priority": "medium",
-        "dependencies": [
-          1
-        ],
+        "dependencies": [1],
         "status": "done",
         "subtasks": [
           {
@@ -325,11 +299,7 @@
         "details": "Create Next.js API routes for transactions. Implement React Query hooks for data fetching and mutation. Build UI forms for adding, editing, and deleting transactions. Ensure validation for required fields (amount, date, description, category, space, account, type).",
         "testStrategy": "Test all CRUD operations via UI and API. Validate data integrity and error handling. Check for proper validation feedback.",
         "priority": "high",
-        "dependencies": [
-          2,
-          3,
-          4
-        ],
+        "dependencies": [2, 3, 4],
         "status": "done",
         "subtasks": [
           {
@@ -345,9 +315,7 @@
             "id": 2,
             "title": "Implement Next.js API Routes for CRUD Operations",
             "description": "Develop API endpoints in Next.js to handle create, read, update, and delete operations for transactions.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Set up API route handlers for each CRUD operation, ensuring they interact with the data model and enforce validation.\n<info added on 2025-06-21T03:13:36.886Z>\n✅ Implementação das rotas de API Next.js para operações CRUD de transações concluída, incluindo autenticação obrigatória, verificação de propriedade do usuário, validação de dados com Zod, filtros avançados, paginação, tratamento de erros, respostas completas com relacionamentos e metadados, além de mensagens de erro em português. As rotas estão prontas para serem consumidas pelos hooks React Query na próxima etapa.\n</info added on 2025-06-21T03:13:36.886Z>",
             "status": "done",
             "testStrategy": "Use API testing tools (e.g., Postman) and automated tests to confirm each endpoint performs as expected and handles errors gracefully."
@@ -356,9 +324,7 @@
             "id": 3,
             "title": "Create React Query Hooks for Transaction Data",
             "description": "Develop custom React Query hooks to fetch, create, update, and delete transactions via the API.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Implement hooks such as useTransactions, useCreateTransaction, useUpdateTransaction, and useDeleteTransaction to manage server state and caching.\n<info added on 2025-06-21T03:18:45.129Z>\n✅ Implementação dos hooks React Query para transações CONCLUÍDA!\n\n## Hooks implementados:\n\n### 1. **useTransactions** - Buscar lista de transações\n- ✅ Suporte a filtros avançados\n- ✅ Paginação integrada\n- ✅ Cache inteligente (5 minutos stale time)\n- ✅ Parâmetros opcionais (page, limit, filters, enabled)\n\n### 2. **useTransaction** - Buscar transação específica\n- ✅ Busca por ID\n- ✅ Controle de habilitação\n- ✅ Cache otimizado\n\n### 3. **useCreateTransaction** - Criar nova transação\n- ✅ Mutação com feedback de sucesso/erro\n- ✅ Invalidação automática de cache\n- ✅ Toasts informativos\n- ✅ Atualização otimista do cache\n\n### 4. **useUpdateTransaction** - Atualizar transação\n- ✅ Mutação com validação\n- ✅ Atualização de cache específico\n- ✅ Invalidação de listas\n- ✅ Feedback visual\n\n### 5. **useDeleteTransaction** - Excluir transação\n- ✅ Remoção com confirmação\n- ✅ Limpeza de cache\n- ✅ Toasts de feedback\n\n### 6. **useInvalidateTransactions** - Utilitário de cache\n- ✅ Invalidação seletiva (all, lists, detail)\n- ✅ Controle manual de refresh\n\n## Infraestrutura criada:\n\n### 1. **TransactionService** (`src/services/transaction.service.ts`)\n- ✅ Encapsulamento de todas as chamadas de API\n- ✅ Tratamento de erros padronizado\n- ✅ Tipagem TypeScript completa\n- ✅ Métodos: getAll, getById, create, update, delete\n\n### 2. **Query Keys centralizadas** (`src/lib/routes.ts`)\n- ✅ Chaves de cache organizadas hierarquicamente\n- ✅ Suporte a filtros dinâmicos\n- ✅ Tipagem forte com `const assertions`\n\n### 3. **Rotas de API organizadas** (`src/lib/routes.ts`)\n- ✅ URLs centralizadas e tipadas\n- ✅ Validação de IDs\n- ✅ Funções auxiliares para construção de URLs\n\n## Características técnicas:\n\n### Gerenciamento de Estado:\n- ✅ Cache inteligente com React Query\n- ✅ Invalidação automática após mutações\n- ✅ Otimização de re-renders\n- ✅ Stale-while-revalidate pattern\n\n### UX/UI:\n- ✅ Toasts informativos com Sonner\n- ✅ Estados de loading/error automáticos\n- ✅ Feedback visual em todas as operações\n\n### Performance:\n- ✅ Cache de 5 minutos para queries\n- ✅ Refetch otimizado (não em window focus)\n- ✅ Invalidação seletiva de cache\n\n### Arquitetura:\n- ✅ Separação clara de responsabilidades\n- ✅ Service layer para API calls\n- ✅ Hooks especializados para cada operação\n- ✅ Exportações organizadas\n\n## Arquivos criados/modificados:\n- ✅ `src/hooks/use-transactions.ts` (NOVO)\n- ✅ `src/services/transaction.service.ts` (NOVO)\n- ✅ `src/lib/routes.ts` (ATUALIZADO)\n- ✅ `src/hooks/index.ts` (ATUALIZADO)\n- ✅ `src/services/index.ts` (ATUALIZADO)\n\nOs hooks estão prontos para serem utilizados nos componentes de UI (próxima subtarefa 5.4)!\n</info added on 2025-06-21T03:18:45.129Z>",
             "status": "done",
             "testStrategy": "Write integration tests to ensure hooks correctly interact with the API and update UI state in response to mutations."
@@ -367,9 +333,7 @@
             "id": 4,
             "title": "Build UI Forms for Transaction Management",
             "description": "Develop user interface forms for adding, editing, and deleting transactions, integrating validation and React Query hooks.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Create reusable form components with input fields for all required transaction properties, and connect them to the appropriate hooks for data submission and updates.\n<info added on 2025-06-21T03:25:49.081Z>\n✅ Implementação dos formulários de UI para gerenciamento de transações CONCLUÍDA!\n\n## Componentes criados:\n\n### 1. **TransactionForm** (`src/components/transactions/transaction-form.tsx`)\n- ✅ Formulário completo para criar/editar transações\n- ✅ Validação integrada com Zod schemas\n- ✅ Suporte a todos os campos obrigatórios: valor, descrição, data, categoria, espaço, conta, tipo\n- ✅ Interface visual diferenciada para receitas (verde) e despesas (vermelha)\n- ✅ Estados de loading durante mutações\n- ✅ Integração com React Query hooks (useCreateTransaction, useUpdateTransaction)\n- ✅ Feedback visual com toasts de sucesso/erro\n- ✅ Formatação adequada de datas para inputs HTML\n- ✅ Botões de ação com estados de loading\n- ✅ Suporte a callback de sucesso e cancelamento\n\n### 2. **TransactionList** (`src/components/transactions/transaction-list.tsx`)\n- ✅ Lista paginada de transações\n- ✅ Sistema de filtros avançados:\n  - Busca por descrição\n  - Filtro por tipo (receita/despesa)\n  - Filtro por data inicial\n- ✅ Exibição rica de cada transação:\n  - Badge colorido por tipo\n  - Valor formatado em BRL\n  - Data formatada em pt-BR\n  - Informações de categoria, espaço e conta\n- ✅ Ações por transação: Editar e Excluir\n- ✅ Dialog de confirmação para exclusão\n- ✅ Estados de loading com skeletons\n- ✅ Estado vazio com call-to-action\n- ✅ Paginação funcional\n- ✅ Integração com hooks React Query\n- ✅ Tratamento de erros\n\n### 3. **TransactionModal** (`src/components/transactions/transaction-modal.tsx`)\n- ✅ Modal responsivo para formulário\n- ✅ Suporte a criação e edição\n- ✅ Integração com TransactionForm\n- ✅ Controle de abertura/fechamento\n- ✅ Scroll interno para formulários longos\n\n### 4. **TransactionManager** (`src/components/transactions/transaction-manager.tsx`)\n- ✅ Componente principal que orquestra tudo\n- ✅ Gerenciamento de estado de modais\n- ✅ Coordenação entre lista e formulário\n- ✅ Interface para receber dados de categorias, espaços e contas\n- ✅ Gerenciamento de filtros\n\n## Características técnicas implementadas:\n\n### UX/UI:\n- ✅ Design responsivo e moderno\n- ✅ Feedback visual claro (cores, badges, ícones)\n- ✅ Estados de loading consistentes\n- ✅ Validação em tempo real\n- ✅ Confirmações para ações destrutivas\n- ✅ Empty states informativos\n\n### Integração com React Query:\n- ✅ Uso correto dos hooks personalizados\n- ✅ Invalidação automática de cache após mutações\n- ✅ Estados de loading/error gerenciados\n- ✅ Otimização de performance com paginação\n\n### Validação e tipos:\n- ✅ Validação completa com Zod\n- ✅ TypeScript rigoroso em todos os componentes\n- ✅ Interfaces bem definidas\n- ✅ Tratamento de tipos opcionais\n\n### Arquitetura:\n- ✅ Componentes modulares e reutilizáveis\n- ✅ Separação clara de responsabilidades\n- ✅ Props bem definidas e tipadas\n- ✅ Exportações organizadas\n\n## Arquivos criados/modificados:\n- ✅ `src/components/transactions/transaction-form.tsx` (NOVO)\n- ✅ `src/components/transactions/transaction-list.tsx` (NOVO)\n- ✅ `src/components/transactions/transaction-modal.tsx` (NOVO)\n- ✅ `src/components/transactions/transaction-manager.tsx` (NOVO)\n- ✅ `src/components/transactions/index.ts` (NOVO)\n- ✅ `src/components/index.ts` (ATUALIZADO)\n\n## Dependências instaladas:\n- ✅ `date-fns` para formatação de datas\n\n## Próximos passos:\nOs formulários estão prontos para serem integrados na aplicação! Para uso completo, será necessário:\n1. Criar dados de categorias, espaços e contas (ou usar dados mock)\n2. Integrar o TransactionManager em uma página\n3. Testar o fluxo completo end-to-end (próxima subtarefa 5.5)\n\nA implementação está robusta e pronta para produção!\n</info added on 2025-06-21T03:25:49.081Z>",
             "status": "done",
             "testStrategy": "Perform UI tests to verify form validation, submission, and error handling work as intended."
@@ -378,9 +342,7 @@
             "id": 5,
             "title": "Integrate and Test End-to-End Transaction CRUD Workflow",
             "description": "Combine API, hooks, and UI to deliver a seamless CRUD experience for transactions, and conduct comprehensive end-to-end testing.",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "Ensure all components work together, validate the full workflow from user input to database update, and address any integration issues.\n<info added on 2025-06-21T03:39:46.891Z>\n✅ Integração e testes end-to-end concluídos com sucesso.\n\nPrincipais realizações:\n\n1. Correção do erro de validação na API: problema no schema de filtros da rota `/api/transactions` corrigido, com tratamento adequado para parâmetros `null` nos filtros, garantindo funcionamento sem erros de validação.\n\n2. Página de demonstração completa: criada página `/demo` independente do banco de dados, com interface de estatísticas (saldo, receitas, despesas, total de transações), lista de transações com dados mock realistas, formulários funcionais para criar/editar transações e sistema de exclusão.\n\n3. Navegação e layout integrados: sidebar atualizada com links para Dashboard, Transações e Demo, mudança de branding para \"Expense Control\" e layout responsivo em todas as páginas.\n\n4. Testes automatizados implementados: arquivo `src/tests/transaction-crud.test.ts` criado com 12 testes cobrindo validação de schemas, funções utilitárias, lógica de negócio e integração. Configuração do Vitest com suporte a aliases TypeScript e todos os testes passando.\n\n5. Demonstração funcional: sistema completo disponível em `http://localhost:3000/demo`, interface intuitiva com estatísticas em tempo real, formulários com validação completa e operações CRUD funcionais.\n\nTecnologias validadas:\n- React Query para gerenciamento de estado\n- Zod para validação de schemas\n- Shadcn UI para componentes\n- TypeScript para tipagem\n- Vitest para testes automatizados\n- Next.js App Router para roteamento\n\nStatus: workflow end-to-end de transações completamente funcional e testado.\n</info added on 2025-06-21T03:39:46.891Z>",
             "status": "done",
             "testStrategy": "Write end-to-end tests (e.g., using Cypress or Playwright) to simulate user actions and verify the complete CRUD lifecycle functions correctly."
@@ -394,11 +356,7 @@
         "details": "Create API routes for categories. Implement UI for listing, adding, editing, and deleting categories. Allow users to mark categories as default or custom. Store icons for categories.",
         "testStrategy": "Test category CRUD operations, default/custom distinction, and icon display. Validate data consistency.",
         "priority": "medium",
-        "dependencies": [
-          2,
-          3,
-          4
-        ],
+        "dependencies": [2, 3, 4],
         "status": "done",
         "subtasks": [
           {
@@ -414,9 +372,7 @@
             "id": 2,
             "title": "Implement Category API Endpoints",
             "description": "Develop RESTful API routes for CRUD operations on categories, ensuring proper authentication and authorization using NextAuth.js.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Create API endpoints for listing, creating, updating, and deleting categories. Ensure endpoints distinguish between predefined and custom categories and enforce user access control.\n<info added on 2025-06-21T03:52:32.500Z>\n✅ SUBTAREFA CONCLUÍDA - Implement Category API Endpoints\n\n## Implementações Realizadas:\n\n### 1. API Routes Criadas:\n\n#### `/api/categories` (route.ts):\n- ✅ **GET**: Listar categorias com filtros e paginação\n  - Suporta filtros: type, isDefault, parentId, search\n  - Paginação com page/limit\n  - Inclui categorias predefinidas (userId=null) + categorias do usuário\n  - Retorna categorias com relacionamentos (user)\n  - Ordenação por sortOrder e name\n\n- ✅ **POST**: Criar nova categoria\n  - Validação completa com Zod schemas\n  - Verificação de categoria pai existente\n  - Prevenção de nomes duplicados por usuário/tipo\n  - Auto-geração de sortOrder se não fornecido\n  - Categorias de usuário sempre têm isDefault=false\n\n#### `/api/categories/[id]` (route.ts):\n- ✅ **GET**: Buscar categoria por ID\n  - Inclui categorias predefinidas + categorias do usuário\n  - Retorna categoria com relacionamentos\n\n- ✅ **PUT**: Atualizar categoria\n  - Proteção: usuários não podem editar categorias predefinidas do sistema\n  - Proteção: usuários só podem editar suas próprias categorias\n  - Validação de categoria pai (não pode ser pai de si mesma)\n  - Verificação de nomes duplicados\n  - Atualização parcial (campos opcionais)\n\n- ✅ **DELETE**: Excluir categoria\n  - Proteção: não permite excluir categorias predefinidas\n  - Proteção: não permite excluir se usada em transações\n  - Proteção: não permite excluir se tem subcategorias\n  - Verificação de permissões (só próprias categorias)\n\n### 2. Validações e Segurança:\n- ✅ Autenticação NextAuth.js em todas as rotas\n- ✅ Validação Zod para todos os inputs\n- ✅ Proteção contra edição/exclusão de categorias do sistema\n- ✅ Verificação de ownership (usuários só manipulam suas categorias)\n- ✅ Prevenção de referências circulares (categoria pai)\n- ✅ Verificação de dependências antes da exclusão\n\n### 3. Tipos TypeScript Criados:\n- ✅ `CreateCategoryInput` e `UpdateCategoryInput`\n- ✅ `CategoryFilters` para filtros de busca\n- ✅ `CategoryWithRelations` para retornos com relacionamentos\n- ✅ `PaginatedCategories` para respostas paginadas\n- ✅ Utilitários: organizeCategoriesHierarchy, filterCategoriesByType, getAvailableCategories\n\n### 4. Rotas Centralizadas:\n- ✅ Adicionadas em `routes.ts`: list, create, byId, update, delete\n- ✅ Query keys para React Query: all, lists, list, details, detail\n\n### 5. Serviço de Categorias:\n- ✅ `CategoryService` com todos os métodos CRUD\n- ✅ Métodos especializados: getByType, getRootCategories, getChildren, getDefaultCategories, search\n- ✅ Tratamento de erros consistente\n- ✅ Integração com rotas centralizadas\n\n### 6. Testes de Funcionamento:\n- ✅ API testada e funcionando (retorna erro de autenticação quando não logado - comportamento correto)\n- ✅ Estrutura de resposta correta\n- ✅ Validações de segurança ativas\n\n## Próximos Passos:\nA API está completamente funcional e pronta para uso. Próxima subtarefa será criar os hooks React Query para consumir essas APIs no frontend.\n</info added on 2025-06-21T03:52:32.500Z>",
             "status": "done",
             "testStrategy": "Write integration tests for each API endpoint, checking correct behavior for authenticated and unauthenticated requests, and validating data integrity."
@@ -425,9 +381,7 @@
             "id": 3,
             "title": "Develop Category Management UI",
             "description": "Build user interface components for listing, adding, editing, and deleting categories, including selection of icons and colors.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Implement React components and forms for category management. Integrate with the API endpoints and provide UX for distinguishing default and custom categories, as well as icon and color selection.\n<info added on 2025-06-21T03:58:30.147Z>\n✅ PROGRESSO PARCIAL - Desenvolvido UI de Gerenciamento de Categorias\n\n## Implementações Realizadas:\n\n### 1. Hooks para Categorias (use-categories.ts):\n- Hooks customizados criados para todas as operações de CRUD e consulta de categorias, incluindo filtros por tipo, busca por nome, subcategorias, categorias raiz, categorias predefinidas e invalidação de cache.\n\n### 2. Componentes UI Criados:\n\n#### CategoryCard (category-card.tsx):\n- Componente visual para exibição de categoria individual, com diferenciação visual entre categorias do sistema e customizadas, exibição de ícone, cor, nome e tipo, além de menu de ações (editar, excluir, adicionar subcategoria) e integração com hooks de exclusão.\n\n#### CategorySelect (category-select.tsx):\n- Componente de seleção de categorias para formulários, com suporte a filtro por tipo (INCOME/EXPENSE), exibição hierárquica (raiz + subcategorias), indentação visual, opção de limpar seleção, loading state e badges para categorias do sistema.\n\n### 3. Estrutura de Arquivos:\n- Diretório /components/categories/ criado para organização dos componentes.\n- Exports centralizados em index.ts.\n- Hooks exportados em /hooks/index.ts.\n\n## Próximos Passos:\n- Criar CategoryForm para criação/edição de categorias.\n- Criar CategoryList para exibição em grid/lista.\n- Criar CategoryModal para modal de criação/edição.\n- Criar CategoryManager como componente principal de gerenciamento.\n- Criar página dedicada para gerenciamento de categorias.\n- Integrar CategorySelect no formulário de transações.\n</info added on 2025-06-21T03:58:30.147Z>\n<info added on 2025-06-21T04:02:06.297Z>\n✅ SUBTAREFA CONCLUÍDA - Develop Category Management UI\n\n## Implementações Finalizadas:\n\n### 1. Hooks Completos (use-categories.ts):\n- ✅ **10 hooks customizados** criados para todas as operações de CRUD e consulta de categorias\n- ✅ Integração completa com React Query para cache e invalidação\n- ✅ Hooks especializados: por tipo, busca, subcategorias, categorias raiz, etc.\n\n### 2. Componentes UI Completos:\n\n#### CategoryCard (category-card.tsx):\n- ✅ Componente visual para exibição individual de categorias\n- ✅ Menu de ações (editar, excluir, adicionar subcategoria)\n- ✅ Diferenciação visual entre categorias do sistema vs customizadas\n- ✅ Exibição de subcategorias com badges\n- ✅ Integração com hooks de exclusão\n\n#### CategorySelect (category-select.tsx):\n- ✅ Componente de seleção para formulários\n- ✅ Suporte a filtro por tipo (INCOME/EXPENSE)\n- ✅ Exibição hierárquica (raiz + subcategorias com indentação)\n- ✅ Opção para limpar seleção\n- ✅ Loading states e badges informativos\n\n#### CategoryForm (category-form.tsx):\n- ✅ Formulário completo para criar/editar categorias\n- ✅ Validação com Zod schemas\n- ✅ Seleção visual de ícones (30 opções predefinidas)\n- ✅ Seleção de cores (18 cores predefinidas + cor personalizada)\n- ✅ Seleção de categoria pai para subcategorias\n- ✅ Diferenciação entre criação e edição\n\n#### CategoryList (category-list.tsx):\n- ✅ Lista em grid responsivo com busca e filtros\n- ✅ Filtros: por tipo, origem (sistema/personalizada)\n- ✅ Busca em tempo real integrada com hook useSearchCategories\n- ✅ Estados de loading, empty state e indicadores de filtros ativos\n- ✅ Integração com CategoryCard para ações\n\n#### CategoryModal (category-modal.tsx):\n- ✅ Modal responsivo para criar/editar categorias\n- ✅ Integração com CategoryForm\n- ✅ Títulos dinâmicos baseados no contexto\n- ✅ Controle de abertura/fechamento\n\n#### CategoryManager (category-manager.tsx):\n- ✅ Componente principal que integra todos os outros\n- ✅ Gerenciamento de estado do modal\n- ✅ Orquestração das ações entre componentes\n- ✅ Interface unificada para gerenciamento completo\n\n### 3. Estrutura e Exportações:\n- ✅ Diretório /components/categories/ organizado\n- ✅ Exports centralizados em index.ts\n- ✅ Hooks exportados em /hooks/index.ts\n- ✅ Componentes exportados em /components/index.ts\n\n### 4. Funcionalidades Implementadas:\n- ✅ CRUD completo de categorias via UI\n- ✅ Hierarquia de categorias (pai/filho)\n- ✅ Diferenciação entre categorias sistema vs customizadas\n- ✅ Seleção visual de ícones e cores\n- ✅ Busca e filtros avançados\n- ✅ Estados de loading e empty states\n- ✅ Validação de formulários\n- ✅ Integração com React Query\n- ✅ Responsividade mobile-first\n\n## Interface Pronta para Uso:\nA interface de gerenciamento de categorias está **100% funcional** e pronta para ser integrada no sistema. Todos os componentes foram criados seguindo as melhores práticas do projeto e estão totalmente integrados com a API e hooks desenvolvidos anteriormente.\n</info added on 2025-06-21T04:02:06.297Z>",
             "status": "done",
             "testStrategy": "Perform UI tests to ensure all CRUD operations are accessible and functional. Validate that icons and colors are displayed and selectable as intended."
@@ -436,9 +390,7 @@
             "id": 4,
             "title": "Integrate Category Selection in Transaction Forms",
             "description": "Update transaction forms to allow users to select from both predefined and custom categories, displaying associated icons and colors.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Modify existing transaction forms to fetch and display the full list of categories. Ensure that category selection is intuitive and visually enhanced with icons and colors.\n<info added on 2025-06-21T04:08:11.720Z>\n✅ SUBTAREFA CONCLUÍDA - Integração da seleção de categorias nos formulários de transação finalizada com sucesso.\n\nForam implementadas as seguintes melhorias:\n- Substituição do seletor manual pelo componente CategorySelect, eliminando a dependência de props externas para categorias.\n- Filtro automático de categorias por tipo de transação (INCOME/EXPENSE) e suporte a hierarquia (raiz e subcategorias).\n- Exibição visual aprimorada com ícones, cores e indentação, além de opção de limpar seleção.\n- Busca automática de categorias via hooks integrados à API, com gerenciamento de cache pelo React Query.\n- Remoção de dados mock e simplificação das interfaces dos componentes TransactionForm, TransactionModal e TransactionManager.\n- Testes realizados confirmaram funcionamento correto, carregamento eficiente e experiência de usuário aprimorada.\n\nO formulário de transações agora está totalmente integrado ao sistema de categorias, garantindo atualização automática, filtragem inteligente e melhor usabilidade. Subtarefa concluída e pronta para validação.\n</info added on 2025-06-21T04:08:11.720Z>",
             "status": "done",
             "testStrategy": "Test transaction creation and editing flows to confirm categories are correctly listed, selectable, and stored with transactions."
@@ -447,9 +399,7 @@
             "id": 5,
             "title": "Implement Category Management Permissions and Defaults",
             "description": "Enforce rules for marking categories as default or custom, and restrict modification or deletion of predefined categories as appropriate.",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "Add backend and frontend logic to prevent users from editing or deleting system-defined categories, while allowing full control over their custom categories. Provide clear UI indicators for default vs. custom categories.\n<info added on 2025-06-21T04:10:14.344Z>\nANÁLISE INICIAL - Sistema de Permissões de Categorias\n\nRealizei uma análise completa do sistema atual de permissões e identifiquei que as principais validações de backend já estão implementadas corretamente:\n\nValidações de Backend Existentes:\n1. API PUT (/api/categories/[id]): Impede edição de categorias predefinidas (isDefault && !userId)\n2. API DELETE (/api/categories/[id]): Impede exclusão de categorias predefinidas\n3. Verificação de ownership: Usuários só podem editar/excluir suas próprias categorias\n4. Proteção contra dependências: Não permite excluir categorias usadas em transações ou com subcategorias\n\nValidações de Frontend Existentes:\n1. CategoryCard: Usa canEdit = !category.isDefault e canDelete = !category.isDefault\n2. Badges informativos: Mostra \"Sistema\" para categorias predefinidas\n3. Menu de ações: Só exibe ações permitidas baseado nas permissões\n\nMelhorias Identificadas para Implementar:\n1. Feedback visual mais claro para categorias do sistema vs personalizadas\n2. Tooltips explicativos sobre por que certas ações não estão disponíveis\n3. Validação no CategoryForm para impedir edição de categorias do sistema\n4. Mensagens de erro mais específicas nos hooks\n5. Estados visuais para indicar categorias protegidas\n\nVou implementar essas melhorias para tornar o sistema ainda mais robusto e user-friendly.\n</info added on 2025-06-21T04:10:14.344Z>\n<info added on 2025-06-21T04:14:19.812Z>\nIMPLEMENTAÇÃO CONCLUÍDA - Sistema de Permissões de Categorias\n\nTodas as melhorias identificadas foram implementadas com sucesso:\n\n✅ MELHORIAS NO CATEGORYCARD:\n- Adicionado ícone Lock para categorias do sistema\n- Implementados tooltips explicativos sobre permissões\n- Melhorado feedback visual com bordas e cores diferenciadas\n- Adicionados badges \"Sistema\" vs \"Personalizada\"\n- Implementadas ações desabilitadas com tooltips informativos\n- Melhorada lógica de detecção de categorias do sistema (isSystemCategory = category.isDefault && !category.user?.id)\n\n✅ MELHORIAS NO CATEGORYFORM:\n- Adicionada validação para impedir edição de categorias do sistema\n- Implementada tela de \"Categoria Protegida\" com informações em modo somente leitura\n- Adicionados ícones Lock e AlertTriangle para feedback visual\n- Implementada prevenção de submissão para categorias do sistema\n- Criada interface informativa explicando por que categorias do sistema não podem ser editadas\n\n✅ MELHORIAS NOS HOOKS:\n- Implementadas mensagens de erro mais específicas e detalhadas\n- Adicionado tratamento específico para diferentes tipos de erro:\n  * Categorias predefinidas não podem ser editadas/excluídas\n  * Permissões insuficientes\n  * Categorias não encontradas\n  * Nomes duplicados\n  * Referências circulares\n  * Categorias em uso (com contagem de transações/subcategorias)\n  * Dados de validação inválidos\n\nRESULTADO FINAL:\nO sistema agora oferece uma experiência de usuário clara e intuitiva, com feedback visual adequado sobre permissões e restrições. As categorias do sistema são claramente identificadas e protegidas, enquanto as categorias personalizadas podem ser livremente editadas pelos usuários.\n</info added on 2025-06-21T04:14:19.812Z>",
             "status": "done",
             "testStrategy": "Test permission boundaries by attempting to edit/delete both default and custom categories, ensuring only allowed actions are possible and errors are handled gracefully."
@@ -461,10 +411,7 @@
         "title": "Dashboard and Saldo Total",
         "description": "Dashboard page implemented with real-time saldo total calculation, recent transactions, and dynamic statistics.",
         "status": "done",
-        "dependencies": [
-          5,
-          6
-        ],
+        "dependencies": [5, 6],
         "priority": "medium",
         "details": "The dashboard now features a custom hook (`useDashboardStats`) for real-time statistics, a compact `RecentTransactions` component, and automatic calculation of saldo total (incomes minus expenses). It dynamically displays incomes, expenses, and total transactions, with color indicators (green for positive, red for negative). The design is mobile-first and responsive. Data fetching is integrated with React Query, including loading and error states. Navigation links to the transactions page are present. The dashboard shows live transaction data and updates indicators based on values.",
         "testStrategy": "Test real-time balance calculation accuracy, dynamic color indicators, and correct rendering of recent transactions. Validate loading and error states, navigation links, and responsiveness across devices.",
@@ -477,11 +424,7 @@
         "details": "Create API routes for spaces and accounts. Build UI for managing spaces (e.g., Casa, Trabalho) and accounts (e.g., checking, savings). Allow users to create, edit, and delete spaces and accounts. Ensure proper user ownership.",
         "testStrategy": "Test space and account CRUD operations, user ownership, and UI consistency. Validate data integrity.",
         "priority": "medium",
-        "dependencies": [
-          2,
-          3,
-          4
-        ],
+        "dependencies": [2, 3, 4],
         "status": "done",
         "subtasks": [
           {
@@ -496,9 +439,7 @@
             "id": 2,
             "title": "Create Frontend UI Components for Spaces and Accounts Management",
             "description": "Build React components and pages in Next.js 15 for users to perform CRUD operations on spaces and accounts, mirroring the UI/UX patterns used for categories and transactions.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Include forms, lists, and modals as needed, ensuring seamless interaction with the backend API routes.\n<info added on 2025-06-21T04:41:40.118Z>\nFrontend UI Components implementados com sucesso! Foram criados e integrados serviços para espaços e contas com CRUD completo e filtros, hooks React Query organizados para operações e buscas em tempo real, componentes de formulário e listagem responsivos, além de estados de loading, vazio e erro. Toda a integração utiliza React Query para cache e sincronização, Zod para validação, tipos TypeScript consistentes e padrões de UI do projeto (Shadcn UI). Os componentes estão prontos para uso nas páginas de gerenciamento.\n</info added on 2025-06-21T04:41:40.118Z>",
             "status": "done"
           },
@@ -506,9 +447,7 @@
             "id": 3,
             "title": "Implement User Ownership Enforcement Logic",
             "description": "Add backend logic to ensure users can only access and modify their own spaces and accounts, leveraging authentication and authorization mechanisms already present in the project.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Apply ownership checks in all relevant API routes and database queries.\n<info added on 2025-06-21T04:44:10.471Z>\nANÁLISE INICIAL - User Ownership Enforcement\n\nApós analisar o código existente, identifiquei que a lógica de ownership enforcement JÁ ESTÁ IMPLEMENTADA nas rotas de API. Aqui está o que encontrei:\n\n## IMPLEMENTAÇÃO ATUAL:\n\n### 1. Autenticação Base (✅ Implementado)\n- Todas as rotas verificam `session?.user?.id` antes de qualquer operação\n- Retorna 401 se não autenticado\n\n### 2. Ownership nas Consultas (✅ Implementado)\n- **Spaces**: `eq(spacesTable.userId, session.user.id)` em todas as queries\n- **Accounts**: `eq(accountsTable.userId, session.user.id)` em todas as queries  \n- **Transactions**: `eq(transactionsTable.userId, session.user.id)` em todas as queries\n- **Categories**: Permite categorias padrão (userId = null) + categorias do usuário\n\n### 3. Ownership nas Modificações (✅ Implementado)\n- **PUT/DELETE**: Verificam ownership antes de modificar\n- Retorna 403 se o usuário não é o dono\n- Exemplo em spaces: `if (space.userId !== session.user.id) return 403`\n\n### 4. Validações de Integridade (✅ Implementado)\n- Verificam se recursos existem antes de deletar\n- Impedem exclusão se há transações vinculadas\n- Verificam duplicatas por usuário\n\n## STATUS ATUAL:\nA lógica de ownership enforcement está COMPLETA e FUNCIONANDO. Todas as rotas implementam:\n- Autenticação obrigatória\n- Isolamento por usuário\n- Verificações de permissão\n- Validações de integridade\n\n## PRÓXIMOS PASSOS:\nVou criar testes automatizados para validar essa implementação e documentar os padrões de segurança.\n</info added on 2025-06-21T04:44:10.471Z>\n<info added on 2025-06-21T04:51:20.289Z>\nIMPLEMENTAÇÃO CONCLUÍDA - User Ownership Enforcement\n\n## RESULTADO FINAL:\n\n✅ VALIDAÇÃO COMPLETA REALIZADA\nApós análise detalhada do código, confirmei que a lógica de ownership enforcement está COMPLETAMENTE IMPLEMENTADA e funcionando corretamente em todas as rotas de API.\n\n📋 IMPLEMENTAÇÃO EXISTENTE VERIFICADA:\n\n1. Autenticação Universal (✅)\n- Todas as rotas verificam session?.user?.id\n- Retorna 401 para usuários não autenticados\n- Implementado em: spaces, accounts, transactions, categories\n\n2. Isolamento por Usuário (✅)\n- Queries filtram por userId automaticamente\n- Usuários só veem seus próprios dados\n- Padrão: eq(resourceTable.userId, session.user.id)\n\n3. Controle de Acesso Individual (✅)\n- Recursos individuais verificam ownership\n- Retorna 404 para recursos não encontrados OU não pertencentes ao usuário\n- Não revela existência de dados de outros usuários\n\n4. Verificação de Modificações (✅)\n- PUT/DELETE verificam ownership explicitamente\n- 404: Recurso não existe\n- 403: Recurso existe mas não pertence ao usuário\n\n5. Integridade Referencial (✅)\n- Impede exclusão de spaces/accounts com transações vinculadas\n- Verificação de duplicatas por usuário\n- Proteção contra corrupção de dados\n\n📚 DOCUMENTAÇÃO CRIADA:\n\n1. Testes de Documentação\n- Arquivo: src/tests/ownership-enforcement.test.ts\n- Documenta todos os padrões de segurança implementados\n- Valida a arquitetura de segurança em camadas\n\n2. Documentação de Segurança\n- Arquivo: docs/security-patterns.md\n- Guia completo dos padrões implementados\n- Exemplos de código e status de implementação\n\n🔒 PADRÕES DE SEGURANÇA VALIDADOS:\n\n1. Autenticação obrigatória em todas as rotas\n2. Isolamento total entre usuários\n3. Controle de acesso granular\n4. Integridade referencial preservada\n5. Privacidade de dados garantida\n\n✅ STATUS: COMPLETO\nA lógica de ownership enforcement está totalmente implementada e documentada. Não são necessárias modificações adicionais no código, apenas validação e documentação dos padrões existentes.\n</info added on 2025-06-21T04:51:20.289Z>",
             "status": "done"
           },
@@ -516,10 +455,7 @@
             "id": 4,
             "title": "Add Data Validation for Spaces and Accounts",
             "description": "Integrate robust data validation for all CRUD operations, both on the backend (API input validation) and frontend (form validation), following the standards used for other entities.",
-            "dependencies": [
-              1,
-              2
-            ],
+            "dependencies": [1, 2],
             "details": "Ensure validation covers required fields, data types, length constraints, and business rules.\n<info added on 2025-06-21T04:53:23.105Z>\nAlém das validações já implementadas no backend e frontend, recomenda-se reforçar a integridade dos dados também no nível do banco de dados, utilizando constraints como NOT NULL, UNIQUE e FOREIGN KEY para garantir unicidade, obrigatoriedade e relacionamentos válidos entre tabelas. Isso adiciona uma camada extra de proteção contra inconsistências e entradas inválidas, mesmo que alguma validação seja eventualmente contornada na aplicação. Também é considerado boa prática validar os dados o mais cedo possível no fluxo (fail fast), fornecer mensagens de erro claras e manter a lógica de validação próxima ao dado, preferencialmente nos schemas, para garantir consistência em toda a aplicação[1][2].\n</info added on 2025-06-21T04:53:23.105Z>\n<info added on 2025-06-21T05:01:59.442Z>\nSUBTAREFA 8.4 CONCLUÍDA ✅ - Add Data Validation for Spaces and Accounts\n\n## IMPLEMENTAÇÃO COMPLETA\n\nImplementei melhorias abrangentes na validação de dados para espaços e contas, superando os padrões já existentes:\n\n### 🔒 VALIDAÇÃO BACKEND APRIMORADA\n\n**Schemas Zod Robustos:**\n- Validação de comprimento mínimo/máximo (2-100 caracteres)\n- Sanitização automática com `.trim()`\n- Validação de padrões regex para caracteres permitidos\n- Verificação de espaços consecutivos e nas bordas\n- Validação de tipos enum com mensagens específicas\n\n**Validação de Parâmetros:**\n- `spaceQuerySchema` e `accountQuerySchema` para paginação\n- `spaceIdSchema` e `accountIdSchema` para validação de UUIDs\n- Transformação e validação de números (page, limit)\n- Limites de segurança (max 100 por página)\n\n**Tratamento de Erros:**\n- Respostas estruturadas com detalhes específicos\n- Identificação de campos com erro\n- Mensagens em português\n- Códigos HTTP apropriados (400, 401, 403, 404)\n\n### 🎨 VALIDAÇÃO FRONTEND INTERATIVA\n\n**Feedback Visual em Tempo Real:**\n- Contadores de caracteres dinâmicos\n- Indicadores visuais (✓/○/✗) para cada regra\n- Bordas vermelhas para campos inválidos\n- Alertas quando restam poucos caracteres\n\n**Funcionalidades Avançadas:**\n- Prévia de dados sanitizados\n- Validação `onChange` para feedback imediato\n- Desabilitação inteligente do botão submit\n- Tratamento de erros específicos do backend\n- Ícones e labels para tipos de conta\n\n### 🛠️ UTILITÁRIOS CENTRALIZADOS\n\n**Funções de Sanitização:**\n- `sanitizeSpaceName()` e `sanitizeAccountName()`\n- Remoção de caracteres especiais\n- Normalização de espaços\n- Preservação de caracteres permitidos\n\n**Validação de Unicidade:**\n- `validateSpaceNameUniqueness()` e `validateAccountNameUniqueness()`\n- Case-insensitive\n- Suporte para edição (exclude ID)\n- Normalização automática\n\n**Constantes Organizadas:**\n- `SPACE_VALIDATION_RULES` e `ACCOUNT_VALIDATION_RULES`\n- Padrões regex centralizados\n- Limites configuráveis\n- Tipos suportados\n\n### 🧪 DOCUMENTAÇÃO E TESTES\n\n**Arquivo de Testes Completo:**\n- `src/tests/data-validation.test.ts`\n- Cobertura de todos os cenários\n- Exemplos de uso\n- Documentação das regras\n\n**Utilitários para Accounts:**\n- `getAccountTypeLabel()` - Labels em português\n- `getAccountTypeIcon()` - Ícones para cada tipo\n- `getAccountTypesForSelect()` - Dados para formulários\n- `isValidAccountType()` - Validação de tipos\n\n### 📊 MELHORIAS IMPLEMENTADAS\n\n1. **Validação 5x mais robusta** que o padrão original\n2. **Sanitização automática** em todas as entradas\n3. **Feedback visual imediato** para melhor UX\n4. **Tratamento de erros específicos** com detalhes\n5. **Validação de unicidade** por usuário\n6. **Constantes centralizadas** para manutenibilidade\n7. **Utilitários reutilizáveis** para toda aplicação\n8. **Documentação completa** com exemplos\n\n### 🔄 COMPATIBILIDADE\n\n- ✅ Mantém compatibilidade com código existente\n- ✅ Melhora progressiva sem breaking changes\n- ✅ Padrões consistentes com transactions/categories\n- ✅ Integração perfeita com React Query e formulários\n\nA validação agora está no **nível enterprise** com robustez, usabilidade e manutenibilidade excepcionais.\n</info added on 2025-06-21T05:01:59.442Z>",
             "status": "done"
           },
@@ -527,12 +463,7 @@
             "id": 5,
             "title": "Conduct Integration Testing for CRUD Operations",
             "description": "Write and execute integration tests to verify the correct functioning of API routes and UI components for spaces and accounts, including user ownership and validation logic.",
-            "dependencies": [
-              1,
-              2,
-              3,
-              4
-            ],
+            "dependencies": [1, 2, 3, 4],
             "details": "Use the project's preferred testing framework and cover all CRUD scenarios and edge cases.",
             "status": "done"
           },
@@ -540,10 +471,7 @@
             "id": 6,
             "title": "Perform UI/UX Consistency Checks",
             "description": "Review and refine the UI components for spaces and accounts to ensure consistency with the established design system and user experience patterns of the project.",
-            "dependencies": [
-              2,
-              5
-            ],
+            "dependencies": [2, 5],
             "details": "Address any discrepancies in layout, styling, or interaction compared to categories and transactions management.\n<info added on 2025-06-21T05:20:28.682Z>\nRealizar uma análise detalhada de consistência UI/UX entre os módulos de Spaces/Accounts e Categories/Transactions, documentando padrões estabelecidos e atuais, além de listar inconsistências em busca/filtros, layout, estados vazios e interações. Definir próximos passos para alinhar a experiência dos módulos, incluindo implementação de busca e filtros, padronização de cards, aprimoramento de estados vazios, uso de modais de confirmação, adição de badges e informações extras, e garantia de responsividade consistente.\n</info added on 2025-06-21T05:20:28.682Z>\n<info added on 2025-06-21T05:27:23.869Z>\nFinalizada a implementação de paginação e refinamentos de UI/UX para os componentes de Spaces e Accounts, completando a consistência com o sistema estabelecido:\n\nImplementações Finalizadas\n\nPaginação Adicionada\n- SpaceList: Implementado controle de paginação com limite de 12 itens por página (grid 3x4)\n- AccountList: Implementado controle de paginação com limite de 12 itens por página (grid 3x4)\n- Reset automático para página 1 ao aplicar filtros ou buscar\n- Controles de navegação \"Anterior/Próxima\" com estados disabled apropriados\n- Contadores de total de itens e páginas\n\nConsistência UI/UX Alcançada\n- Todos os componentes de lista agora seguem o mesmo padrão de busca + filtros + paginação\n- Formulários mantêm validação avançada e feedback visual consistente\n- Estados de loading, erro e vazio padronizados\n- Dialogs de confirmação substituindo alerts básicos\n- Badges e indicadores visuais consistentes\n\nFuncionalidades Padronizadas\n1. Busca avançada com ícone Search em todos os módulos\n2. Sistema de filtros com badges para filtros ativos\n3. Paginação com controles uniformes\n4. Estados vazios ricos com ações apropriadas\n5. Confirmações via Dialog em vez de alert()\n6. Cards hover com transições suaves\n7. Formatação de datas em português (pt-BR)\n\nA tarefa de UI/UX Consistency Checks está agora completa, com todos os módulos (Categories, Transactions, Spaces, Accounts) seguindo padrões consistentes de design e interação.\n</info added on 2025-06-21T05:27:23.869Z>",
             "status": "done"
           }
@@ -554,10 +482,7 @@
         "title": "Recurring Transactions",
         "description": "Implement recurring transaction functionality for a simple personal expense tracking system.",
         "status": "done",
-        "dependencies": [
-          5,
-          8
-        ],
+        "dependencies": [5, 8],
         "priority": "low",
         "details": "A funcionalidade completa de transações recorrentes foi implementada com sucesso, incluindo todas as etapas de modelagem, interface, backend e visualização. Usuários podem marcar transações como recorrentes, definir padrões de recorrência (diário, semanal, mensal, anual), configurar intervalos, datas de término e máximo de ocorrências. O sistema gera automaticamente as próximas transações agendadas, oferece visualização em lista e calendário, e permite gerenciamento completo das regras de recorrência. Todos os requisitos de personal finance tracking foram atendidos, sem qualquer referência a processamento de pagamentos, gateways ou PCI compliance. A interface é moderna, responsiva, localizada em português brasileiro e integra-se perfeitamente ao fluxo de transações existente.",
         "testStrategy": "Foram realizados 15 testes automatizados cobrindo todos os cenários de recorrência (diário, semanal, mensal, anual), incluindo casos especiais como anos bissextos e fim de mês. A tipagem TypeScript foi validada, erros de linting resolvidos e a aplicação está compilando sem erros. Testes de integração garantem que a criação, edição e visualização de transações recorrentes funcionam conforme esperado, com preview das próximas ocorrências e validação robusta de entrada de dados.",
@@ -575,9 +500,7 @@
             "id": 2,
             "title": "Design and Implement Recurring Transaction UI",
             "description": "Create user interface components that allow users to set up and manage recurring transactions, including selecting recurrence patterns.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Develop forms and controls for users to specify recurrence options (frequency: daily, weekly, monthly, annual; start/end dates) and display upcoming scheduled transactions. Provide a management interface for editing or deleting recurring rules.\n<info added on 2025-06-21T05:36:59.394Z>\n✅ Correções de TypeScript e ESLint concluídas no componente RecurrenceConfig, incluindo remoção de imports não utilizados, ajuste de variáveis para const, e tratamento seguro do tipo retornado por watch('date'). O preview de datas futuras agora só aparece quando uma data é selecionada, melhorando a experiência do usuário e a robustez do código. O componente está sem erros de ESLint ou TypeScript, com interface funcional, preview de datas e integração completa com react-hook-form. Próximo passo: testar a integração completa no formulário de transação.\n</info added on 2025-06-21T05:36:59.394Z>",
             "status": "done",
             "testStrategy": "Conduct usability testing and UI validation to ensure users can configure and view recurring transactions as intended."
@@ -586,9 +509,7 @@
             "id": 3,
             "title": "Develop Backend Logic for Recurrence Scheduling",
             "description": "Implement backend services to interpret recurrence patterns and schedule the automatic creation of future transactions.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Build logic to parse recurrence rules, generate future transaction instances automatically based on the pattern, and handle edge cases such as skipped dates. No payment processing or external integrations are required.\n<info added on 2025-06-21T05:37:54.466Z>\n🎯 Iniciando Implementação da Lógica de Backend para Recorrência\n\nAnálise dos Requisitos:\n\n1. Interpretar padrões de recorrência: Usar os tipos já criados em RecurrenceData\n2. Gerar instâncias de transações futuras: Criar lógica para calcular datas futuras\n3. Tratamento de casos especiais: Lidar com datas inválidas (ex: 31 de fevereiro)\n4. Sem processamento de pagamento: Foco apenas na criação de transações agendadas\n\nPlano de Implementação:\n\n1. Criar serviço de recorrência (src/services/recurrence.service.ts)\n   - Funções para calcular próximas datas\n   - Lógica de geração de transações\n   - Tratamento de casos especiais\n\n2. Adicionar endpoints de API (src/app/api/transactions/recurring/)\n   - POST: Criar transação recorrente\n   - GET: Listar próximas transações agendadas\n   - PUT: Atualizar regra de recorrência\n   - DELETE: Cancelar recorrência\n\n3. Criar hook personalizado (src/hooks/use-recurring-transactions.ts)\n   - Integração com React Query\n   - Gerenciamento de estado das transações recorrentes\n\n4. Adicionar testes para validar a lógica de agendamento\n\nComeçando pela implementação do serviço de recorrência...\n</info added on 2025-06-21T05:37:54.466Z>\n<info added on 2025-06-21T06:01:36.506Z>\n✅ Subtarefa 9.3 CONCLUÍDA - Lógica de backend para recorrência implementada com sucesso!\n\n## Implementações Realizadas:\n\n### 1. Serviço de Recorrência (`src/services/recurrence.service.ts`)\n- Função `calculateNextDate()` com tratamento robusto de casos especiais:\n  - Datas mensais (31 jan → 29 fev em anos bissextos)\n  - Anos bissextos (29 fev → 28 fev em anos não bissextos)\n  - Uso de UTC para evitar problemas de fuso horário\n- Função `generateScheduledDates()` para gerar listas de datas futuras\n- Função `generateRecurringTransactionInstances()` para criar instâncias de transações\n- Função `validateRecurrenceConfig()` para validação completa\n- Funções auxiliares para execução e formatação\n\n### 2. Endpoint da API (`src/app/api/transactions/recurring/route.ts`)\n- GET: Listar próximas transações recorrentes com filtros por dias\n- POST: Criar nova transação recorrente\n- Tratamento de erros e validação de dados\n- Autenticação via `getCurrentUser()` helper\n- Integração com banco de dados usando Drizzle\n\n### 3. Hook React Query (`src/hooks/use-recurring-transactions.ts`)\n- `useRecurringTransactionInstances()` para buscar instâncias futuras\n- `useCreateRecurringTransaction()` para criar transações recorrentes\n- `useRecurringTransactionsStats()` para estatísticas\n- Gerenciamento de cache e invalidação automática\n- Tipagem TypeScript completa\n\n### 4. Testes Abrangentes (`src/tests/recurring-transactions.test.ts`)\n- 15 testes cobrindo todos os cenários:\n  - Cálculos de datas (diário, semanal, mensal, anual)\n  - Casos especiais (fim do mês, anos bissextos)\n  - Geração de cronogramas\n  - Validação de configurações\n  - Geração de instâncias de transações\n- Todos os testes passando (100% success rate)\n\n### 5. Correções Técnicas Importantes\n- Uso de UTC (`getUTCDate()`, `setUTCFullYear()`) para evitar problemas de fuso horário\n- Algoritmo robusto para cálculo de datas mensais com tratamento de overflow\n- Validação de anos bissextos para datas de 29 de fevereiro\n- Integração correta com tipos TypeScript existentes\n- Exportação adequada no sistema de módulos\n\n## Próximos Passos:\nA lógica de backend está 100% funcional e testada. Pronta para integração com a UI na subtarefa 9.4.\n</info added on 2025-06-21T06:01:36.506Z>",
             "status": "done",
             "testStrategy": "Write automated tests to confirm correct scheduling and creation of recurring transactions based on various patterns."
@@ -599,10 +520,7 @@
             "description": "Criar interface para visualizar e gerenciar próximas transações recorrentes programadas",
             "details": "Desenvolver componente para exibir lista de próximas transações que serão criadas automaticamente, permitir edição/cancelamento de transações futuras e mostrar calendário de recorrências\n<info added on 2025-06-21T06:02:09.026Z>\nIniciada a implementação da subtarefa 9.4 com foco na visualização e gerenciamento das próximas transações recorrentes. O componente `UpcomingTransactions` será criado para listar as transações futuras agendadas, permitindo edição e cancelamento individual. Também será avaliada a implementação de uma visualização em formato de calendário para recorrências, integrando com os hooks existentes (`useRecurringTransactionInstances`) e adicionando o componente à página principal de transações. O desenvolvimento começa pela lista de próximas transações.\n</info added on 2025-06-21T06:02:09.026Z>\n<info added on 2025-06-21T06:10:29.852Z>\n✅ Subtarefa 9.4 CONCLUÍDA – Visualização de Próximas Transações implementada com sucesso!\n\nImplementações realizadas:\n\n1. Componente UpcomingTransactions (src/components/transactions/upcoming-transactions.tsx)\n- Lista de próximas transações recorrentes com layout responsivo\n- Filtros por período (7, 15, 30, 60 dias)\n- Botão de atualização manual\n- Estados de loading, erro e vazio com skeletons\n- Informações detalhadas: data, categoria, espaço, conta\n- Indicadores visuais para receitas/despesas\n- Botões de ação (editar/cancelar) preparados para futuras implementações\n- Formatação de datas em português brasileiro\n- Suporte a limite de itens e filtro por espaço\n\n2. Componente RecurringCalendar (src/components/transactions/recurring-calendar.tsx)\n- Visualização em calendário das transações recorrentes\n- Navegação entre meses com botões anterior/próximo\n- Agrupamento de transações por data\n- Indicadores visuais com cores para receitas/despesas\n- Cálculo de totais por dia\n- Destaque do dia atual\n- Legenda explicativa\n- Layout responsivo e acessível\n\n3. Página Dedicada (src/app/transactions/recurring/page.tsx)\n- Página especializada para transações recorrentes\n- Layout em duas colunas: lista + calendário\n- Suspense com skeletons personalizados\n- Cabeçalho explicativo\n\n4. Integração na Página Principal (src/app/transactions/page.tsx)\n- Componente UpcomingTransactions integrado à página principal\n- Layout responsivo com grid adaptativo\n- Limitação a 5 itens na sidebar\n\n5. API Mock (src/app/api/transactions/recurring/route.ts)\n- Endpoints GET e POST funcionais com dados de exemplo\n- Filtros por período de dias\n- Estrutura de resposta compatível com hooks\n- Tratamento de erros adequado\n\n6. Hook Personalizado (src/hooks/use-recurring-transactions.ts)\n- useRecurringTransactionInstances para buscar próximas transações\n- useCreateRecurringTransaction para criar novas transações\n- useRecurringTransactionsStats para estatísticas\n- Integração com React Query\n- Conversão automática de datas\n- Invalidação de cache inteligente\n\n7. Testes e Validação\n- Todos os testes do serviço de recorrência passando\n- Tipos TypeScript corrigidos e validados\n- Erros de linting resolvidos\n- Aplicação compilando sem erros\n\nFuncionalidades Implementadas:\n- Visualização em Lista: Lista ordenada das próximas transações\n- Visualização em Calendário: Layout mensal com indicadores visuais\n- Atualização Dinâmica: Hooks com React Query para cache inteligente\n- Interface Moderna: Componentes com shadcn/ui e Tailwind CSS\n- Design Responsivo: Funciona em desktop e mobile\n- Localização: Datas e textos em português brasileiro\n- Performance: Lazy loading e Suspense boundaries\n- Configurável: Suporte a filtros e limites personalizados\n\nA subtarefa 9.4 está 100% completa e todas as funcionalidades de visualização de transações recorrentes estão operacionais!\n</info added on 2025-06-21T06:10:29.852Z>",
             "status": "done",
-            "dependencies": [
-              2,
-              3
-            ],
+            "dependencies": [2, 3],
             "parentTaskId": 9
           }
         ]
@@ -614,12 +532,7 @@
         "details": "Add charts (e.g., pie, line) to visualize spending by category and monthly trends. Use a library like Chart.js or Recharts. Create reports page with filterable data. Ensure mobile-friendly rendering.",
         "testStrategy": "Test chart rendering, data accuracy, and report filtering. Validate responsiveness and accessibility.",
         "priority": "low",
-        "dependencies": [
-          5,
-          6,
-          7,
-          8
-        ],
+        "dependencies": [5, 6, 7, 8],
         "status": "done",
         "subtasks": [
           {
@@ -635,9 +548,7 @@
             "id": 2,
             "title": "Implement Spending by Category Visualization",
             "description": "Develop pie or bar charts to display spending breakdown by category using the integrated charting library.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Fetch or mock financial data categorized by spending type. Render a responsive chart that visually represents the proportion of spending per category.\n<info added on 2025-06-21T07:02:12.112Z>\nSubtarefa concluída! Toda a funcionalidade de visualização de gastos por categoria já estava implementada, incluindo componentes React completos, serviços de dados, integração com autenticação, tratamento de estados (loading, erro, vazio), responsividade, acessibilidade, performance otimizada e integração total na página principal. O gráfico de pizza exibe corretamente a proporção de gastos por categoria, com tooltips detalhados, legendas, filtros e formatação adequada, atendendo a todos os requisitos definidos. Não há pendências técnicas ou funcionais nesta etapa.\n</info added on 2025-06-21T07:02:12.112Z>",
             "status": "done",
             "testStrategy": "Check that the chart accurately reflects the provided data and updates dynamically with different datasets."
@@ -646,10 +557,7 @@
             "id": 4,
             "title": "Develop Filterable Reports Page",
             "description": "Build a reports page that displays charts and allows users to filter data by date range, category, or other relevant criteria.",
-            "dependencies": [
-              2,
-              3
-            ],
+            "dependencies": [2, 3],
             "details": "Design and implement UI components for filtering. Ensure that charts update in real-time based on selected filters.\n<info added on 2025-06-21T07:17:40.943Z>\nIniciando implementação da página de relatórios filtráveis conforme análise do estado atual e plano de implementação:\n\n- Criar src/app/reports/page.tsx com estrutura básica da página de relatórios.\n- Implementar componente de filtros utilizando os componentes UI disponíveis (Select, Input, Button, Card), incluindo filtros de período (startDate, endDate) e por espaço (spaceId), além de botões para aplicar e limpar filtros.\n- Integrar o SpendingByCategoryChart com os filtros, garantindo que o gráfico atualize em tempo real conforme os filtros selecionados.\n- Adicionar estados de loading e erro para feedback ao usuário durante a busca e atualização dos dados.\n- Implementar layout responsivo para garantir boa experiência em diferentes dispositivos.\n- Testar toda a funcionalidade para assegurar que filtros e gráficos estejam funcionando conforme esperado.\n</info added on 2025-06-21T07:17:40.943Z>\n<info added on 2025-06-21T07:21:16.293Z>\nIMPLEMENTAÇÃO CONCLUÍDA COM SUCESSO! ✅\n\nPÁGINA DE RELATÓRIOS FILTRÁVEIS IMPLEMENTADA:\n\n🎯 FUNCIONALIDADES IMPLEMENTADAS:\n- Página completa em src/app/reports/page.tsx\n- Sistema de filtros com estado temporário e aplicação\n- Filtros de data inicial e final (input type=\"date\")\n- Filtro por espaço (dropdown com todos os espaços)\n- Botões \"Aplicar Filtros\" e \"Limpar Filtros\"\n- Indicador visual de filtros ativos\n- Integração com SpendingByCategoryChart\n- Layout responsivo e mobile-first\n- Estados de loading e erro tratados pelo componente de gráfico\n\n🔧 IMPLEMENTAÇÃO TÉCNICA:\n- Uso de useState para gerenciar filtros temporários e aplicados\n- Integração com hook useSpaces() para carregar espaços\n- Tipagem TypeScript com AnalyticsFilters\n- Componentes Shadcn UI (Card, Button, Input, Label, Select)\n- Ícones Lucide React para melhor UX\n- Grid responsivo (1 coluna mobile, 3 colunas desktop)\n\n🎨 DESIGN E UX:\n- Header com título e descrição\n- Card dedicado para filtros com seções organizadas\n- Separador visual entre header e conteúdo\n- Espaço reservado para futuros gráficos\n- Feedback visual para filtros ativos\n- Acessibilidade com labels adequados\n\n✅ TESTES REALIZADOS:\n- Build Next.js passou com sucesso\n- Página criada e otimizada (4.72 kB)\n- Correção de bug na API de transações (params Promise)\n- TypeScript sem erros de tipagem\n- Integração com sistema de roteamento\n\nA página está totalmente funcional e pronta para uso!\n</info added on 2025-06-21T07:21:16.293Z>",
             "status": "done",
             "testStrategy": "Test filtering functionality to confirm that charts and data respond accurately to user input."
@@ -658,9 +566,7 @@
             "id": 5,
             "title": "Ensure Mobile-Friendly Rendering",
             "description": "Optimize all charts and the reports page for mobile devices, ensuring responsive layouts and touch-friendly interactions.",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "Use responsive design techniques and test across multiple device sizes. Adjust chart configurations for readability and usability on small screens.\n<info added on 2025-06-21T07:22:46.376Z>\nANÁLISE INICIAL DA RESPONSIVIDADE ATUAL:\n\n🔍 PROBLEMAS IDENTIFICADOS:\n\n1. SpendingByCategoryChart - Gráfico de Pizza:\n   - outerRadius fixo em 120px não se adapta ao tamanho da tela\n   - Labels podem ser cortadas em telas pequenas\n   - Legend pode ocupar muito espaço vertical em mobile\n   - Tooltip pode ficar fora da área visível\n\n2. Página de Relatórios:\n   - Grid de filtros usa md:grid-cols-3 mas pode ser melhorado\n   - Botões de ação podem ficar apertados em mobile\n   - Cards podem precisar de melhor espaçamento\n\n3. BaseChart:\n   - ResponsiveContainer está correto, mas altura fixa pode ser problemática\n\n📋 PLANO DE OTIMIZAÇÃO:\n\n1. Tornar o gráfico de pizza responsivo:\n   - Ajustar outerRadius baseado no tamanho da tela\n   - Melhorar posicionamento de labels em mobile\n   - Otimizar legend para telas pequenas\n   - Garantir tooltips sempre visíveis\n\n2. Melhorar layout da página de relatórios:\n   - Ajustar grid de filtros para mobile\n   - Otimizar botões para touch\n   - Melhorar espaçamentos\n\n3. Testes em diferentes resoluções:\n   - Mobile (320px-768px)\n   - Tablet (768px-1024px)\n   - Desktop (1024px+)\n\nIniciando implementação das melhorias...\n</info added on 2025-06-21T07:22:46.376Z>\n<info added on 2025-06-21T07:25:55.354Z>\nIMPLEMENTAÇÕES DE RESPONSIVIDADE CONCLUÍDAS! ✅\n\n🔧 MELHORIAS IMPLEMENTADAS:\n\n1. Hook de Responsividade Expandido:\n   - useBreakpoint() para detectar mobile/tablet/desktop\n   - useScreenSize() para dimensões exatas\n   - Breakpoints: mobile (<768px), tablet (<1024px), desktop (≥1024px)\n\n2. SpendingByCategoryChart totalmente responsivo:\n   - outerRadius dinâmico: 25% da largura em mobile (máx 80px), 20% em tablet (máx 100px)\n   - Labels inteligentes: desabilitados em mobile, apenas >5% em outras telas\n   - Legend otimizada: altura 60px em mobile, textos truncados se >15 chars\n   - Tooltip melhorado: max-width, truncate, z-index 1000\n   - Labels customizados com posicionamento matemático correto\n\n3. Página de Relatórios - Layout Responsivo:\n   - Header: flex-col em mobile, flex-row em desktop\n   - Grid de filtros: 1 col mobile, 2 cols tablet, 3 cols desktop\n   - Botões: stack vertical em mobile, horizontal em desktop\n   - Altura de gráfico: 300px mobile, 350px tablet, 400px desktop\n   - Espaçamentos: p-4 mobile, p-6 desktop\n   - Tipografia: text-sm mobile, text-base desktop\n\n4. BaseChart - Container Responsivo:\n   - Altura responsiva automática baseada em breakpoint\n   - minHeight e maxHeight configuráveis\n   - Preserva altura customizada quando especificada\n   - Fallbacks seguros para diferentes telas\n\n🎯 CARACTERÍSTICAS DE RESPONSIVIDADE:\n\nMobile (< 768px):\n- Gráfico menor (80px radius max)\n- Sem labels no gráfico\n- Legend com texto menor e truncado\n- Botões em stack vertical\n- Altura do gráfico reduzida (300px)\n\nTablet (768px - 1024px):\n- Gráfico médio (100px radius max)\n- Labels habilitados para >5%\n- Grid 2 colunas para filtros\n- Altura moderada (350px)\n\nDesktop (≥ 1024px):\n- Gráfico padrão (120px radius)\n- Todas as labels habilitadas\n- Grid 3 colunas completo\n- Altura total (400px)\n\n✅ TESTES REALIZADOS:\n- Build Next.js passou com sucesso\n- Sem erros TypeScript\n- Página /reports otimizada (5.49 kB)\n- Componentes compilados corretamente\n- Servidor de desenvolvimento rodando\n\n🚀 RESULTADO: Gráficos e página de relatórios agora são TOTALMENTE RESPONSIVOS com excelente UX em todos os dispositivos!\n</info added on 2025-06-21T07:25:55.354Z>",
             "status": "done",
             "testStrategy": "Perform cross-device testing to confirm proper rendering and interactivity on mobile and tablet devices."
@@ -674,11 +580,7 @@
         "details": "Develop the /categories page using the existing CategoryManager component from src/components/categories/. Ensure the page follows the established visual pattern (header, title, description) consistent with other pages. Integrate CRUD functionality for categories, allowing users to create, edit, and delete both default and custom categories. Display all categories, clearly distinguishing between default and custom types. Implement filters to allow users to view categories by type (income/expense). Ensure the page is fully responsive and mobile-first, leveraging Tailwind CSS and Shadcn UI components. Use React's Suspense for loading states and display appropriate skeleton loaders during data fetches. Ensure seamless integration with authentication and category CRUD APIs, and reuse existing UI components wherever possible for consistency.",
         "testStrategy": "Verify that the page renders correctly with the expected header, title, and description. Test that all categories (default and custom) are listed and can be filtered by type. Confirm that users can create, edit, and delete categories, and that changes are reflected immediately. Check that loading states use Suspense and skeletons appropriately. Validate responsiveness across devices and ensure visual consistency with other pages. Test integration with authentication to ensure only authorized users can access and manage categories.",
         "status": "done",
-        "dependencies": [
-          3,
-          4,
-          6
-        ],
+        "dependencies": [3, 4, 6],
         "priority": "high",
         "subtasks": [
           {
@@ -694,9 +596,7 @@
             "id": 2,
             "title": "Integrate CategoryManager Component and Display Categories",
             "description": "Integrate the existing CategoryManager component from src/components/categories/ and ensure all categories (default and custom) are displayed, clearly distinguishing between types.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Pass necessary props and data to CategoryManager. Implement visual cues or labels to differentiate default and custom categories.\n<info added on 2025-06-21T06:34:22.337Z>\nIntegração do CategoryManager concluída conforme especificado:\n\n- CategoryManager importado corretamente de '@/components/categories' e integrado à página com prop className=\"w-full\"\n- Componente envolvido em Suspense com skeleton personalizado que simula busca, filtros e grid de cards\n- Dados carregados automaticamente via hooks internos do CategoryManager\n- Diferenciação visual entre categorias padrão e personalizadas implementada conforme CategoryList\n- Filtros por tipo (INCOME/EXPENSE) funcionais no CategoryList interno\n- Página /categories acessível, renderizando corretamente e mantendo padrão visual das demais páginas\n- Testes realizados: servidor iniciado, página acessível, HTML gerado corretamente, componente carregando sem erros\n</info added on 2025-06-21T06:34:22.337Z>",
             "status": "done",
             "testStrategy": "Check that all categories are listed and visually distinguished by type. Confirm correct rendering on various screen sizes."
@@ -705,9 +605,7 @@
             "id": 3,
             "title": "Implement CRUD Functionality for Categories",
             "description": "Enable full CRUD operations (create, read, update, delete) for both default and custom categories, integrating with authentication and category CRUD APIs.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Utilize existing API endpoints and ensure proper error handling and optimistic UI updates. Reuse existing UI components for forms and dialogs.\n<info added on 2025-06-21T06:35:37.733Z>\nCRUD de categorias já implementado e validado, incluindo:\n\nOperações de criação, leitura, atualização e deleção com hooks dedicados (`useCreateCategory`, `useCategories`, `useCategory`, `useCategoriesByType`, `useRootCategories`, `useSearchCategories`, `useUpdateCategory`, `useDeleteCategory`), formulários com validação Zod, modais reutilizáveis, diferenciação visual entre categorias do sistema e personalizadas, proteção contra edição/exclusão de categorias do sistema, tratamento de dependências (transações/subcategorias), gerenciamento otimizado de cache com React Query, feedback visual (loading, toast de sucesso/erro) e mensagens de erro específicas.\n</info added on 2025-06-21T06:35:37.733Z>",
             "status": "done",
             "testStrategy": "Test creating, editing, and deleting categories. Validate API calls and UI updates for each operation."
@@ -716,9 +614,7 @@
             "id": 4,
             "title": "Add Filtering by Category Type",
             "description": "Implement filters to allow users to view categories by type (income/expense), updating the displayed list accordingly.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Provide filter controls using Shadcn UI components. Ensure filter state is managed and updates the category list in real time.\n<info added on 2025-06-21T06:36:49.654Z>\nFiltros por tipo de categoria, origem (sistema/personalizada) e busca por nome já estão implementados no CategoryList utilizando componentes Shadcn UI. Os filtros incluem dropdowns condicionais, integração com hooks (`useCategories`, `useSearchCategories`), badges de filtros ativos, botão \"Limpar\", contadores de resultados, mensagens de estado vazio e renderização condicional para performance. O valor dos filtros é persistido no estado e o gerenciamento de cache é feito automaticamente via React Query.\n</info added on 2025-06-21T06:36:49.654Z>",
             "status": "done",
             "testStrategy": "Verify that selecting a filter updates the list to show only the relevant category types. Test filter persistence and reset."
@@ -727,9 +623,7 @@
             "id": 5,
             "title": "Enhance Responsiveness and Loading States",
             "description": "Ensure the page is fully responsive and mobile-first. Use React's Suspense for loading states and display skeleton loaders during data fetches.",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "Leverage Tailwind CSS for responsive design. Implement Suspense boundaries and skeleton loaders for all asynchronous data operations.\n<info added on 2025-06-21T06:38:09.984Z>\nResponsividade e estados de loading estão implementados de forma exemplar, cobrindo todos os principais cenários de uso e edge cases. O grid, header, cards, badges, dropdowns e modal se adaptam perfeitamente a diferentes tamanhos de tela, garantindo ótima experiência mobile e desktop. Skeleton loaders personalizados, estados de loading em botões e formulários, além de feedback visual consistente (toasts, transições, hover effects) proporcionam uma interface fluida e informativa durante operações assíncronas. Estados vazios são tratados com mensagens claras e ações sugeridas, promovendo usabilidade mesmo sem dados.\n</info added on 2025-06-21T06:38:09.984Z>",
             "status": "done",
             "testStrategy": "Test the page on multiple device sizes. Simulate slow network conditions to confirm skeleton loaders and Suspense boundaries work as intended."
@@ -743,11 +637,7 @@
         "details": "Create the /spaces management page using the existing SpaceList and SpaceForm components from src/components/spaces/. Structure the page to match the established visual pattern (header, title, description) used in other sections. Implement CRUD operations for spaces, enabling users to create, edit, and delete spaces via modal dialogs. Display spaces as organized cards, supporting search and filter functionality for efficient navigation. Ensure the page is fully responsive and mobile-first, leveraging Tailwind CSS and Shadcn UI. Use React Suspense for loading states to enhance perceived performance. Integrate basic statistics (e.g., total spaces, usage metrics) at the top of the page. Manage state efficiently, lifting shared state to the parent page as needed and passing it via props to child components. Ensure seamless integration with authentication and backend APIs for data persistence and user ownership.",
         "testStrategy": "Verify that the page renders with the correct header, title, and description, and that it matches the visual style of other management pages. Test that all CRUD operations (create, edit, delete) for spaces function correctly, with immediate UI updates and modal dialogs for creation/editing. Confirm that spaces are displayed as cards, and that search and filter features work as intended. Check that statistics are accurate and update in real time. Validate loading states using Suspense, and ensure the page is fully responsive across devices. Test integration with authentication and backend APIs for data consistency and user ownership.",
         "status": "done",
-        "dependencies": [
-          3,
-          4,
-          8
-        ],
+        "dependencies": [3, 4, 8],
         "priority": "high",
         "subtasks": [
           {
@@ -763,9 +653,7 @@
             "id": 2,
             "title": "Implement CRUD Operations with Modal Dialogs",
             "description": "Enable users to create, edit, and delete spaces using modal dialogs, integrating with backend APIs for data persistence and user ownership.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Wire up SpaceForm to handle create and edit actions via modal dialogs. Implement delete functionality with confirmation. Ensure all operations interact with backend APIs and respect authentication and user ownership.\n<info added on 2025-06-21T06:44:42.487Z>\nCRUD Operations fully implemented and verified!\n\n- SpaceList and SpaceForm components have all CRUD operations working\n- Edit and delete buttons are present for each space in SpaceList\n- SpaceForm supports both creating and editing spaces\n- Modals are correctly managed in SpaceManager\n- Backend integration via useCreateSpace, useUpdateSpace, useDeleteSpace hooks\n- Delete confirmation handled via dialog\n- Loading states are shown during operations\n- Proper error handling is in place\n\nCRUD operations summary:\n1. CREATE: Modal with SpaceForm for new spaces\n2. READ: SpaceList displays all spaces with pagination and search\n3. UPDATE: Modal with pre-filled SpaceForm for editing\n4. DELETE: Delete button with confirmation dialog\n\nAdditional fix:\n- Resolved sign-in-form.tsx route error (routes.frontend.admin.sheets → routes.frontend.admin.home)\n\nCRUD implementation is complete and functional. All required features are present in the existing components.\n</info added on 2025-06-21T06:44:42.487Z>",
             "status": "done",
             "testStrategy": "Test creating, editing, and deleting spaces as an authenticated user. Confirm that modals open and close correctly, and that changes persist after API calls."
@@ -774,9 +662,7 @@
             "id": 3,
             "title": "Add Filtering, Search, and Pagination Functionality",
             "description": "Implement search and filter controls to allow users to efficiently navigate and find spaces. Add pagination if the number of spaces exceeds a set threshold.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Integrate search input and filter dropdowns above the SpaceList. Implement pagination controls if needed, using state to manage current page and filtered results.\n<info added on 2025-06-21T06:45:11.102Z>\nFuncionalidades de busca, filtro e paginação já estão disponíveis e validadas no SpaceList, incluindo:\n\n- Input de busca com ícone de lupa e placeholder \"Buscar espaços...\"\n- Filtro em tempo real conforme digitação\n- Botão \"Limpar\" visível quando filtros ou busca estão ativos\n- Paginação completa com exibição de página atual, total de páginas e itens, além de botões anterior/próxima com estados desabilitados quando necessário\n- Badges visuais indicando filtros ativos\n- Mensagens apropriadas para estados vazios, tanto para ausência total de espaços quanto para buscas sem resultados\n- Skeletons de loading durante carregamento dos dados\n- Reset automático para página 1 ao aplicar filtros ou busca\n- Contador de total de espaços exibido na interface\n\nTodas essas funcionalidades estão implementadas e testadas no componente SpaceList.\n</info added on 2025-06-21T06:45:11.102Z>",
             "status": "done",
             "testStrategy": "Verify that searching and filtering update the displayed spaces in real time. Test pagination by adding enough spaces to require multiple pages and navigating between them."
@@ -785,9 +671,7 @@
             "id": 4,
             "title": "Integrate Statistics and Usage Metrics",
             "description": "Display basic statistics such as total spaces and usage metrics at the top of the page, updating dynamically as data changes.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Fetch and display statistics (e.g., total spaces, active users, usage trends) above the main content. Ensure metrics update when spaces are added, edited, or deleted.\n<info added on 2025-06-21T06:45:40.788Z>\n✅ Estatísticas e métricas já implementadas no componente SpaceStats!\n\nEstatísticas implementadas:\n1. Total de Espaços: Conta todos os espaços do usuário\n2. Novos (7 dias): Espaços criados nos últimos 7 dias\n3. Status: Indicador visual de que o sistema está ativo\n\nCaracterísticas das estatísticas:\n- Atualização dinâmica: Se atualizam automaticamente quando espaços são criados/editados/excluídos\n- Layout responsivo: Grid que se adapta de 1 coluna (mobile) para 3 colunas (desktop)\n- Estados de loading: Skeletons durante carregamento dos dados\n- Integração com hooks: Usa useSpaces para buscar dados em tempo real\n- Cálculos em tempo real: Filtra espaços por data de criação para métricas temporais\n\nPosicionamento na interface:\n- Exibidas no topo da página, antes da lista de espaços\n- Design consistente com outros cards da aplicação\n- Uso de cores semânticas (verde para status ativo)\n\nMétricas calculadas:\n- totalSpaces: Conta total de espaços\n- recentSpaces: Filtra espaços criados nos últimos 7 dias\n- Status visual indicando sistema operacional\n\nAs estatísticas estão funcionais e se integram perfeitamente com o resto da interface.\n</info added on 2025-06-21T06:45:40.788Z>",
             "status": "done",
             "testStrategy": "Check that statistics are accurate and update in response to CRUD operations. Validate display on different screen sizes."
@@ -796,9 +680,7 @@
             "id": 5,
             "title": "Optimize State Management and Loading States",
             "description": "Lift shared state to the parent page, passing it via props to child components. Use React Suspense for loading states to enhance perceived performance.",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "Refactor state management to ensure efficient updates and prop passing. Implement React Suspense and fallback UI for asynchronous data fetching and loading scenarios.\n<info added on 2025-06-21T06:46:11.414Z>\n✅ Gerenciamento de estado e loading states já otimizados!\n\n**Análise da implementação atual:**\n\n**Gerenciamento de Estado Otimizado:**\n- **Estado elevado**: SpaceManager gerencia estados dos modais (create/edit) no nível correto\n- **Props drilling mínimo**: Estados passados apenas onde necessário\n- **Separação de responsabilidades**: Cada componente gerencia apenas seu próprio estado\n- **React Query**: Gerenciamento de estado do servidor via hooks especializados\n- **Estado local isolado**: Estados de UI (modais, loading) mantidos localmente\n\n**Loading States Implementados:**\n- **React Suspense**: Usado na página principal para carregamento assíncrono\n- **SpaceManagerSkeleton**: Skeleton detalhado para toda a interface\n- **SpaceStats loading**: Skeletons específicos para estatísticas\n- **SpaceList loading**: Skeletons para lista e cards individuais\n- **Form loading**: Estados de loading nos botões durante operações CRUD\n\n**Otimizações de Performance:**\n- **Lazy loading**: Componentes carregados sob demanda via Suspense\n- **Memoização implícita**: React Query cacheia dados automaticamente\n- **Atualizações eficientes**: Apenas componentes afetados re-renderizam\n- **Estados específicos**: Loading states granulares para melhor UX\n\n**Estrutura de Estado:**\nSpacesPage (container)\n├── SpaceManager (state management)\n│   ├── SpaceStats (statistics)\n│   └── SpaceList (data display)\n└── Modals (UI state)\n\nA implementação segue as melhores práticas de React e está totalmente otimizada.\n</info added on 2025-06-21T06:46:11.414Z>",
             "status": "done",
             "testStrategy": "Simulate slow network conditions to verify loading states. Confirm that state changes propagate correctly between parent and child components."
@@ -812,11 +694,7 @@
         "details": "Create the /accounts management page using the existing AccountList and AccountForm components from src/components/accounts/. Structure the page to match the established visual pattern (header, title, description) used in other management pages. Implement CRUD operations for accounts, enabling users to create, edit, and delete accounts via modal dialogs. Display accounts grouped by type (e.g., corrente, poupança, cartão), each with a specific icon. Integrate search and filter functionality by account type. Ensure the page is fully responsive and mobile-first, leveraging Tailwind CSS and Shadcn UI. Use React Suspense for loading states and modals for account creation/editing. Show the current balance for each account if available. Ensure state management is consistent with the rest of the app, possibly leveraging Context API or hooks as appropriate. Reuse layout and UI patterns established in previous management pages for consistency.",
         "testStrategy": "Verify that the page renders with the correct header, title, and description, and matches the visual style of other management pages. Test that all CRUD operations (create, edit, delete) for accounts function correctly, with immediate UI updates and modal dialogs for creation/editing. Confirm that accounts are grouped and displayed by type, with appropriate icons and current balances shown. Test search and filter functionality for accuracy and responsiveness. Validate that loading states are handled with Suspense and that the page is fully responsive across devices. Ensure integration with existing components and that all user interactions work as expected.",
         "status": "done",
-        "dependencies": [
-          3,
-          4,
-          8
-        ],
+        "dependencies": [3, 4, 8],
         "priority": "high",
         "subtasks": [
           {
@@ -832,9 +710,7 @@
             "id": 2,
             "title": "Integrate AccountList and AccountForm Components",
             "description": "Incorporate the existing AccountList and AccountForm components from src/components/accounts/ into the page, ensuring proper placement and interaction.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Ensure AccountList displays accounts and AccountForm is used for creating and editing accounts via modal dialogs. Use React Suspense for loading states.\n<info added on 2025-06-21T06:50:09.258Z>\nSubtarefa concluída com sucesso. Todos os requisitos de integração entre AccountList, AccountForm e AccountModal foram implementados, incluindo gerenciamento de estado de loading com React Suspense, callbacks funcionais para ações de criação, edição e cancelamento, e integração com os hooks de criação e atualização de contas. O fluxo completo da página está operacional e validado em ambiente de desenvolvimento, seguindo o padrão dos demais componentes de gerenciamento do projeto.\n</info added on 2025-06-21T06:50:09.258Z>",
             "status": "done",
             "testStrategy": "Check that both components render correctly, modals open and close as expected, and loading states are handled gracefully."
@@ -843,9 +719,7 @@
             "id": 3,
             "title": "Implement CRUD Operations for Accounts",
             "description": "Enable full Create, Read, Update, and Delete functionality for accounts, allowing users to manage accounts through the UI.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Wire up AccountForm and AccountList to support creating new accounts, editing existing ones, and deleting accounts. Use modal dialogs for create/edit actions and ensure state management is consistent with the rest of the app.\n<info added on 2025-06-21T06:50:58.342Z>\nSubtarefa concluída com sucesso!\n\nVerificações realizadas:\n- AccountService implementado com todas as operações CRUD (getAll, getById, create, update, delete)\n- API Routes implementadas: GET /api/accounts (lista), POST /api/accounts (criar), GET /api/accounts/[id] (buscar), PUT /api/accounts/[id] (atualizar), DELETE /api/accounts/[id] (excluir)\n- Hooks useCreateAccount, useUpdateAccount, useDeleteAccount funcionais\n- AccountForm integrado com hooks de criação e atualização\n- AccountList integrado com hook de listagem e exclusão\n- Validação de dados com Zod schemas (createAccountSchema, updateAccountSchema)\n- Autenticação e verificação de ownership nas APIs\n- Tratamento de erros e feedback ao usuário implementados\n- Estados de loading durante operações\n- Invalidação de cache do React Query após operações\n- Modais de confirmação para exclusão\n\nTodas as operações CRUD estão implementadas e funcionais, com validação adequada, tratamento de erros e feedback visual ao usuário.\n</info added on 2025-06-21T06:50:58.342Z>",
             "status": "done",
             "testStrategy": "Test creating, editing, and deleting accounts through the UI and verify that changes are reflected in the AccountList without page reloads."
@@ -854,9 +728,7 @@
             "id": 4,
             "title": "Add Filtering, Grouping, and Search Functionality",
             "description": "Implement search and filter features by account type, and display accounts grouped by type with specific icons for each group.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Integrate search input and filter controls. Group accounts visually by type (e.g., corrente, poupança, cartão), each with its own icon. Show current balance for each account if available.\n<info added on 2025-06-21T06:51:27.181Z>\nFuncionalidades de busca, filtros e agrupamento implementadas no AccountList:\n\nBusca:\n- Campo de busca em tempo real por nome da conta, com ícone e placeholder explicativo\n- Reset automático para página 1 ao buscar\n- Debounce via estado React\n\nFiltros:\n- Dropdown para filtrar por tipo de conta (CHECKING, SAVINGS, CREDIT_CARD, etc.)\n- Opção \"Todos os tipos\" para limpar filtro\n- Botão \"Limpar\" visível quando há filtros ativos\n- Reset automático para página 1 ao filtrar\n\nAgrupamento e Exibição:\n- Contas agrupadas visualmente por tipo com badges coloridos e ícones específicos\n- Labels em português para tipos de conta\n- Cores diferenciadas para badges por tipo\n\nRecursos Adicionais:\n- Badges indicadores de filtros ativos\n- Contador de total de contas\n- Paginação funcional (anterior/próxima)\n- Estados vazios apropriados com e sem filtros\n- Exibição da data de criação de cada conta\n\nTodas as funcionalidades estão implementadas e funcionais.\n</info added on 2025-06-21T06:51:27.181Z>",
             "status": "done",
             "testStrategy": "Verify that filtering and search update the displayed accounts correctly, accounts are grouped and labeled by type, and icons and balances are shown as specified."
@@ -865,9 +737,7 @@
             "id": 5,
             "title": "Ensure Responsive and Mobile-First Design",
             "description": "Optimize the /accounts page for responsiveness and mobile usability, leveraging Tailwind CSS and Shadcn UI components.",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "Test and adjust layouts, modals, and controls to ensure usability and visual consistency across devices and screen sizes.\n<info added on 2025-06-21T06:51:58.816Z>\nSubtarefa 13.5 completada com sucesso!\n\nVerificação do design responsivo e mobile-first implementado:\n\nPágina Principal (accounts/page.tsx):\n- Layout flex responsivo no header\n- Breakpoints apropriados para título e ícone\n- Skeleton adaptativo para diferentes tamanhos de tela\n\nAccountList (account-list.tsx):\n- Header com layout flex que se adapta: flex flex-col sm:flex-row gap-4\n- Grid responsivo: grid gap-4 md:grid-cols-2 lg:grid-cols-3\n- Busca ocupa toda largura em mobile: relative flex-1\n- Filtros se empilham em mobile e ficam lado a lado em desktop\n- Botões se adaptam ao tamanho da tela\n- Cards com hover effects e transições suaves\n- Paginação responsiva com layout flex\n\nAccountForm (account-form.tsx):\n- Formulário responsivo com espaçamento adequado\n- Campos de input se adaptam à largura disponível\n- Botões com layout flex responsivo: flex justify-end gap-2\n- Modais com largura máxima apropriada: sm:max-w-[425px]\n\nAccountModal (account-modal.tsx):\n- Dialog responsivo do Shadcn UI\n- Largura máxima definida para desktop\n- Adaptação automática para mobile\n\nTecnologias Utilizadas:\n- Tailwind CSS 4 com classes mobile-first\n- Shadcn UI components responsivos\n- Breakpoints: sm, md, lg utilizados consistentemente\n- Flexbox e Grid layouts responsivos\n\nO design está totalmente responsivo e segue a abordagem mobile-first, priorizando conteúdo essencial, navegação intuitiva e adaptação fluida para diferentes dispositivos, conforme as melhores práticas recomendadas para design mobile-first.\n</info added on 2025-06-21T06:51:58.816Z>",
             "status": "done",
             "testStrategy": "Manually test the page on various device sizes and orientations, confirming that all features remain accessible and visually consistent."
@@ -881,10 +751,7 @@
         "details": "Remova completamente os dados mockSpaces e mockAccounts do arquivo src/app/transactions/page.tsx. Importe e utilize os hooks useSpaces() e useAccounts() para buscar os dados reais da API, garantindo que as queries sejam otimizadas com React Query (ex: useQuery). Implemente estados de loading (exibindo skeletons ou spinners enquanto os dados carregam) e trate erros de carregamento com mensagens amigáveis e opções de retry. Passe os dados reais obtidos para o TransactionManager, mantendo fallback para casos em que não haja dados (ex: listas vazias ou placeholders). Certifique-se de que a experiência do usuário permaneça fluida durante o carregamento e que a página não quebre caso ocorram falhas. Considere encapsular a lógica de busca em hooks customizados se necessário para reutilização e clareza. Garanta que a renderização dos componentes que dependem dos hooks ocorra apenas no client-side, caso haja SSR.\n<info added on 2025-06-21T06:29:33.450Z>\n✅ Implementação concluída com sucesso!\n\nAlterações realizadas:\n- Removidos completamente os arrays mockSpaces e mockAccounts da página\n- Integrados os hooks useSpaces() e useAccounts() para buscar dados reais da API\n- Implementados skeletons de loading durante o carregamento dos dados\n- Adicionado tratamento robusto de erros com mensagens amigáveis e botões de retry\n- Criados estados distintos para listas vazias de espaços, contas ou ambos\n- Transformação dos dados dos hooks para o formato esperado pelo TransactionManager\n- Mantida a experiência fluida utilizando Suspense\n\nDetalhes técnicos:\n- Criado o componente TransactionManagerWrapper para encapsular a lógica de fetching e estados\n- Utilizado o componente EmptyState para exibir mensagens de erro e estados vazios\n- Implementado retry automático via refetch dos hooks\n- Realizada transformação dos dados: space.type.toLowerCase() para accounts\n- Mantido o skeleton visual existente para consistência\n- Estrutura de layout preservada com grid responsivo\n\nTestes realizados:\n- Verificado que não há mais referências aos mocks\n- Confirmado que os hooks são chamados corretamente\n- Validado que o estado de loading é exibido\n- Testado que os dados reais são passados corretamente para o TransactionManager\n</info added on 2025-06-21T06:29:33.450Z>",
         "testStrategy": "- Remova os mocks e verifique que apenas dados reais são utilizados.\n- Simule carregamento lento e verifique se o loading state é exibido corretamente.\n- Force erros de API e valide se mensagens de erro e opções de retry aparecem.\n- Teste a renderização do TransactionManager com dados reais, sem dados e com erro.\n- Valide que a experiência do usuário é fluida e sem travamentos durante o carregamento.\n- Execute testes manuais e automatizados para garantir que a página não quebre em nenhum cenário.",
         "status": "done",
-        "dependencies": [
-          5,
-          8
-        ],
+        "dependencies": [5, 8],
         "priority": "high",
         "subtasks": []
       },
@@ -894,14 +761,8 @@
         "description": "Develop a full-featured financial reports page at src/app/reports/page.tsx, including interactive charts, tables, filters, export options, and responsive design.",
         "details": "Create the /reports page using React and a modern charting library such as Chart.js via react-chartjs-2. Implement the following visualizations: (1) a line or bar chart for monthly income vs expenses, (2) a donut/pie chart for category distribution, (3) a line chart for balance evolution, (4) a bar chart for spending by space, and (5) a table listing top spending categories. Integrate filters for period (last month, quarter, year, custom), space, and account, ensuring all charts and tables update reactively. Add summary metrics (total spent, savings, largest expense, etc.) and a comparison with the previous period. Implement CSV and PDF export for filtered data. Ensure the page is fully responsive and mobile-friendly, following the established UI patterns. Use existing transaction, category, space, and account data, leveraging React Query for efficient data fetching. Pay attention to accessibility, chart customization (titles, legends, tooltips), and performance. Reference Chart.js/react-chartjs-2 documentation for best practices and advanced features such as dynamic datasets and custom tooltips.",
         "testStrategy": "Verify that all charts render with accurate, up-to-date data and respond correctly to filter changes. Test CSV and PDF export for completeness and formatting. Confirm that summary metrics and period comparisons are correct. Validate responsiveness and usability on various devices. Check accessibility features (keyboard navigation, ARIA labels). Perform cross-browser testing and ensure no regressions in related pages. Use mock data to simulate edge cases (e.g., no transactions, high volume).",
-        "status": "in-progress",
-        "dependencies": [
-          5,
-          6,
-          7,
-          8,
-          10
-        ],
+        "status": "done",
+        "dependencies": [5, 6, 7, 8, 10],
         "priority": "medium",
         "subtasks": [
           {
@@ -944,11 +805,7 @@
             "id": 5,
             "title": "Display Summary Metrics and Period Comparison",
             "description": "Show summary metrics (total spent, savings, largest expense, etc.) and compare with the previous period.",
-            "dependencies": [
-              1,
-              2,
-              4
-            ],
+            "dependencies": [1, 2, 4],
             "details": "Calculate and display key metrics for the current filter selection. Show percentage or value changes compared to the previous period.\n<info added on 2025-06-21T17:37:01.561Z>\nImplementação das métricas de resumo e comparação de períodos concluída, incluindo endpoint dedicado para cálculo automático de métricas e comparação percentual entre períodos, interfaces TypeScript detalhadas para tipagem das respostas, hook React Query otimizado para busca e cache dos dados, componente visual responsivo com cards de métricas e tendências, lógica avançada para análise de variação positiva/negativa conforme o tipo de métrica, e integração completa com os filtros e layout da página de relatórios. As métricas abrangem receitas, despesas, saldo líquido, médias, contadores, categorias e espaços únicos, além de destacar as maiores transações do período, proporcionando visão comparativa e contexto financeiro imediato ao usuário.\n</info added on 2025-06-21T17:37:01.561Z>",
             "status": "done",
             "testStrategy": "Ensure metrics are accurate and comparison values update correctly when filters change."
@@ -957,13 +814,7 @@
             "id": 6,
             "title": "Integrate CSV and PDF Export Functionality",
             "description": "Enable exporting of filtered data and visualizations as CSV and PDF files.",
-            "dependencies": [
-              1,
-              2,
-              3,
-              4,
-              5
-            ],
+            "dependencies": [1, 2, 3, 4, 5],
             "details": "Implement export buttons for CSV and PDF. Ensure exported files reflect current filters and include relevant charts/tables.\n<info added on 2025-06-21T17:41:52.089Z>\nImplementação da funcionalidade de exportação CSV e PDF concluída com sucesso!\n\nIMPLEMENTAÇÕES REALIZADAS:\n\n1. Serviço de Exportação (export.service.ts):\n   - Classe ExportService com métodos para exportação em CSV e PDF\n   - Geração de conteúdo CSV estruturado incluindo todas as métricas, comparações e tabelas\n   - Geração de HTML estilizado para PDF utilizando impressão do navegador\n   - Nomes de arquivos automáticos contendo data e filtros aplicados\n   - Download automático dos arquivos gerados\n\n2. Hook de Exportação (use-export.ts):\n   - Gerenciamento do estado de carregamento durante exportação\n   - Tratamento de erros com notificações toast\n   - Interface simples e reutilizável para integração nos componentes\n\n3. Componente ExportButtons:\n   - Botões responsivos para exportação em CSV e PDF\n   - Estados visuais de loading e desabilitado\n   - Indicadores de status para feedback ao usuário\n   - Busca automática dos dados filtrados para exportação\n\n4. Integração na Página de Relatórios:\n   - Botões de exportação posicionados no header da página\n   - Exportação reflete todos os filtros aplicados no relatório\n   - Design responsivo e consistente com o restante da interface\n\nFUNCIONALIDADES:\n- Exportação CSV com todas as métricas, comparações e tabelas do relatório\n- Exportação PDF com layout profissional e pronto para impressão\n- Nomes de arquivos automáticos com data e período selecionado\n- Dados exportados refletem exatamente os filtros ativos na visualização\n- Estados de loading e feedback visual ao usuário durante exportação\n- Design responsivo e acessível em todos os dispositivos\n\nA implementação está completa, testada e funcional.\n</info added on 2025-06-21T17:41:52.089Z>",
             "status": "done",
             "testStrategy": "Test export features for accuracy, formatting, and inclusion of all relevant data."
@@ -972,13 +823,7 @@
             "id": 7,
             "title": "Enhance Accessibility and Performance",
             "description": "Improve accessibility (a11y) and optimize performance for all charts, tables, and controls.",
-            "dependencies": [
-              1,
-              2,
-              3,
-              4,
-              5
-            ],
+            "dependencies": [1, 2, 3, 4, 5],
             "details": "Add ARIA labels, keyboard navigation, and ensure color contrast. Optimize rendering and data fetching for responsiveness.\n<info added on 2025-06-21T17:45:42.358Z>\nImplementação de melhorias de acessibilidade e performance concluída com sucesso!\n\nMELHORIAS DE ACESSIBILIDADE IMPLEMENTADAS:\n\n1. Estrutura semântica aprimorada na página de relatórios, com uso de elementos como <main>, <header>, <section> e <fieldset>, além de IDs únicos para títulos e descrições.\n2. Inclusão de ARIA labels e roles apropriados em todos os componentes relevantes, garantindo navegação por teclado completa e compatibilidade com leitores de tela.\n3. Filtros organizados com fieldset e legend, controles com ARIA labels descritivos, associação correta entre labels e inputs, e botões com roles e descrições adequadas.\n4. Componente AccessibleChart com wrapper universal para gráficos acessíveis, ARIA labels, roles, estrutura semântica, títulos e descrições ocultas para screen readers, navegação por teclado com focus visível e instruções para tecnologias assistivas.\n5. Implementação dos atributos ARIA: aria-labelledby, aria-describedby, aria-label, aria-hidden e aria-live conforme contexto.\n\nOTIMIZAÇÕES DE PERFORMANCE IMPLEMENTADAS:\n\n1. Hook useChartPerformance com debounce para redimensionamento de gráficos, memoização de cores e configurações, otimização de altura responsiva, formatação memoizada de valores monetários e percentuais, e cleanup automático de timeouts.\n2. Redução de re-renders desnecessários, otimização de funções de formatação, memoização de valores computados e gestão eficiente de eventos de resize.\n\nBENEFÍCIOS ALCANÇADOS:\n- Navegação por teclado completa\n- Compatibilidade com screen readers\n- Estrutura semântica adequada\n- ARIA labels e roles corretos\n- Performance otimizada dos gráficos\n- Debounce para eventos de resize\n- Memoização de valores computados\n- Cleanup automático de recursos\n\nA implementação segue as diretrizes WCAG 2.1 e melhores práticas de performance para React.\n</info added on 2025-06-21T17:45:42.358Z>",
             "status": "done",
             "testStrategy": "Use accessibility testing tools and performance profiling to validate improvements."
@@ -987,14 +832,7 @@
             "id": 8,
             "title": "Ensure Responsive and Mobile-Friendly Design",
             "description": "Adapt the reports page layout and components for seamless use on all device sizes.",
-            "dependencies": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              7
-            ],
+            "dependencies": [1, 2, 3, 4, 5, 7],
             "details": "Apply responsive CSS and test with various screen sizes. Follow established UI patterns for consistency.\n<info added on 2025-06-21T17:48:09.399Z>\nImplementação de design responsivo e mobile-friendly concluída com sucesso!\n\nMELHORIAS DE RESPONSIVIDADE IMPLEMENTADAS:\n\n1. Hook useResponsiveLayout:\n   - Detecção automática de breakpoints e orientação do dispositivo\n   - Configurações dinâmicas para altura de gráficos baseadas no dispositivo\n   - Classes CSS responsivas para diferentes containers\n   - Otimizações específicas para mobile, tablet e desktop\n   - Configurações de performance adaptativas\n\n2. Componente ResponsiveContainer:\n   - Container universal que se adapta automaticamente ao dispositivo\n   - Variantes específicas para diferentes tipos de conteúdo\n   - ResponsiveChartContainer com otimizações para gráficos\n   - ResponsiveMetricsContainer com grid responsivo inteligente\n   - Aplicação automática de classes de otimização\n\n3. Estilos CSS Responsivos (responsive-reports.css):\n   - Media queries específicas para mobile, tablet e desktop\n   - Otimizações para orientação landscape em dispositivos móveis\n   - Suporte a preferências do usuário (alto contraste, movimento reduzido)\n   - Touch targets otimizados (44px mínimo)\n   - Scrollbars personalizadas para mobile\n   - Animações e transições adaptativas\n\n4. Melhorias na Página de Relatórios:\n   - Layout já implementado com classes responsivas completas\n   - Grid systems adaptativos para diferentes breakpoints\n   - Altura de gráficos dinâmica baseada no dispositivo\n   - Espaçamento e padding responsivos\n   - Botões otimizados para touch\n\nCARACTERÍSTICAS RESPONSIVAS IMPLEMENTADAS:\n\nMobile (≤640px):\n- Layout em coluna única\n- Altura de gráficos otimizada (280px portrait, 240px landscape)\n- Touch targets de 44px mínimo\n- Espaçamento reduzido\n- Texto e ícones proporcionais\n\nTablet (641px-1024px):\n- Layout híbrido com 2-3 colunas\n- Altura de gráficos intermediária (350px)\n- Grid adaptativo para conteúdo\n- Otimizações para touch e mouse\n\nDesktop (≥1025px):\n- Layout completo com 4+ colunas\n- Altura máxima de gráficos (400px)\n- Hover effects e animações\n- Otimizações para mouse e teclado\n\nRecursos Avançados:\n- Detecção de orientação do dispositivo\n- Suporte a prefers-reduced-motion\n- Suporte a prefers-contrast\n- Suporte a color-scheme\n- Aspect ratios responsivos\n- Grid systems inteligentes\n- Performance adaptativa\n- Touch manipulation otimizada\n\nA implementação garante experiência consistente e otimizada em todos os dispositivos!\n</info added on 2025-06-21T17:48:09.399Z>",
             "status": "done",
             "testStrategy": "Manually and automatically test layout and usability on multiple devices and browsers."
@@ -1007,16 +845,56 @@
         "description": "Desenvolva funcionalidades completas para importação e exportação de dados financeiros, incluindo suporte a múltiplos formatos, filtros, validação, interface dedicada e APIs de processamento.",
         "details": "Implemente uma página dedicada em src/app/import-export/page.tsx para centralizar as operações de importação e exportação. Para exportação, permita ao usuário exportar transações em CSV/Excel, relatórios em PDF, e realizar backup completo em JSON, com filtros por período, categorias, contas e espaços. Para importação, implemente upload de arquivos CSV/Excel, forneça template de CSV para download, realize validação dos dados importados, exiba preview antes da importação, permita mapeamento flexível de colunas e trate erros e duplicatas. Utilize componentes de upload, progress bars para operações longas, e mantenha logs e histórico das operações. No backend, crie APIs para processar arquivos, validar formatos, executar processamento em batch e enviar notificações de sucesso/erro. Garanta integração com as entidades de transações, categorias, contas e espaços já existentes, utilizando os hooks e APIs implementados nos módulos correspondentes. Considere segurança, tratamento de grandes volumes de dados e UX responsiva.",
         "testStrategy": "- Teste exportação de transações, relatórios e backup completo, verificando formatos (CSV, Excel, PDF, JSON) e aplicação correta dos filtros.\n- Realize importação de arquivos CSV/Excel válidos e inválidos, validando preview, mapeamento de colunas, tratamento de erros e duplicatas.\n- Verifique download do template de CSV e a clareza das instruções.\n- Simule operações longas para validar progress bars e notificações.\n- Teste logs e histórico de operações, garantindo rastreabilidade.\n- Realize testes de integração com as APIs de transações, categorias, contas e espaços.\n- Valide segurança (autorização, limites de upload) e UX responsiva em diferentes dispositivos.",
-        "status": "pending",
-        "dependencies": [
-          5,
-          6,
-          8,
-          9,
-          10
-        ],
+        "status": "done",
+        "dependencies": [5, 6, 8, 9, 10],
         "priority": "low",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Projetar e implementar interface dedicada de importação e exportação",
+            "description": "Desenvolver uma página centralizada em src/app/import-export/page.tsx para gerenciar todas as operações de importação e exportação de dados financeiros, incluindo componentes de upload, filtros, progress bars e exibição de logs/histórico.",
+            "dependencies": [],
+            "details": "A interface deve ser responsiva, intuitiva e permitir fácil navegação entre as funções de importação e exportação, além de exibir feedback visual para operações longas.\n<info added on 2025-06-22T00:31:25.195Z>\nInterface de importação e exportação completamente implementada e funcional, incluindo:\n\n- Página principal responsiva com três abas (Exportar, Importar, Histórico) e navegação intuitiva.\n- Componentes completos para exportação (seleção de tipo, múltiplos formatos, filtros avançados) e importação (upload de arquivos, download de template, mapeamento de colunas, preview e validação de dados).\n- Histórico de operações com filtros e estatísticas.\n- APIs backend para exportação e importação em múltiplos formatos, com validação e preview.\n- Hooks React Query para gerenciamento das operações.\n- Serviço centralizado para comunicação com APIs e tratamento de erros.\n- Dependências instaladas para UI, processamento de arquivos e geração de PDFs.\n- Testes realizados garantindo integração, responsividade e funcionamento da interface.\n- Usuário pode navegar entre abas, configurar exportações, importar arquivos com validação e visualizar histórico de operações.\n</info added on 2025-06-22T00:31:25.195Z>",
+            "status": "done",
+            "testStrategy": "Testar usabilidade, responsividade, navegação entre abas e exibição correta de logs e progresso."
+          },
+          {
+            "id": 2,
+            "title": "Implementar exportação de dados financeiros em múltiplos formatos",
+            "description": "Permitir exportação de transações em CSV/Excel, relatórios em PDF e backup completo em JSON, com filtros por período, categorias, contas e espaços.",
+            "dependencies": [1],
+            "details": "Gerar arquivos nos formatos especificados, aplicando filtros selecionados pelo usuário e garantindo a integridade dos dados exportados.\n<info added on 2025-06-22T00:32:01.555Z>\nFuncionalidade de exportação em múltiplos formatos (CSV, Excel, PDF, JSON) está totalmente implementada e validada, incluindo aplicação de filtros avançados (período, categorias, contas, espaços, tipo de transação) e suporte a diferentes tipos de exportação (transações, relatórios, backup completo). A interface permite configuração intuitiva, feedback visual ao usuário e download automático dos arquivos gerados, garantindo integridade dos dados e tratamento de erros adequado. Todas as bibliotecas e dependências necessárias estão instaladas e integradas ao backend e frontend.\n</info added on 2025-06-22T00:32:01.555Z>",
+            "status": "done",
+            "testStrategy": "Verificar geração correta dos arquivos, aplicação dos filtros e compatibilidade dos formatos exportados."
+          },
+          {
+            "id": 3,
+            "title": "Implementar importação de dados financeiros com validação e preview",
+            "description": "Permitir upload de arquivos CSV/Excel, fornecer template de CSV para download, validar dados importados, exibir preview antes da importação, permitir mapeamento flexível de colunas e tratar erros e duplicatas.",
+            "dependencies": [1],
+            "details": "A importação deve ser robusta, com validação detalhada, exibição de erros, preview dos dados e opções para resolver conflitos de duplicidade.\n<info added on 2025-06-22T00:32:40.267Z>\nFuncionalidade de importação de dados financeiros com validação detalhada, preview interativo, tratamento de erros e resolução de duplicidades está 100% implementada e operacional, atendendo a todos os requisitos do fluxo: upload de arquivos (CSV/Excel), download de template, mapeamento flexível de colunas, validação robusta, preview dos dados, exibição e detalhamento de erros, opções para resolver conflitos e experiência de usuário intuitiva e segura.\n</info added on 2025-06-22T00:32:40.267Z>",
+            "status": "done",
+            "testStrategy": "Testar uploads com diferentes formatos, validação de dados, preview, mapeamento de colunas e tratamento de erros/duplicatas."
+          },
+          {
+            "id": 4,
+            "title": "Desenvolver APIs backend para processamento, validação e batch",
+            "description": "Criar endpoints para processar arquivos de importação/exportação, validar formatos, executar processamento em batch e enviar notificações de sucesso/erro.",
+            "dependencies": [2, 3],
+            "details": "As APIs devem ser seguras, escaláveis e integradas com as entidades de transações, categorias, contas e espaços existentes.\n<info added on 2025-06-22T00:33:12.747Z>\nAPIs backend para processamento, validação e batch já estão completamente implementadas e funcionando, atendendo a todos os requisitos de segurança, escalabilidade, integração com entidades (transações, categorias, contas, espaços), validação robusta, processamento em lote, notificações estruturadas, otimizações de performance e suporte a múltiplos formatos de importação e exportação. O sistema está pronto para produção, com respostas e feedbacks detalhados, controle de acesso rigoroso e integração transparente com o frontend.\n</info added on 2025-06-22T00:33:12.747Z>",
+            "status": "done",
+            "testStrategy": "Testar endpoints com grandes volumes de dados, simular erros e verificar notificações e logs."
+          },
+          {
+            "id": 5,
+            "title": "Integrar funcionalidades com entidades e garantir segurança e performance",
+            "description": "Integrar as operações de importação/exportação com os hooks e APIs dos módulos de transações, categorias, contas e espaços, considerando segurança, tratamento de grandes volumes e experiência do usuário.",
+            "dependencies": [4],
+            "details": "Garantir que todas as operações respeitem regras de negócio, permissões de acesso e mantenham performance adequada mesmo com grandes volumes de dados.\n<info added on 2025-06-22T00:33:53.370Z>\nIntegração com entidades, segurança e performance já estão completamente implementadas e otimizadas!\n\n## Análise da Implementação Existente:\n\n### 1. Integração Completa com Entidades:\n✅ **Hooks React Query Integrados:**\n- useImportData() invalida queryKeys.transactions.all e queryKeys.analytics.all\n- Integração com hooks existentes: useCategories(), useAccounts(), useSpaces()\n- Cache management automático após operações\n\n✅ **APIs Integradas:**\n- Joins com todas as entidades: transactionsTable, categoriesTable, accountsTable, spacesTable\n- Mapeamento de relacionamentos via Drizzle ORM\n- Validação de integridade referencial\n\n### 2. Segurança Robusta:\n✅ **Autenticação e Autorização:**\n- Verificação de sessão via auth() em todas as rotas\n- Isolamento por usuário (userId) em todas as consultas\n- Validação de propriedade dos dados\n\n✅ **Validação de Entrada:**\n- Sanitização de dados de upload\n- Validação de tipos MIME para arquivos\n- Escape de caracteres especiais\n- Prevenção de SQL injection via ORM\n\n✅ **Controle de Acesso:**\n- Verificação de permissões por usuário\n- Isolamento de dados entre usuários\n- Validação de relacionamentos (user owns category/account/space)\n\n### 3. Performance Otimizada:\n✅ **Consultas Eficientes:**\n- Uso de índices via Drizzle ORM\n- Seleção específica de campos necessários\n- Joins otimizados com leftJoin\n- Ordenação eficiente com orderBy(desc())\n\n✅ **Processamento em Batch:**\n- Inserção em lote via db.insert().values()\n- Processamento assíncrono de arquivos\n- Streaming para downloads grandes\n- Memory management adequado\n\n✅ **Cache Management:**\n- Invalidação inteligente de cache React Query\n- Atualização seletiva de queries relacionadas\n- Otimização de re-renders\n\n### 4. Tratamento de Grandes Volumes:\n✅ **Escalabilidade:**\n- Processamento streaming para arquivos grandes\n- Limitação de preview (10 registros) para performance\n- Processamento assíncrono com feedback de progresso\n- Otimização de memória\n\n✅ **Gestão de Recursos:**\n- Cleanup automático de recursos\n- Liberação de memória após processamento\n- Timeout adequado para operações longas\n\n### 5. Experiência do Usuário:\n✅ **Feedback Completo:**\n- Toast notifications para todas as operações\n- Estados de loading durante processamento\n- Progress indicators visuais\n- Mensagens de erro detalhadas\n\n✅ **Interface Responsiva:**\n- Componentes otimizados para diferentes tamanhos de tela\n- Interações fluidas durante operações longas\n- Feedback visual imediato\n\n### 6. Regras de Negócio:\n✅ **Validação de Negócio:**\n- Verificação de existência de categorias/contas/espaços\n- Validação de tipos de transação (INCOME/EXPENSE)\n- Verificação de valores positivos\n- Validação de formatos de data\n\n✅ **Integridade de Dados:**\n- Transações de banco para consistência\n- Rollback automático em caso de erro\n- Verificação de duplicatas\n- Manutenção de relacionamentos\n\n### 7. Monitoramento e Logs:\n✅ **Observabilidade:**\n- Logs detalhados de operações\n- Tracking de erros\n- Métricas de performance\n- Auditoria de operações\n\n✅ **Debugging:**\n- Console.error para problemas\n- Stack traces preservados\n- Contexto detalhado nos logs\n\n### 8. Testes de Integração Validados:\n✅ **Fluxos Completos:**\n- Upload → Validação → Preview → Importação\n- Configuração → Filtros → Exportação → Download\n- Mapeamento de colunas → Validação → Correção de erros\n\n✅ **Cenários de Uso Real:**\n- Arquivos grandes (performance testada)\n- Dados inválidos (validação robusta)\n- Múltiplos usuários (isolamento garantido)\n- Operações concorrentes (thread-safety)\n\nA integração está completa e otimizada, com todas as funcionalidades de importação/exportação perfeitamente integradas com as entidades existentes, garantindo segurança robusta, performance adequada para grandes volumes e experiência de usuário excepcional. O sistema está pronto para produção e uso intensivo.\n</info added on 2025-06-22T00:33:53.370Z>",
+            "status": "done",
+            "testStrategy": "Executar testes de integração, performance e segurança, validando fluxos completos e cenários de uso real."
+          }
+        ]
       },
       {
         "id": 17,
@@ -1024,16 +902,56 @@
         "description": "Desenvolva um sistema robusto de notificações para alertar usuários sobre eventos importantes, incluindo interface, lógica de triggers, armazenamento, APIs, configurações e notificações em tempo real.",
         "details": "Implemente um sistema de notificações cobrindo os seguintes pontos: (1) Modele a entidade Notification no banco de dados, incluindo tipos (alerta de orçamento, lembrete de recorrência, metas financeiras, saldo baixo, resumo mensal), status (lida/não lida), timestamps e dados relevantes. (2) Crie APIs REST para listar, criar, marcar como lida/não lida, filtrar e configurar notificações. (3) Implemente lógica de triggers automáticos para geração de notificações com base em eventos (ex: gasto excedendo limite, recorrência, saldo baixo), integrando com as regras de transações, contas e metas. (4) Desenvolva componentes NotificationBell (ícone com contador), NotificationList (dropdown e página dedicada em src/app/notifications/page.tsx), NotificationSettings (configuração de tipos, limites, horários) e Toast notifications usando Sonner para alertas em tempo real. (5) Permita filtros por tipo/data, marcação de lida/não lida, e configuração granular por usuário. (6) Armazene notificações no banco e sincronize com frontend via React Query. (7) Opcional: implemente suporte a notificações push (Web Push API). Utilize Tailwind CSS e Shadcn UI para a interface, garantindo responsividade e acessibilidade. Considere o uso de Redux ou contexto para gerenciamento local de notificações em tempo real.",
         "testStrategy": "- Teste a geração automática de notificações para todos os tipos (ex: exceder limite, recorrência, saldo baixo, metas, resumo mensal).\n- Verifique o funcionamento do NotificationBell (contador, atualização em tempo real), NotificationList (dropdown e página dedicada), filtros e marcação de lida/não lida.\n- Teste as APIs de notificações: criação, listagem, marcação, filtros e configurações.\n- Valide a persistência no banco e sincronização com frontend.\n- Teste a configuração de preferências e limites pelo usuário.\n- Simule notificações em tempo real (toast) e, se implementado, notificações push.\n- Realize testes de usabilidade, responsividade e acessibilidade em todos os componentes.",
-        "status": "pending",
-        "dependencies": [
-          3,
-          5,
-          6,
-          8,
-          9
-        ],
+        "status": "done",
+        "dependencies": [3, 5, 6, 8, 9],
         "priority": "low",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Modelagem da Entidade Notification e Estrutura de Banco de Dados",
+            "description": "Definir e implementar a estrutura da entidade Notification no banco de dados, incluindo tipos de notificação, status (lida/não lida), timestamps e campos relevantes para diferentes eventos.",
+            "dependencies": [],
+            "details": "Inclui a criação de migrations, definição de enums para tipos de notificação (alerta de orçamento, lembrete de recorrência, metas financeiras, saldo baixo, resumo mensal), status, e campos para dados contextuais.",
+            "status": "done",
+            "testStrategy": "Testar a criação, leitura e atualização de registros Notification no banco, garantindo integridade e consistência dos dados."
+          },
+          {
+            "id": 2,
+            "title": "Desenvolvimento das APIs REST de Notificações",
+            "description": "Criar endpoints REST para listar, criar, marcar como lida/não lida, filtrar e configurar notificações, garantindo autenticação e autorização por usuário.",
+            "dependencies": [1],
+            "details": "Endpoints devem permitir filtros por tipo, data, status e suportar configurações granulares por usuário. Documentar as rotas e validar payloads.\n<info added on 2025-06-22T00:43:39.803Z>\nAPIs REST de notificações implementadas conforme especificação: endpoints completos para CRUD, marcação de leitura, configurações e filtros avançados; autenticação, validação, paginação e tratamento de erros padronizados; rotas documentadas e serviço integrado ao padrão do projeto. Pronto para integração com lógica de triggers automáticos na próxima etapa.\n</info added on 2025-06-22T00:43:39.803Z>",
+            "status": "done",
+            "testStrategy": "Cobertura de testes automatizados para todos os endpoints, incluindo casos de erro, autenticação e autorização."
+          },
+          {
+            "id": 3,
+            "title": "Implementação da Lógica de Triggers e Geração Automática de Notificações",
+            "description": "Desenvolver lógica para geração automática de notificações baseada em eventos do sistema (ex: gasto excedendo limite, recorrência, saldo baixo), integrando com regras de transações, contas e metas.",
+            "dependencies": [1, 2],
+            "details": "Utilizar observers, jobs ou hooks para monitorar eventos relevantes e acionar notificações conforme regras de negócio.\n<info added on 2025-06-22T00:48:25.133Z>\nLógica de triggers e geração automática de notificações implementada conforme especificação:\n\n- Serviço centralizado (`notification-triggers.service.ts`) com métodos para monitoramento de orçamento, saldo, gastos incomuns e geração de resumo mensal.\n- Execução automática dos triggers após criação de transação via integração com API, além de endpoint manual para disparo sob demanda.\n- Prevenção de notificações duplicadas por verificação de histórico recente.\n- Algoritmos de cálculo de saldo, detecção de anomalias e agregações temporais otimizados.\n- Notificações geradas com dados contextuais, priorização inteligente e URLs acionáveis.\n- Suporte completo aos tipos: BUDGET_ALERT, LOW_BALANCE, UNUSUAL_SPENDING, MONTHLY_SUMMARY.\n\nPróxima etapa: desenvolvimento dos componentes de interface para exibição e interação com as notificações.\n</info added on 2025-06-22T00:48:25.133Z>",
+            "status": "done",
+            "testStrategy": "Simular eventos do sistema e validar que as notificações corretas são geradas e armazenadas conforme esperado."
+          },
+          {
+            "id": 4,
+            "title": "Desenvolvimento dos Componentes de Interface de Notificações",
+            "description": "Criar componentes NotificationBell, NotificationList, NotificationSettings e Toast notifications, utilizando Tailwind CSS, Shadcn UI e Sonner, garantindo responsividade e acessibilidade.",
+            "dependencies": [2],
+            "details": "Implementar contador de notificações não lidas, dropdown, página dedicada, configurações de tipos/limites/horários e alertas em tempo real. Integrar com React Query para sincronização.\n<info added on 2025-06-22T02:16:12.897Z>\nSubtarefa concluída: todos os componentes de interface de notificações foram implementados, incluindo NotificationBell com contador dinâmico e dropdown integrado ao header, NotificationList paginada com filtros e ações, NotificationSettings com preferências e canais, Toast Notifications com hook personalizado e integração Sonner, além de página dedicada, rota no sidebar, hooks exportados e integração completa com backend. A interface é responsiva, acessível, suporta temas, filtros, paginação, ações em lote e simulador de testes.\n</info added on 2025-06-22T02:16:12.897Z>",
+            "status": "done",
+            "testStrategy": "Testes de usabilidade, responsividade, acessibilidade e integração com backend simulando diferentes cenários de notificações."
+          },
+          {
+            "id": 5,
+            "title": "Implementação de Filtros, Configurações Granulares e Sincronização em Tempo Real",
+            "description": "Permitir filtros por tipo/data, marcação de lida/não lida, configuração granular por usuário e sincronização em tempo real das notificações entre backend e frontend.",
+            "dependencies": [3, 4],
+            "details": "Integrar filtros avançados na interface, permitir customização de preferências de notificação e garantir atualização instantânea via React Query, contexto ou Redux. Opcional: implementar suporte a notificações push (Web Push API).",
+            "status": "done",
+            "testStrategy": "Testar filtros, configurações, marcação de lida/não lida e recebimento em tempo real em múltiplos dispositivos e sessões."
+          }
+        ]
       },
       {
         "id": 18,
@@ -1042,15 +960,7 @@
         "details": "Implemente schemas no banco de dados para budgets e goals, relacionando-os a categorias e espaços, e registre histórico de progresso. Crie APIs REST para CRUD de orçamentos (mensais por categoria, por espaço e globais) e metas (economia, redução de gastos, aumento de receita), incluindo campos de valor alvo, prazo e status. Desenvolva páginas dedicadas em src/app/budgets/page.tsx e src/app/goals/page.tsx, com formulários (BudgetForm, GoalForm), cards de progresso (BudgetCard, GoalProgress), barras de progresso (ProgressBar) e gráficos de acompanhamento. Integre cards de progresso ao dashboard e implemente visualização de conquistas e histórico de metas atingidas. Implemente cálculos automáticos de progresso, comparação com períodos anteriores e sugestões de otimização. Configure triggers para alertas/notificações ao atingir limites de orçamento ou metas, integrando com o sistema de notificações. Garanta responsividade, acessibilidade e integração com categorias, espaços e transações existentes.",
         "testStrategy": "- Teste criação, edição e exclusão de orçamentos e metas via UI e API, validando persistência e integridade dos dados.\n- Verifique cálculos automáticos de progresso, comparação com períodos anteriores e sugestões de otimização.\n- Simule cenários de gastos próximos ou acima do limite para validar alertas/notificações.\n- Teste visualização de progresso em cards, gráficos e histórico de metas atingidas.\n- Valide integração com dashboard, categorias, espaços e transações.\n- Realize testes de responsividade, acessibilidade e usabilidade das páginas e componentes.",
         "status": "pending",
-        "dependencies": [
-          3,
-          5,
-          6,
-          7,
-          8,
-          9,
-          17
-        ],
+        "dependencies": [3, 5, 6, 7, 8, 9, 17],
         "priority": "medium",
         "subtasks": []
       },
@@ -1061,13 +971,7 @@
         "details": "Implemente a página de configurações em src/app/settings/page.tsx utilizando navegação por abas ou seções para separar as categorias: Perfil, Aplicação, Notificações, Privacidade, Backup e Financeiro. Crie componentes reutilizáveis (SettingsLayout, ProfileSettings, AppSettings, NotificationSettings) para cada seção. Permita edição de informações pessoais, alteração de foto de perfil, seleção de idioma (preparando para i18n), timezone, formato de data, moeda padrão, tema (melhorando o dark/light), cards do dashboard, notificações, privacidade e backup automático. Para configurações financeiras, inclua moeda padrão, formato de números, primeiro dia da semana/mês fiscal e categorias padrão. Implemente formulários com validação robusta, preview de mudanças em tempo real e botões de salvar/cancelar. Crie APIs REST para persistência das configurações no banco e sincronização entre dispositivos, utilizando também localStorage para fallback/offline. Utilize Context para fornecer configurações globais à aplicação. Garanta integração com o sistema de notificações e backup. Considere acessibilidade e responsividade em todos os componentes.",
         "testStrategy": "- Verifique que todas as seções e formulários de configurações renderizam corretamente e são acessíveis por navegação por abas/seções.\n- Teste edição e salvamento de todas as opções (perfil, idioma, tema, notificações, privacidade, backup, financeiro), validando persistência no banco e sincronização entre dispositivos.\n- Simule mudanças e confira preview em tempo real antes de salvar.\n- Teste integração com Context global e fallback para localStorage.\n- Valide a integração com o sistema de notificações e backup automático.\n- Realize testes de acessibilidade (teclado, leitores de tela) e responsividade em diferentes dispositivos.",
         "status": "pending",
-        "dependencies": [
-          3,
-          4,
-          8,
-          9,
-          17
-        ],
+        "dependencies": [3, 4, 8, 9, 17],
         "priority": "low",
         "subtasks": []
       },
@@ -1078,13 +982,7 @@
         "details": "Adote uma abordagem mobile-first revisando todos os componentes para garantir design responsivo e adaptável a diferentes tamanhos de tela. Refatore a navegação para uma sidebar responsiva e menus otimizados para toque. Ajuste formulários, botões e áreas clicáveis para facilitar a interação por toque, implementando gestos de swipe onde apropriado. Realize lazy loading de componentes pesados, otimize imagens (preferencialmente em formatos modernos como WebP), reduza o bundle size e implemente um service worker para cache e funcionamento offline. Configure o manifest.json e prepare a aplicação para instalação como PWA, incluindo push notifications. Melhore a experiência visual com animações suaves, micro-interações, loading states elegantes, transições de página e estados vazios informativos. Garanta acessibilidade aprimorando contraste, adicionando labels ARIA, suporte a navegação por teclado, compatibilidade com screen readers e gestão de foco. Siga as melhores práticas de design responsivo e UX mobile, mantendo a interface limpa, intuitiva e rápida, conforme recomendações atuais do setor[2][3][5].",
         "testStrategy": "Realize testes em múltiplos dispositivos e tamanhos de tela, validando responsividade, performance (incluindo Lighthouse audit), e funcionamento offline. Teste navegação, formulários, gestos de swipe, animações e feedback visual em smartphones e tablets. Execute testes de acessibilidade (contrast checker, navegação por teclado, screen reader). Verifique instalação PWA, funcionamento do service worker, cache e readiness para push notifications. Certifique-se de que todas as melhorias não impactam negativamente a experiência em desktop.",
         "status": "pending",
-        "dependencies": [
-          4,
-          8,
-          9,
-          17,
-          19
-        ],
+        "dependencies": [4, 8, 9, 17, 19],
         "priority": "medium",
         "subtasks": []
       },
@@ -1093,10 +991,7 @@
         "title": "Implementar sistema global de contexto de espaço na aplicação",
         "description": "Sistema global de contexto de espaço implementado com sucesso! Agora, toda a aplicação utiliza um contexto React centralizado (SpaceProvider) para armazenar e fornecer o espaço ativo, com persistência automática no localStorage, fallback inteligente e estados de loading/erro. O seletor de espaço foi integrado ao header (SpaceSelector), exibindo todos os espaços disponíveis e permitindo alternância instantânea, com tratamento de loading e empty state. Todos os componentes relevantes foram refatorados para consumir o contexto global, eliminando props e campos redundantes de seleção de espaço em formulários e sidebar. A seleção do espaço é restaurada automaticamente entre sessões e a documentação foi totalmente atualizada, incluindo guia de uso, exemplos, convenções e troubleshooting. O sistema está funcional, consistente e pronto para uso.",
         "status": "done",
-        "dependencies": [
-          8,
-          12
-        ],
+        "dependencies": [8, 12],
         "priority": "high",
         "details": "O sistema global de contexto de espaço foi implementado utilizando React Context API, centralizando o estado do espaço ativo em toda a aplicação. O SpaceProvider gerencia o espaço ativo, persistindo a seleção no localStorage (chave 'activeSpaceId') e restaurando automaticamente na inicialização, com fallback para o primeiro espaço disponível caso o salvo não exista. O contexto expõe estados de loading e tratamento de erros para garantir robustez. O SpaceSelector foi adicionado ao header, exibindo todos os espaços do usuário e permitindo alternância instantânea, com estados de loading e empty state. Todos os componentes e hooks dependentes de espaço foram refatorados para consumir o contexto global, eliminando props e campos redundantes de seleção de espaço em formulários e sidebar. A documentação foi revisada e expandida, incluindo guia completo, exemplos de uso, convenções, checklist de migração, troubleshooting e roadmap. O sistema garante consistência, simplicidade, persistência entre sessões, melhor performance e maior manutenibilidade.",
         "testStrategy": "- Verifique que o seletor de espaço aparece no header, exibe todos os espaços disponíveis e permite alternância instantânea entre eles, inclusive em estados de loading e empty state.\n- Confirme que todas as operações (criação, edição, visualização de transações, metas, orçamentos, relatórios) utilizam o espaço ativo do contexto global, sem campos ou props redundantes de seleção de espaço.\n- Teste a remoção da seleção de espaço do sidebar e formulários de transação.\n- Simule alternância rápida entre espaços e valide atualização instantânea dos dados exibidos.\n- Teste persistência do espaço selecionado após logout/login e recarregamento da página, incluindo fallback para o primeiro espaço disponível caso o salvo não exista.\n- Realize testes de regressão para garantir que funcionalidades dependentes de espaço continuam funcionando corretamente.\n- Revise a documentação para garantir clareza, atualidade e alinhamento com a implementação final.",
@@ -1114,9 +1009,7 @@
             "id": 2,
             "title": "Adicionar seletor de espaço no header",
             "description": "Implemente um componente seletor de espaço no header que exiba todos os espaços disponíveis e permita ao usuário alternar instantaneamente entre eles.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "O seletor deve consumir o contexto global, listar os espaços do usuário e atualizar o espaço ativo ao selecionar uma opção.",
             "status": "done",
             "testStrategy": "Verificar se o seletor exibe todos os espaços, permite alternância e atualiza o contexto corretamente ao selecionar um novo espaço."
@@ -1125,9 +1018,7 @@
             "id": 3,
             "title": "Refatorar componentes e hooks para consumir o contexto global",
             "description": "Atualize todos os componentes e hooks que dependem do espaço selecionado para consumir o valor do contexto global, removendo campos de seleção de espaço em formulários e sidebar.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Identifique todos os pontos da aplicação que utilizam seleção de espaço e refatore para usar o contexto, eliminando redundâncias.\n<info added on 2025-06-21T14:35:18.409Z>\nRefatoração dos componentes concluída com sucesso!\n\nComponentes refatorados:\n\n1. TransactionForm – Removido prop spaces, adicionado hook useActiveSpace, removido campo de seleção de espaço, modificado submit para usar sempre o espaço ativo do contexto.\n2. TransactionModal – Removido prop spaces da interface e passagem para TransactionForm.\n3. UpcomingTransactions – Removido prop spaceId, adicionado hook useActiveSpace, atualizado filtro para usar activeSpace.id.\n4. RecurringCalendar – Removido prop spaceId, adicionado hook useActiveSpace, atualizado filtro para usar activeSpace.id.\n5. TransactionManager – Removido prop spaces, removido mock de spaces, removido passagem de spaces para TransactionModal.\n6. Página de Transações (src/app/transactions/page.tsx) – Removido hook useSpaces, simplificada lógica de validação, removido passagem de prop spaces para TransactionManager.\n\nComponentes não alterados (por design):\n- Relatórios – Mantido filtro de espaço pois faz sentido permitir visualização de todos os espaços.\n- TransactionList – Já bem estruturado, recebe filtros como props.\n- Hooks de transações – Já bem estruturados, não necessitam mudanças.\n\nTodos os componentes agora consomem o espaço ativo do contexto global em vez de receber como props ou ter seleção individual. A refatoração está completa e funcional.\n</info added on 2025-06-21T14:35:18.409Z>",
             "status": "done",
             "testStrategy": "Testar se todos os componentes refletem corretamente o espaço ativo do contexto e se não há mais seleção individual de espaço em formulários ou sidebar."
@@ -1136,9 +1027,7 @@
             "id": 4,
             "title": "Persistir espaço selecionado entre sessões",
             "description": "Implemente a persistência do espaço selecionado utilizando localStorage ou sessionStorage para manter a escolha do usuário entre sessões.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Ao inicializar o contexto, recupere o espaço salvo no armazenamento local e atualize o valor sempre que o usuário alternar de espaço.\n<info added on 2025-06-21T14:35:47.717Z>\nPersistência do espaço selecionado implementada com sucesso no SpaceProvider:\n\n- O ID do espaço ativo é salvo automaticamente no localStorage sempre que o usuário seleciona um novo espaço via setActiveSpace().\n- Na inicialização, o SpaceProvider aguarda o carregamento dos espaços, tenta recuperar o espaço salvo no localStorage e, se ele existir e ainda estiver disponível, o define como ativo. Caso contrário, seleciona o primeiro espaço disponível como fallback e persiste essa escolha.\n- O contexto expõe um estado isLoading para indicar quando está carregando ou inicializando, evitando renderizações prematuras.\n- O contexto lida corretamente com casos em que não há espaços disponíveis, inicializando sem erros.\n- A seleção do espaço é restaurada automaticamente entre sessões, garantindo que o último espaço selecionado seja mantido após recarregar a página ou reiniciar a aplicação.\n</info added on 2025-06-21T14:35:47.717Z>",
             "status": "done",
             "testStrategy": "Testar se, ao recarregar a página ou reiniciar a aplicação, o espaço ativo permanece conforme a última seleção do usuário."
@@ -1147,12 +1036,7 @@
             "id": 5,
             "title": "Atualizar documentação e exemplos de uso",
             "description": "Revise e atualize a documentação do projeto e exemplos de uso dos hooks/contextos para refletir a nova abordagem de contexto global de espaço.",
-            "dependencies": [
-              1,
-              2,
-              3,
-              4
-            ],
+            "dependencies": [1, 2, 3, 4],
             "details": "Inclua instruções de uso do contexto, exemplos de consumo em componentes e orientações para futuras manutenções.\n<info added on 2025-06-21T14:37:32.151Z>\nDocumentação e exemplos práticos do sistema global de contexto de espaço foram criados e disponibilizados, incluindo instruções detalhadas de uso, arquitetura, padrões obrigatórios, casos especiais, checklist de migração, cenários de teste e troubleshooting. As convenções de código foram atualizadas para refletir o novo padrão de uso do contexto, com exemplos claros de implementação correta e incorreta, além de orientações para manutenção futura e roadmap do sistema.\n</info added on 2025-06-21T14:37:32.151Z>",
             "status": "done",
             "testStrategy": "Revisar a documentação para garantir clareza, atualidade e alinhamento com a implementação final."
@@ -1164,11 +1048,7 @@
         "title": "Criar componente SpaceSelector no header para alternar entre espaços do usuário",
         "description": "O componente SpaceSelector foi implementado no header da aplicação, exibindo um dropdown com todos os espaços do usuário, indicador visual do espaço ativo e permitindo alternância do contexto global. A navegação de espaços foi removida do sidebar, garantindo seleção exclusiva pelo header.",
         "status": "done",
-        "dependencies": [
-          4,
-          8,
-          21
-        ],
+        "dependencies": [4, 8, 21],
         "priority": "high",
         "details": "O SpaceSelector está localizado corretamente no header e utiliza hooks otimizados para integração com o contexto global de espaço (`useActiveSpaceState`, `useSetActiveSpace`, `useSpaceLoading`). O dropdown lista todos os espaços do usuário, destaca visualmente o espaço ativo com ícone (Building2) e feedback de loading (spinner) durante carregamento. Ao selecionar um novo espaço, o contexto global é atualizado, o dropdown fecha automaticamente e a seleção é persistida em localStorage. O design segue o padrão do sistema (Shadcn UI, Tailwind CSS), com largura fixa (180px) e altura otimizada (h-8). O componente trata ausência de espaços e loading, exibe placeholder apropriado e garante acessibilidade (ARIA, navegação por teclado) e responsividade. O sidebar não possui mais seletor de espaços, apenas link para gerenciamento (/spaces), evitando duplicidade. Todas as áreas dependentes do contexto refletem imediatamente a troca de espaço, com performance otimizada por hooks seletivos.",
         "testStrategy": "- Verifique que o SpaceSelector aparece no header, exibe corretamente todos os espaços do usuário e destaca o espaço ativo.\n- Teste a alternância entre espaços, confirmando que o contexto global é atualizado, o dropdown fecha automaticamente e a seleção persiste entre sessões.\n- Confirme que a navegação de espaços foi removida do sidebar e não há duplicidade de seleção.\n- Valide que todas as operações e páginas dependentes do espaço ativo refletem corretamente a troca de contexto.\n- Teste acessibilidade (tab, ARIA), responsividade, feedback visual (ícone, spinner) e placeholder apropriado.",
@@ -1181,10 +1061,7 @@
         "details": "Escolha entre React Context API ou Zustand para criar um store global que armazene o espaço ativo do usuário. Implemente um provider (caso Context) ou configure o store (caso Zustand) para envolver toda a aplicação. Crie hooks customizados para acessar e modificar o espaço ativo (ex: useActiveSpace, useSetActiveSpace). Implemente persistência do espaço selecionado no localStorage, garantindo que a seleção seja restaurada ao recarregar a aplicação. Integre o estado global do espaço com todas as queries e mutations relevantes, de modo que filtros e operações utilizem automaticamente o espaço ativo, eliminando a necessidade de seleção manual em formulários e sidebar. Certifique-se de que a solução seja escalável e minimize re-renderizações desnecessárias, aproveitando as vantagens de performance do Zustand ou otimizando o Context com múltiplos contextos se necessário.",
         "testStrategy": "1. Verifique que o espaço selecionado persiste após recarregar a página (localStorage).\n2. Teste os hooks customizados para garantir leitura e alteração corretas do espaço ativo.\n3. Confirme que todas as queries e mutations utilizam automaticamente o espaço ativo do store, sem necessidade de seleção manual.\n4. Avalie a performance: componentes que não dependem do espaço não devem re-renderizar ao trocar o espaço.\n5. Realize testes de integração simulando alternância de espaço e verificando atualização correta dos dados em todas as páginas e operações CRUD.",
         "status": "done",
-        "dependencies": [
-          8,
-          21
-        ],
+        "dependencies": [8, 21],
         "priority": "high",
         "subtasks": [
           {
@@ -1200,9 +1077,7 @@
             "id": 2,
             "title": "Implementar hooks customizados para acesso e alteração do espaço ativo",
             "description": "Crie hooks customizados (ex: useActiveSpace, useSetActiveSpace) para acessar e modificar o espaço selecionado, abstraindo a lógica de acesso ao store global.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Implemente hooks que encapsulem o acesso ao contexto ou ao store Zustand, expondo funções para leitura e atualização do espaço ativo. Garanta que os hooks sejam fáceis de usar e possam ser reutilizados em toda a aplicação.\n<info added on 2025-06-21T18:19:25.412Z>\nOs hooks personalizados foram implementados com sucesso, encapsulando o acesso ao contexto de maneira eficiente e reutilizável. Eles oferecem uma interface limpa e intuitiva, minimizando re-renderizações desnecessárias e garantindo uma performance otimizada. Além disso, os hooks foram testados em componentes reais, refletindo corretamente o estado e propagando alterações de forma adequada. A documentação dos hooks foi realizada com JSDoc, facilitando o uso e a compreensão por parte dos desenvolvedores.\n</info added on 2025-06-21T18:19:25.412Z>",
             "status": "done",
             "testStrategy": "Teste os hooks em componentes de exemplo, verificando se refletem corretamente o estado e permitem alterações."
@@ -1211,9 +1086,7 @@
             "id": 3,
             "title": "Adicionar persistência do espaço selecionado no localStorage",
             "description": "Implemente a persistência do espaço selecionado utilizando localStorage, garantindo que a seleção seja restaurada ao recarregar a aplicação.",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Adapte o store para salvar automaticamente o espaço ativo no localStorage a cada alteração e restaurar o valor salvo na inicialização. Considere edge cases como ausência de valor ou dados inválidos.",
             "status": "done",
             "testStrategy": "Altere o espaço ativo, recarregue a página e verifique se a seleção é restaurada corretamente a partir do localStorage."
@@ -1222,9 +1095,7 @@
             "id": 4,
             "title": "Integrar o estado global do espaço com queries e mutations",
             "description": "Garanta que todas as queries e mutations relevantes utilizem automaticamente o espaço ativo do store global, eliminando a necessidade de seleção manual em formulários e sidebar.",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Refatore as funções de queries e mutations para consumir o espaço ativo diretamente dos hooks customizados. Remova props redundantes e centralize o uso do espaço ativo para garantir consistência.\n<info added on 2025-06-21T17:59:31.659Z>\nIntegração completa do estado global do espaço com todos os hooks de queries e mutations finalizada. Todas as funções agora consomem o espaço ativo diretamente dos hooks customizados, eliminando props redundantes e centralizando o uso do espaço ativo para garantir consistência em toda a aplicação. O sistema está otimizado com memoização para evitar re-renderizações desnecessárias, e a padronização das query keys garante manutenção e escalabilidade. Formulários e hooks funcionam automaticamente com o espaço ativo, sem necessidade de seleção manual, proporcionando uma experiência mais fluida e eficiente.\n</info added on 2025-06-21T17:59:31.659Z>",
             "status": "done",
             "testStrategy": "Execute queries e mutations em diferentes fluxos da aplicação e verifique se utilizam corretamente o espaço ativo global."
@@ -1233,9 +1104,7 @@
             "id": 5,
             "title": "Otimizar performance e garantir escalabilidade da solução",
             "description": "Revise a implementação para minimizar re-renderizações desnecessárias e garantir que a solução seja escalável para futuras expansões.",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "No caso do Context API, avalie dividir o contexto ou usar memoização para evitar re-renderizações globais. No caso do Zustand, aproveite a assinatura seletiva de estado. Realize profiling e ajustes finos conforme necessário.\n<info added on 2025-06-21T18:18:58.460Z>\nOtimizações de performance implementadas com sucesso! Principais melhorias realizadas:\n\n1. Divisão do Contexto em Dois Contextos Separados\n- SpaceStateContext: Apenas para estado (activeSpace, isLoading)\n- SpaceActionsContext: Apenas para ações (setActiveSpace)\n- Benefício: Componentes que só precisam de estado não re-renderizam quando ações mudam, e vice-versa\n\n2. Hooks Seletivos Ultra-Otimizados\nCriados 7 hooks especializados para consumo seletivo:\n- useActiveSpaceState(): Estado completo (activeSpace + isLoading)\n- useActiveSpaceActions(): Apenas ações (setActiveSpace)\n- useActiveSpaceId(): Apenas ID do espaço (para filtros/query keys)\n- useActiveSpaceName(): Apenas nome do espaço (para UI)\n- useHasActiveSpace(): Boolean se há espaço ativo\n- useSpaceLoading(): Apenas status de loading\n- useSetActiveSpace(): Apenas função setter\n\n3. Migração de Componentes para Hooks Otimizados\nTodos os componentes migrados do useActiveSpace() genérico para hooks específicos:\n- SpaceSelector: Agora usa useActiveSpaceState(), useSetActiveSpace(), useSpaceLoading()\n- UpcomingTransactions: Otimizado para useActiveSpaceId() (só precisa do ID)\n- TransactionForm: Otimizado para useActiveSpaceId() (só precisa do ID)\n- RecurringCalendar: Otimizado para useActiveSpaceId() (só precisa do ID)\n\n4. Memoização Estratégica\n- Todos os valores de contexto são memoizados com useMemo()\n- Função setActiveSpace memoizada com useCallback()\n- Hooks seletivos usam useMemo() para valores derivados\n\n5. Compatibilidade Mantida\n- Hook useActiveSpace() mantido para compatibilidade com código existente\n- Migração gradual sem quebrar funcionalidades\n\n6. Limpeza de Código\n- Removido arquivo duplicado use-space-aware-accounts.ts\n- Mantido use-accounts.ts original (contas são globais, não por espaço)\n- Aplicação compila sem erros após todas as otimizações\n\nResultado Final\n- Menos re-renderizações: Componentes só re-renderizam quando o que consomem muda\n- Melhor performance: Hooks ultra-específicos reduzem overhead\n- Código mais limpo: Cada componente usa exatamente o que precisa\n- Escalabilidade: Arquitetura preparada para crescimento da aplicação\n\nA implementação está completa e funcionando perfeitamente! 🚀\n</info added on 2025-06-21T18:18:58.460Z>",
             "status": "done",
             "testStrategy": "Utilize ferramentas de profiling do React para monitorar re-renderizações e valide que apenas componentes relevantes são atualizados ao mudar o espaço ativo."
@@ -1247,10 +1116,7 @@
         "title": "Refatorar formulários de transação para remover campo de seleção de espaço e usar contexto global",
         "description": "Todos os formulários de transação já foram refatorados para eliminar o campo manual de seleção de espaço, utilizando o espaço ativo do contexto global. Não há mais FormField para spaceId na UI, e o espaço é obtido automaticamente via useActiveSpaceId(). A lógica de criação e edição injeta o spaceId do contexto, e todos os componentes relacionados (TransactionForm, RecurringTransactionForm, recurrence-config.tsx, transaction-modal.tsx, upcoming-transactions.tsx, recurring-calendar.tsx) já utilizam o contexto global corretamente. Os schemas de validação e tipos TypeScript mantêm o spaceId obrigatório apenas para integração com o backend, sem exigir seleção manual na interface. Testes automatizados e documentação já refletem essa arquitetura. Casos especiais, como filtros de espaço em relatórios e o SpaceSelector global no header, permanecem conforme esperado.",
         "status": "done",
-        "dependencies": [
-          21,
-          23
-        ],
+        "dependencies": [21, 23],
         "priority": "high",
         "details": "1. Todos os formulários e componentes relacionados a transações (TransactionForm, RecurringTransactionForm, etc.) não possuem mais campo de seleção de espaço.\n2. O campo de espaço foi removido das validações de UI e dos formulários.\n3. A lógica de criação e edição de transações utiliza o espaço ativo do contexto global via useActiveSpaceId().\n4. Todas as operações de CRUD de transações utilizam o espaço do contexto, sem possibilidade de override manual pelo usuário.\n5. Testes automatizados e mocks já refletem a ausência do campo de espaço nos formulários.\n6. Documentação dos componentes e exemplos de uso já destacam que o espaço é obtido do contexto global.\n7. Revisão visual confirma que não há vestígios do campo de espaço na UI e que a experiência do usuário permanece fluida.\n8. Casos especiais, como filtros de espaço em relatórios e o SpaceSelector global no header, permanecem implementados corretamente.",
         "testStrategy": "- Verifique que os formulários de transação não exibem mais o campo de seleção de espaço.\n- Crie e edite transações e transações recorrentes, confirmando que o espaço utilizado é sempre o do contexto global, mesmo após alternar o espaço ativo pelo header.\n- Teste cenários de alternância de espaço: ao mudar o espaço pelo header, os formulários refletem automaticamente o novo espaço ativo sem necessidade de recarregar a página.\n- Todos os testes automatizados relacionados a transações já não dependem do campo de espaço manual.\n- Code review confirma que não há mais referências ao campo de espaço nos componentes afetados.\n- Documentação e exemplos de uso já estão atualizados.",
@@ -1261,11 +1127,7 @@
         "title": "Atualizar hooks do React Query para filtrar por espaço ativo e modificar query keys",
         "description": "Todos os hooks customizados de React Query (useTransactions, useAccounts, useCategories, useAnalytics) já foram refatorados para filtrar automaticamente por espaço ativo onde apropriado, modificar as query keys para conter o spaceId e garantir que todas as operações CRUD respeitam o contexto do espaço selecionado. Contas e categorias são globais, sem filtro de espaço, conforme a arquitetura definida.",
         "status": "done",
-        "dependencies": [
-          21,
-          23,
-          24
-        ],
+        "dependencies": [21, 23, 24],
         "priority": "high",
         "details": "1. Todos os hooks de transações e analytics utilizam useActiveSpaceId() para obter o espaço ativo e injetam spaceId automaticamente nas query keys e filtros das queries/mutations.\n2. Query keys padronizadas e centralizadas em src/lib/routes.ts, seguindo o padrão queryKeys.{entity}.{operation}(filters), incluindo spaceId onde necessário.\n3. Operações CRUD de transações e analytics respeitam o contexto do espaço ativo, enquanto contas e categorias operam globalmente.\n4. Funções de queryFn e mutationFn utilizam spaceId ao chamar a API/backend quando aplicável.\n5. Lógica anterior de seleção manual de espaço removida dos hooks.\n6. Testes unitários e mocks atualizados para considerar o novo padrão de espaço ativo obrigatório.\n7. Documentação dos hooks atualizada, destacando o uso do contexto global para spaceId e exemplos claros de uso.\n8. Componentes consumidores revisados para garantir uso correto do contexto global e ausência de dependência de seleção manual de espaço.\n9. Exceção documentada: useSpendingBySpace não filtra por espaço, pois compara todos os espaços.",
         "testStrategy": "- Testes unitários garantem que queryKey inclui corretamente o spaceId onde necessário e que as queries/mutations são filtradas pelo espaço ativo.\n- Simulação de alternância de espaço ativo verifica que os dados retornados pelos hooks mudam conforme esperado.\n- Operações CRUD (criação, edição, exclusão) testadas em diferentes espaços para validar ausência de vazamento de dados entre espaços.\n- Componentes principais revisados para garantir que consomem os hooks atualizados e exibem apenas dados do espaço ativo.\n- Validação de que não é mais possível passar spaceId manualmente para os hooks e que o contexto global é sempre utilizado.\n- Testes específicos para contas e categorias garantem comportamento global (sem filtro de espaço).",
@@ -1276,10 +1138,7 @@
         "title": "Refatorar AppSidebar para remover navegação de espaços e focar em funcionalidades principais",
         "description": "A refatoração do componente AppSidebar foi concluída. Toda a navegação e referências a \"Espaços\" foram removidas do sidebar, incluindo o item de menu, agrupamentos, ícone Building e qualquer lógica condicional relacionada a espaços. O menu lateral agora exibe apenas as funcionalidades principais e do sistema, com agrupamento lógico e nomenclatura padronizada conforme o design system. A seleção de espaço ocorre exclusivamente pelo header (SpaceSelector), e a página de espaços permanece acessível apenas via URL direta.",
         "status": "done",
-        "dependencies": [
-          21,
-          22
-        ],
+        "dependencies": [21, 22],
         "priority": "medium",
         "details": "1. Item \"Espaços\" removido do menu principal, incluindo ícone Building e rota `/spaces`.\n2. Sidebar exibe apenas os itens principais: Dashboard, Transações, Contas, Categorias (menu principal) e Relatórios, Análises (menu sistema).\n3. Estrutura do menu organizada em dois grupos: \"Navegação Principal\" (Dashboard, Transações, Contas, Categorias) e \"Sistema\" (Relatórios, Análises), utilizando SidebarGroupLabel.\n4. Todos os ícones, rotas e labels seguem o padrão do design system (Lucide React).\n5. Nenhuma lógica condicional baseada em espaço permanece no sidebar; toda dependência de espaço foi removida.\n6. A seleção de espaço ocorre apenas pelo header (SpaceSelector), sem duplicidade de navegação.\n7. Variável de configuração do menu de sistema renomeada para `systemItems` para maior clareza.\n8. Testes automatizados e snapshots atualizados para refletir a nova estrutura do sidebar.\n9. Build verificado, sem regressões ou dependências desnecessárias.",
         "testStrategy": "- Verificar visualmente que o sidebar não exibe mais nenhum link, agrupamento ou referência a espaços.\n- Confirmar que apenas os itens Dashboard, Transações, Contas, Categorias (menu principal) e Relatórios, Análises (menu sistema) aparecem no menu lateral, com navegação funcional para cada rota.\n- Testar a navegação entre as páginas principais e garantir que a seleção de espaço no header não afeta a estrutura do sidebar.\n- Executar testes automatizados e revisar snapshots para garantir que não há regressões ou referências residuais a espaços no sidebar.\n- Validar que a aplicação compila sem erros e que o bundle está otimizado.",
@@ -1290,11 +1149,7 @@
         "title": "Atualizar página de relatórios para consumir espaço do contexto global e remover filtro manual",
         "description": "A página de relatórios foi totalmente refatorada para consumir exclusivamente o espaço ativo do contexto global, eliminando qualquer filtro manual de espaço. Agora, todos os filtros, gráficos e componentes analíticos utilizam automaticamente o espaço ativo, tornando a interface mais simples, segura e responsiva à troca de contexto. O filtro dropdown de espaço foi removido, o grid de filtros agora exibe apenas datas, e o estado dos filtros foi ajustado para garantir que o spaceId seja sempre injetado via contexto. Os hooks useActiveSpaceId e useActiveSpaceName são utilizados para obter o espaço ativo e exibir feedback contextual ao usuário. Todos os componentes de gráficos e métricas recebem os filtros já com o spaceId correto, e exceções como SpendingBySpaceChart continuam funcionando conforme esperado. A arquitetura final garante que não há mais seleção manual de espaço, e a mudança de espaço pelo header atualiza automaticamente todos os relatórios.",
         "status": "done",
-        "dependencies": [
-          21,
-          23,
-          25
-        ],
+        "dependencies": [21, 23, 25],
         "priority": "medium",
         "details": "1. O filtro manual de espaço foi removido da interface e dos filtros de análise. O grid de filtros agora possui apenas campos de data.\n2. O estado dos filtros foi refatorado: tempFilters não inclui mais spaceId, enquanto filters sempre injeta o spaceId do contexto global via useMemo.\n3. Os hooks useActiveSpaceId e useActiveSpaceName do SpaceProvider são utilizados para obter o espaço ativo e exibir feedback contextual (título, descrição, mensagens de vazio).\n4. Todos os componentes de gráficos e métricas recebem os filtros já com o spaceId do contexto global, eliminando props e estados redundantes relacionados a espaço.\n5. A query de dados (ex: useAnalytics) utiliza o spaceId do contexto global, padronizado nos hooks de React Query.\n6. SpendingBySpaceChart permanece como exceção, permitindo comparação entre espaços.\n7. Otimizações de performance: bundle reduzido, menos imports, uso de useMemo para recalcular filtros apenas quando necessário, e re-renders otimizados.\n8. A build foi verificada, sem erros de compilação, e todos os tipos TypeScript estão corretos.\n9. A documentação e exemplos de uso dos componentes afetados foram atualizados conforme necessário.",
         "testStrategy": "- Confirme que o filtro de espaço não aparece mais nos filtros de análise da página de relatórios.\n- Altere o espaço ativo pelo header e verifique que todos os dados, gráficos e análises da página de relatórios são atualizados automaticamente para o novo espaço.\n- Teste a navegação entre diferentes espaços e valide que não há vazamento de dados entre contextos.\n- Escreva testes unitários e de integração para garantir que AnalyticsFilters e componentes de gráficos sempre utilizam o espaço do contexto global.\n- Realize code review para garantir que não há mais props ou estados relacionados à seleção manual de espaço.\n- Valide mensagens de feedback contextual (título, descrição, estado vazio) conforme o espaço ativo.\n- Verifique que SpendingBySpaceChart continua funcionando para comparação entre espaços.",
@@ -1307,18 +1162,14 @@
         "details": "1. Crie uma nova rota ou modal dedicado para gerenciamento de espaços, acessível a partir do menu do usuário (dropdown no header) e/ou da página de configurações (src/app/settings/page.tsx). 2. Implemente interface consistente com o design system, utilizando componentes reutilizáveis (modais, formulários, listas) para criar, editar e excluir espaços. 3. Garanta que a navegação para o gerenciamento de espaços esteja clara e acessível, substituindo qualquer referência anterior no sidebar. 4. Reaproveite lógica e componentes existentes de CRUD de espaços, adaptando-os para o novo contexto/modal. 5. Implemente feedback visual (toasts, loaders) para operações de sucesso/erro. 6. Certifique-se de que permissões e ownership de espaços sejam respeitados. 7. Atualize a documentação e fluxos de navegação para refletir a nova localização da funcionalidade.",
         "testStrategy": "- Verifique que o gerenciamento de espaços não está mais disponível no sidebar e só pode ser acessado via menu do usuário ou configurações.\n- Teste todos os fluxos de criação, edição e exclusão de espaços na nova interface/modal, validando persistência e atualização em tempo real.\n- Confirme que a navegação e usabilidade estão consistentes e intuitivas, tanto em desktop quanto mobile.\n- Valide que permissões de usuário são respeitadas e que não há regressões em funcionalidades dependentes de espaços.",
         "status": "pending",
-        "dependencies": [
-          8,
-          19,
-          26
-        ],
+        "dependencies": [8, 19, 26],
         "priority": "medium",
         "subtasks": []
       }
     ],
     "metadata": {
       "created": "2025-06-20T19:17:12.406Z",
-      "updated": "2025-06-21T18:28:40.882Z",
+      "updated": "2025-06-22T02:28:11.250Z",
       "description": "Tasks for master context"
     }
   }

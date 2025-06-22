@@ -1,12 +1,6 @@
 import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
-import { 
-  usersTable, 
-  categoriesTable, 
-  spacesTable, 
-  accountsTable, 
-  transactionsTable 
-} from './schema'
+import { usersTable, categoriesTable, spacesTable, accountsTable, transactionsTable } from './schema'
 
 const connectionString = process.env.DATABASE_URL!
 const client = postgres(connectionString)
@@ -100,7 +94,7 @@ async function seed() {
         accountId: accounts.find(a => a.name === 'Conta Corrente')?.id!,
         type: 'INCOME' as const,
       },
-      
+
       // Despesas
       {
         userId: user.id,
@@ -164,11 +158,7 @@ async function seed() {
       },
     ]
 
-    const transactions = await db
-      .insert(transactionsTable)
-      .values(sampleTransactions)
-      .returning()
-      .onConflictDoNothing()
+    const transactions = await db.insert(transactionsTable).values(sampleTransactions).returning().onConflictDoNothing()
 
     console.log('✅ Transações de exemplo criadas:', transactions.length)
 
@@ -179,7 +169,6 @@ async function seed() {
     console.log(`- Espaços: ${spaces.length}`)
     console.log(`- Contas: ${accounts.length}`)
     console.log(`- Transações: ${transactions.length}`)
-    
   } catch (error) {
     console.error('❌ Erro durante o seed:', error)
     throw error
@@ -190,10 +179,10 @@ async function seed() {
 
 // Executar seed se este arquivo for chamado diretamente
 if (require.main === module) {
-  seed().catch((error) => {
+  seed().catch(error => {
     console.error('Erro fatal durante o seed:', error)
     process.exit(1)
   })
 }
 
-export { seed } 
+export { seed }

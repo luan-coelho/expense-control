@@ -1,15 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
-import { transactionService } from '@/services/transaction.service'
-import { queryKeys } from '@/lib/routes'
 import { useActiveSpaceId } from '@/components/providers/space-provider'
-import {
-  type CreateTransactionInput,
-  type UpdateTransactionInput,
-  type TransactionWithRelations,
-  type PaginatedTransactions,
-  type TransactionFilters,
-} from '@/types/transaction'
+import { queryKeys } from '@/lib/routes'
+import { transactionService } from '@/services/transaction.service'
+import { type CreateTransactionInput, type TransactionFilters, type UpdateTransactionInput } from '@/types/transaction'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 // Parâmetros para buscar transações com espaço automático
 export interface UseSpaceAwareTransactionsParams {
@@ -30,14 +24,15 @@ export function useSpaceAwareTransactions(params?: UseSpaceAwareTransactionsPara
       ...params?.filters,
       spaceId: activeSpaceId || undefined,
     }),
-    queryFn: () => transactionService.getAll({
-      page: params?.page,
-      limit: params?.limit,
-      filters: {
-        ...params?.filters,
-        spaceId: activeSpaceId || undefined,
-      },
-    }),
+    queryFn: () =>
+      transactionService.getAll({
+        page: params?.page,
+        limit: params?.limit,
+        filters: {
+          ...params?.filters,
+          spaceId: activeSpaceId || undefined,
+        },
+      }),
     enabled: params?.enabled !== false && !!activeSpaceId,
     staleTime: 5 * 60 * 1000, // 5 minutos
     refetchOnWindowFocus: false,
@@ -56,21 +51,18 @@ export function useCreateSpaceAwareTransaction() {
       if (!activeSpaceId) {
         throw new Error('Nenhum espaço ativo selecionado')
       }
-      
+
       return transactionService.create({
         ...data,
         spaceId: activeSpaceId,
       })
     },
-    onSuccess: (newTransaction) => {
+    onSuccess: newTransaction => {
       // Invalidar queries de lista para refletir a nova transação
       queryClient.invalidateQueries({ queryKey: queryKeys.transactions.lists() })
-      
+
       // Adicionar a nova transação ao cache
-      queryClient.setQueryData(
-        queryKeys.transactions.detail(newTransaction.id),
-        newTransaction
-      )
+      queryClient.setQueryData(queryKeys.transactions.detail(newTransaction.id), newTransaction)
 
       toast.success('Transação criada com sucesso!')
     },
@@ -97,12 +89,9 @@ export function useUpdateSpaceAwareTransaction() {
 
       return transactionService.update(id, updateData)
     },
-    onSuccess: (updatedTransaction) => {
+    onSuccess: updatedTransaction => {
       // Atualizar o cache da transação específica
-      queryClient.setQueryData(
-        queryKeys.transactions.detail(updatedTransaction.id),
-        updatedTransaction
-      )
+      queryClient.setQueryData(queryKeys.transactions.detail(updatedTransaction.id), updatedTransaction)
 
       // Invalidar queries de lista para refletir as mudanças
       queryClient.invalidateQueries({ queryKey: queryKeys.transactions.lists() })
@@ -130,8 +119,8 @@ export function useDeleteSpaceAwareTransaction() {
 
       // Invalidar queries de lista do espaço ativo para refletir a remoção
       if (activeSpaceId) {
-        queryClient.invalidateQueries({ 
-          queryKey: queryKeys.transactions.list({ spaceId: activeSpaceId })
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.transactions.list({ spaceId: activeSpaceId }),
         })
       }
 
@@ -162,8 +151,8 @@ export function useInvalidateSpaceAwareTransactions() {
     },
     invalidateActiveSpace: () => {
       if (activeSpaceId) {
-        queryClient.invalidateQueries({ 
-          queryKey: queryKeys.transactions.list({ spaceId: activeSpaceId })
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.transactions.list({ spaceId: activeSpaceId }),
         })
       }
     },
@@ -171,4 +160,4 @@ export function useInvalidateSpaceAwareTransactions() {
       queryClient.invalidateQueries({ queryKey: queryKeys.transactions.detail(id) })
     },
   }
-} 
+}

@@ -1,21 +1,21 @@
 {
-	"meta": {
-		"generatedAt": "2025-06-21T04:25:45.635Z",
-		"tasksAnalyzed": 1,
-		"totalTasks": 10,
-		"analysisCount": 1,
-		"thresholdScore": 5,
-		"projectName": "Taskmaster",
-		"usedResearch": true
-	},
-	"complexityAnalysis": [
-		{
-			"taskId": 8,
-			"taskTitle": "Space and Account Management",
-			"complexityScore": 7,
-			"recommendedSubtasks": 6,
-			"expansionPrompt": "Break down the implementation of CRUD for spaces and accounts into backend API development, frontend UI creation, user ownership enforcement, data validation, integration testing, and UI/UX consistency checks.",
-			"reasoning": "This task involves multiple entities (spaces and accounts), requires both backend (API) and frontend (UI) work, and must enforce user ownership and data integrity. The need to ensure UI consistency and thorough testing adds to the complexity. According to code complexity metrics, tasks with multiple independent code paths, integration points, and validation requirements typically score in the moderate-to-high range (6-8)[1][5]. Six subtasks are recommended to cover API routes, UI components, ownership logic, validation, testing, and UI consistency."
-		}
-	]
+  "meta": {
+    "generatedAt": "2025-06-21T04:25:45.635Z",
+    "tasksAnalyzed": 1,
+    "totalTasks": 10,
+    "analysisCount": 1,
+    "thresholdScore": 5,
+    "projectName": "Taskmaster",
+    "usedResearch": true
+  },
+  "complexityAnalysis": [
+    {
+      "taskId": 8,
+      "taskTitle": "Space and Account Management",
+      "complexityScore": 7,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Break down the implementation of CRUD for spaces and accounts into backend API development, frontend UI creation, user ownership enforcement, data validation, integration testing, and UI/UX consistency checks.",
+      "reasoning": "This task involves multiple entities (spaces and accounts), requires both backend (API) and frontend (UI) work, and must enforce user ownership and data integrity. The need to ensure UI consistency and thorough testing adds to the complexity. According to code complexity metrics, tasks with multiple independent code paths, integration points, and validation requirements typically score in the moderate-to-high range (6-8)[1][5]. Six subtasks are recommended to cover API routes, UI components, ownership logic, validation, testing, and UI consistency."
+    }
+  ]
 }

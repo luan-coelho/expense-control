@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Edit, Trash2, Plus, AlertCircle, Building2, Search, Filter } from 'lucide-react'
+import { Edit, Trash2, Plus, AlertCircle, Building2, Search, Filter, RefreshCw } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -32,13 +32,13 @@ export function SpaceList({ onEdit, onAdd, className }: SpaceListProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [spaceToDelete, setSpaceToDelete] = useState<SpaceWithRelations | null>(null)
-  
+
   const queryParams = {
     page,
     limit: 12, // 12 para grid 3x4
     filters: searchTerm ? { search: searchTerm } : undefined,
   }
-  
+
   const { data, isLoading, error } = useSpaces(queryParams)
 
   const deleteMutation = useDeleteSpace()
@@ -95,10 +95,12 @@ export function SpaceList({ onEdit, onAdd, className }: SpaceListProps) {
           icon={<AlertCircle />}
           title="Erro ao carregar espaços"
           description="Ocorreu um erro ao carregar os espaços. Tente novamente."
-          action={{
-            label: "Tentar Novamente",
-            onClick: () => window.location.reload()
-          }}
+          action={
+            <Button onClick={() => window.location.reload()} variant="outline" className="mt-4">
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Tentar Novamente
+            </Button>
+          }
         />
       </div>
     )
@@ -113,10 +115,14 @@ export function SpaceList({ onEdit, onAdd, className }: SpaceListProps) {
           icon={<Building2 />}
           title="Nenhum espaço encontrado"
           description="Crie seu primeiro espaço para organizar suas finanças."
-          action={onAdd ? {
-            label: "Criar Espaço",
-            onClick: onAdd
-          } : undefined}
+          action={
+            onAdd ? (
+              <Button onClick={onAdd} variant="default" className="mt-4">
+                <Plus className="w-4 h-4 mr-2" />
+                Criar Espaço
+              </Button>
+            ) : undefined
+          }
         />
       </div>
     )
@@ -132,7 +138,7 @@ export function SpaceList({ onEdit, onAdd, className }: SpaceListProps) {
           <Input
             placeholder="Buscar espaços..."
             value={searchTerm}
-            onChange={(e) => handleSearchChange(e.target.value)}
+            onChange={e => handleSearchChange(e.target.value)}
             className="pl-10"
           />
         </div>
@@ -141,12 +147,7 @@ export function SpaceList({ onEdit, onAdd, className }: SpaceListProps) {
         <div className="flex gap-2">
           {/* Limpar filtros */}
           {hasActiveFilters && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={clearFilters}
-              className="px-3"
-            >
+            <Button variant="outline" size="sm" onClick={clearFilters} className="px-3">
               <Filter className="h-4 w-4 mr-1" />
               Limpar
             </Button>
@@ -165,34 +166,24 @@ export function SpaceList({ onEdit, onAdd, className }: SpaceListProps) {
       {/* Indicadores de filtros ativos */}
       {hasActiveFilters && (
         <div className="flex flex-wrap gap-2">
-          {searchTerm && (
-            <Badge variant="secondary">
-              Busca: "{searchTerm}"
-            </Badge>
-          )}
+          {searchTerm && <Badge variant="secondary">Busca: "{searchTerm}"</Badge>}
         </div>
       )}
 
       {/* Lista de espaços */}
       {spaces.length === 0 ? (
         <div className="text-center py-12">
-          <div className="text-muted-foreground text-lg mb-2">
-            Nenhum espaço encontrado
-          </div>
-          <div className="text-sm text-muted-foreground mb-4">
-            Tente ajustar o termo de busca
-          </div>
+          <div className="text-muted-foreground text-lg mb-2">Nenhum espaço encontrado</div>
+          <div className="text-sm text-muted-foreground mb-4">Tente ajustar o termo de busca</div>
         </div>
       ) : (
         <>
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-medium">
-              Espaços ({data?.pagination?.total || spaces.length})
-            </h3>
+            <h3 className="text-lg font-medium">Espaços ({data?.pagination?.total || spaces.length})</h3>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {spaces.map((space) => (
+            {spaces.map(space => (
               <Card key={space.id} className="relative hover:shadow-md transition-shadow">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
@@ -209,12 +200,7 @@ export function SpaceList({ onEdit, onAdd, className }: SpaceListProps) {
                     </div>
                     <div className="flex gap-1">
                       {onEdit && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => onEdit(space)}
-                          className="h-8 w-8 p-0"
-                        >
+                        <Button variant="ghost" size="sm" onClick={() => onEdit(space)} className="h-8 w-8 p-0">
                           <Edit className="h-4 w-4" />
                         </Button>
                       )}
@@ -223,8 +209,7 @@ export function SpaceList({ onEdit, onAdd, className }: SpaceListProps) {
                         size="sm"
                         onClick={() => handleDeleteClick(space)}
                         disabled={deleteMutation.isPending}
-                        className="h-8 w-8 p-0"
-                      >
+                        className="h-8 w-8 p-0">
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -238,25 +223,22 @@ export function SpaceList({ onEdit, onAdd, className }: SpaceListProps) {
           {data?.pagination && data.pagination.totalPages > 1 && (
             <div className="flex items-center justify-between mt-6">
               <div className="text-sm text-muted-foreground">
-                Página {data.pagination.page} de {data.pagination.totalPages} 
-                ({data.pagination.total} espaços)
+                Página {data.pagination.page} de {data.pagination.totalPages}({data.pagination.total} espaços)
               </div>
-              
+
               <div className="flex gap-2">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => setPage(page - 1)}
-                  disabled={!data.pagination.hasPrev}
-                >
+                  disabled={!data.pagination.hasPrev}>
                   Anterior
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => setPage(page + 1)}
-                  disabled={!data.pagination.hasNext}
-                >
+                  disabled={!data.pagination.hasNext}>
                   Próxima
                 </Button>
               </div>
@@ -271,23 +253,14 @@ export function SpaceList({ onEdit, onAdd, className }: SpaceListProps) {
           <DialogHeader>
             <DialogTitle>Confirmar exclusão</DialogTitle>
             <DialogDescription>
-              Tem certeza que deseja excluir o espaço "{spaceToDelete?.name}"?
-              Esta ação não pode ser desfeita.
+              Tem certeza que deseja excluir o espaço "{spaceToDelete?.name}"? Esta ação não pode ser desfeita.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setDeleteDialogOpen(false)}
-              disabled={deleteMutation.isPending}
-            >
+            <Button variant="outline" onClick={() => setDeleteDialogOpen(false)} disabled={deleteMutation.isPending}>
               Cancelar
             </Button>
-            <Button
-              variant="destructive"
-              onClick={handleDeleteConfirm}
-              disabled={deleteMutation.isPending}
-            >
+            <Button variant="destructive" onClick={handleDeleteConfirm} disabled={deleteMutation.isPending}>
               {deleteMutation.isPending ? 'Excluindo...' : 'Excluir'}
             </Button>
           </DialogFooter>
@@ -295,4 +268,4 @@ export function SpaceList({ onEdit, onAdd, className }: SpaceListProps) {
       </Dialog>
     </div>
   )
-} 
+}

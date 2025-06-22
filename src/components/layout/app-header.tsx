@@ -1,11 +1,10 @@
 'use client'
 
 import { UserMenu } from '@/components/auth/user-menu'
-import { Button } from '@/components/ui/button'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { SpaceSelector } from './space-selector'
-import { Bell } from 'lucide-react'
+import { NotificationBell } from '@/components/notifications'
 
 export function AppHeader() {
   return (
@@ -14,12 +13,9 @@ export function AppHeader() {
 
       <div className="flex flex-1 items-center justify-between gap-4">
         <SpaceSelector />
-        
+
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon">
-            <Bell className="h-4 w-4" />
-            <span className="sr-only">Notificações</span>
-          </Button>
+          <NotificationBell />
 
           <ThemeToggle />
 

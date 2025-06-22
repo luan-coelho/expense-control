@@ -1,11 +1,6 @@
 'use client'
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 
 import { TransactionForm } from './transaction-form'
 import { type TransactionWithRelations } from '@/types/transaction'
@@ -17,12 +12,7 @@ interface TransactionModalProps {
   accounts?: Array<{ id: string; name: string; type: string }>
 }
 
-export function TransactionModal({
-  open,
-  onOpenChange,
-  transaction,
-  accounts = [],
-}: TransactionModalProps) {
+export function TransactionModal({ open, onOpenChange, transaction, accounts = [] }: TransactionModalProps) {
   const handleSuccess = () => {
     onOpenChange(false)
   }
@@ -33,13 +23,11 @@ export function TransactionModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>
-            {transaction ? 'Editar Transação' : 'Nova Transação'}
-          </DialogTitle>
+      <DialogContent className="max-w-4xl max-h-[95vh] overflow-y-auto">
+        <DialogHeader className="pb-6">
+          <DialogTitle className="text-xl">{transaction ? 'Editar Transação' : 'Nova Transação'}</DialogTitle>
         </DialogHeader>
-        
+
         <TransactionForm
           transaction={transaction}
           onSuccess={handleSuccess}
@@ -49,4 +37,4 @@ export function TransactionModal({
       </DialogContent>
     </Dialog>
   )
-} 
+}

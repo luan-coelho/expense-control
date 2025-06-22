@@ -3,17 +3,10 @@ import { db } from '@/db'
 import { transactionsTable, categoriesTable, spacesTable, accountsTable } from '@/db/schema'
 import { eq, and } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
-import { 
-  updateTransactionSchema,
-  parseTransactionAmount,
-  type TransactionWithRelations
-} from '@/types/transaction'
+import { updateTransactionSchema, parseTransactionAmount, type TransactionWithRelations } from '@/types/transaction'
 
 // GET - Buscar transação por ID
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth()
     if (!session?.user?.id) {
@@ -53,12 +46,7 @@ export async function GET(
       .innerJoin(categoriesTable, eq(transactionsTable.categoryId, categoriesTable.id))
       .innerJoin(spacesTable, eq(transactionsTable.spaceId, spacesTable.id))
       .innerJoin(accountsTable, eq(transactionsTable.accountId, accountsTable.id))
-      .where(
-        and(
-          eq(transactionsTable.id, transactionId),
-          eq(transactionsTable.userId, session.user.id)
-        )
-      )
+      .where(and(eq(transactionsTable.id, transactionId), eq(transactionsTable.userId, session.user.id)))
       .limit(1)
 
     if (transaction.length === 0) {
@@ -73,10 +61,7 @@ export async function GET(
 }
 
 // PUT - Atualizar transação
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth()
     if (!session?.user?.id) {
@@ -93,12 +78,7 @@ export async function PUT(
     const existingTransaction = await db
       .select({ id: transactionsTable.id })
       .from(transactionsTable)
-      .where(
-        and(
-          eq(transactionsTable.id, transactionId),
-          eq(transactionsTable.userId, session.user.id)
-        )
-      )
+      .where(and(eq(transactionsTable.id, transactionId), eq(transactionsTable.userId, session.user.id)))
       .limit(1)
 
     if (existingTransaction.length === 0) {
@@ -139,10 +119,7 @@ export async function PUT(
     }
 
     // Atualizar transação
-    await db
-      .update(transactionsTable)
-      .set(updateData)
-      .where(eq(transactionsTable.id, transactionId))
+    await db.update(transactionsTable).set(updateData).where(eq(transactionsTable.id, transactionId))
 
     // Buscar transação atualizada com relacionamentos
     const updatedTransaction = await db
@@ -181,20 +158,17 @@ export async function PUT(
     return NextResponse.json(updatedTransaction[0] as TransactionWithRelations)
   } catch (error) {
     console.error('Erro ao atualizar transação:', error)
-    
+
     if (error instanceof Error && error.message.includes('validation')) {
       return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 })
     }
-    
+
     return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
 }
 
 // DELETE - Excluir transação
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth()
     if (!session?.user?.id) {
@@ -207,12 +181,7 @@ export async function DELETE(
     const existingTransaction = await db
       .select({ id: transactionsTable.id })
       .from(transactionsTable)
-      .where(
-        and(
-          eq(transactionsTable.id, transactionId),
-          eq(transactionsTable.userId, session.user.id)
-        )
-      )
+      .where(and(eq(transactionsTable.id, transactionId), eq(transactionsTable.userId, session.user.id)))
       .limit(1)
 
     if (existingTransaction.length === 0) {
@@ -220,13 +189,11 @@ export async function DELETE(
     }
 
     // Excluir transação
-    await db
-      .delete(transactionsTable)
-      .where(eq(transactionsTable.id, transactionId))
+    await db.delete(transactionsTable).where(eq(transactionsTable.id, transactionId))
 
     return NextResponse.json({ success: true, message: 'Transação excluída com sucesso' })
   } catch (error) {
     console.error('Erro ao excluir transação:', error)
     return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
-} 
+}

@@ -1,10 +1,10 @@
 /**
  * @fileoverview Integration Tests for Spaces and Accounts CRUD Operations
- * 
+ *
  * Este arquivo contém testes de integração abrangentes para verificar o funcionamento
  * correto das operações CRUD para espaços e contas, incluindo validação, segurança
  * e lógica de negócio.
- * 
+ *
  * COBERTURA DE TESTES:
  * ✅ Validação de schemas (create, update, query)
  * ✅ Sanitização de dados
@@ -16,40 +16,36 @@
  * ✅ Validação de tipos de conta
  */
 
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 // Imports para Spaces
 import {
   createSpaceSchema,
-  updateSpaceSchema,
-  spaceQuerySchema,
-  spaceIdSchema,
   sanitizeSpaceName,
-  validateSpaceNameUniqueness,
   SPACE_VALIDATION_RULES,
+  spaceIdSchema,
+  spaceQuerySchema,
+  updateSpaceSchema,
+  validateSpaceNameUniqueness,
   type CreateSpaceInput,
-  type SpaceWithRelations,
-  type PaginatedSpaces,
 } from '@/types/space'
 
 // Imports para Accounts
 import {
-  createAccountSchema,
-  updateAccountSchema,
-  accountQuerySchema,
-  accountIdSchema,
-  sanitizeAccountName,
-  validateAccountNameUniqueness,
-  isValidAccountType,
-  getAccountTypeLabel,
-  getAccountTypeIcon,
-  getAccountTypesForSelect,
   ACCOUNT_VALIDATION_RULES,
+  accountIdSchema,
+  accountQuerySchema,
   AccountType,
-  type CreateAccountInput,
-  type AccountWithRelations,
-  type PaginatedAccounts,
+  createAccountSchema,
+  getAccountTypeIcon,
+  getAccountTypeLabel,
+  getAccountTypesForSelect,
+  isValidAccountType,
+  sanitizeAccountName,
+  updateAccountSchema,
+  validateAccountNameUniqueness,
   type AccountTypeEnum,
+  type CreateAccountInput,
 } from '@/types/account'
 
 describe('🏠 Spaces CRUD Integration Tests', () => {
@@ -93,7 +89,7 @@ describe('🏠 Spaces CRUD Integration Tests', () => {
         if (!result.success) {
           expectedKeywords.forEach(keyword => {
             const hasExpectedError = result.error.issues.some(issue =>
-              issue.message.toLowerCase().includes(keyword.toLowerCase())
+              issue.message.toLowerCase().includes(keyword.toLowerCase()),
             )
             expect(hasExpectedError).toBe(true)
           })
@@ -151,17 +147,9 @@ describe('🏠 Spaces CRUD Integration Tests', () => {
     })
 
     it('should validate space IDs correctly', () => {
-      const validIds = [
-        '123e4567-e89b-12d3-a456-426614174000',
-        'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-      ]
+      const validIds = ['123e4567-e89b-12d3-a456-426614174000', 'f47ac10b-58cc-4372-a567-0e02b2c3d479']
 
-      const invalidIds = [
-        'invalid-uuid',
-        '123',
-        '',
-        'not-a-uuid-at-all',
-      ]
+      const invalidIds = ['invalid-uuid', '123', '', 'not-a-uuid-at-all']
 
       validIds.forEach(id => {
         const result = spaceIdSchema.safeParse({ id })
@@ -363,17 +351,9 @@ describe('💳 Accounts CRUD Integration Tests', () => {
     })
 
     it('should validate account IDs correctly', () => {
-      const validIds = [
-        '123e4567-e89b-12d3-a456-426614174000',
-        'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-      ]
+      const validIds = ['123e4567-e89b-12d3-a456-426614174000', 'f47ac10b-58cc-4372-a567-0e02b2c3d479']
 
-      const invalidIds = [
-        'invalid-uuid',
-        '123',
-        '',
-        'not-a-uuid-at-all',
-      ]
+      const invalidIds = ['invalid-uuid', '123', '', 'not-a-uuid-at-all']
 
       validIds.forEach(id => {
         const result = accountIdSchema.safeParse({ id })
@@ -460,19 +440,19 @@ describe('💳 Accounts CRUD Integration Tests', () => {
 
     it('should provide complete select options', () => {
       const options = getAccountTypesForSelect()
-      
+
       expect(options).toHaveLength(Object.keys(AccountType).length)
       expect(options).toHaveLength(6)
-      
+
       options.forEach(option => {
         expect(option).toHaveProperty('value')
         expect(option).toHaveProperty('label')
         expect(option).toHaveProperty('icon')
-        
+
         expect(Object.values(AccountType)).toContain(option.value)
         expect(option.label.length).toBeGreaterThan(0)
         expect(option.icon.length).toBeGreaterThan(0)
-        
+
         // Verificar consistência
         expect(option.label).toBe(getAccountTypeLabel(option.value))
         expect(option.icon).toBe(getAccountTypeIcon(option.value))
@@ -546,9 +526,9 @@ describe('💳 Accounts CRUD Integration Tests', () => {
   describe('🔄 Complete CRUD Workflow Tests', () => {
     it('should handle complete account lifecycle', () => {
       // 1. Criar conta
-      const newAccount: CreateAccountInput = { 
-        name: 'Banco Exemplo', 
-        type: 'CHECKING' 
+      const newAccount: CreateAccountInput = {
+        name: 'Banco Exemplo',
+        type: 'CHECKING',
       }
       const createResult = createAccountSchema.safeParse(newAccount)
       expect(createResult.success).toBe(true)
@@ -567,19 +547,19 @@ describe('💳 Accounts CRUD Integration Tests', () => {
       expect(validateAccountNameUniqueness(sanitizedName, existingNames)).toBe(true)
 
       // 5. Atualizar conta
-      const updateData = { 
-        name: 'Banco Exemplo Atualizado', 
-        type: 'SAVINGS' as AccountTypeEnum 
+      const updateData = {
+        name: 'Banco Exemplo Atualizado',
+        type: 'SAVINGS' as AccountTypeEnum,
       }
       const updateResult = updateAccountSchema.safeParse(updateData)
       expect(updateResult.success).toBe(true)
 
       // 6. Verificar query
-      const queryData = { 
-        page: '1', 
-        limit: '10', 
-        type: 'SAVINGS' as AccountTypeEnum, 
-        search: 'banco' 
+      const queryData = {
+        page: '1',
+        limit: '10',
+        type: 'SAVINGS' as AccountTypeEnum,
+        search: 'banco',
       }
       const queryResult = accountQuerySchema.safeParse(queryData)
       expect(queryResult.success).toBe(true)
@@ -688,31 +668,31 @@ describe('🔄 Cross-Entity Integration Tests', () => {
 
 /**
  * RESUMO DOS TESTES DE INTEGRAÇÃO ✅
- * 
+ *
  * 🏠 SPACES:
  * - ✅ Validação completa de schemas (create, update, query, ID)
  * - ✅ Sanitização com casos edge
  * - ✅ Validação de unicidade com case-insensitive
  * - ✅ Fluxo completo de CRUD
  * - ✅ Tratamento de erros específicos
- * 
+ *
  * 💳 ACCOUNTS:
  * - ✅ Validação completa de schemas com tipos
  * - ✅ Utilitários de tipos (labels, ícones, select)
  * - ✅ Sanitização específica para contas
  * - ✅ Validação de unicidade
  * - ✅ Fluxo completo de CRUD
- * 
+ *
  * 📊 CONSTANTES E PADRÕES:
  * - ✅ Consistência entre entidades
  * - ✅ Regex patterns funcionais
  * - ✅ Tipos suportados corretos
- * 
+ *
  * 🔄 INTEGRAÇÃO CRUZADA:
  * - ✅ Cenários complexos com múltiplas entidades
  * - ✅ Integridade de dados
  * - ✅ Validação de relacionamentos
- * 
+ *
  * COBERTURA: 100% das funcionalidades implementadas
  * STATUS: TESTES COMPLETOS E FUNCIONAIS ✅
  */

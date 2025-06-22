@@ -1,6 +1,16 @@
 'use client'
 
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts'
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  ReferenceLine,
+} from 'recharts'
 import { useBalanceEvolution } from '@/hooks/use-analytics'
 import { BaseChart } from './base-chart'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -15,11 +25,7 @@ interface BalanceEvolutionChartProps {
   className?: string
 }
 
-export function BalanceEvolutionChart({ 
-  filters, 
-  height = 400, 
-  className = ''
-}: BalanceEvolutionChartProps) {
+export function BalanceEvolutionChart({ filters, height = 400, className = '' }: BalanceEvolutionChartProps) {
   const { data, isLoading, error } = useBalanceEvolution(filters)
 
   // Função para formatar valores no tooltip
@@ -33,7 +39,7 @@ export function BalanceEvolutionChart({
   // Função para formatar valores no eixo Y
   const formatYAxisValue = (value: number) => {
     if (value === 0) return 'R$ 0'
-    
+
     const absValue = Math.abs(value)
     if (absValue >= 1000000) {
       return `R$ ${(value / 1000000).toFixed(1)}M`
@@ -46,9 +52,9 @@ export function BalanceEvolutionChart({
   // Função para formatar data no eixo X
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
-    return date.toLocaleDateString('pt-BR', { 
-      day: '2-digit', 
-      month: '2-digit' 
+    return date.toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
     })
   }
 
@@ -60,9 +66,9 @@ export function BalanceEvolutionChart({
       const formattedDate = date.toLocaleDateString('pt-BR', {
         day: '2-digit',
         month: '2-digit',
-        year: 'numeric'
+        year: 'numeric',
       })
-      
+
       return (
         <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
           <p className="font-medium text-foreground mb-2">{formattedDate}</p>
@@ -74,9 +80,7 @@ export function BalanceEvolutionChart({
             {data.dailyChange !== 0 && (
               <div className="flex items-center gap-2">
                 <div className={`w-3 h-3 rounded-full ${data.dailyChange > 0 ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                <span className="text-sm">
-                  Mudança: {data.formattedDailyChange}
-                </span>
+                <span className="text-sm">Mudança: {data.formattedDailyChange}</span>
               </div>
             )}
             <div className="text-xs text-muted-foreground pt-1">
@@ -115,9 +119,7 @@ export function BalanceEvolutionChart({
         <CardContent className="flex items-center justify-center p-6">
           <div className="text-center space-y-2">
             <AlertCircle className="h-8 w-8 text-destructive mx-auto" />
-            <p className="text-sm text-muted-foreground">
-              Erro ao carregar dados: {error.message}
-            </p>
+            <p className="text-sm text-muted-foreground">Erro ao carregar dados: {error.message}</p>
           </div>
         </CardContent>
       </Card>
@@ -130,9 +132,7 @@ export function BalanceEvolutionChart({
         <CardContent className="flex items-center justify-center p-6">
           <div className="text-center space-y-2">
             <Calendar className="h-8 w-8 text-muted-foreground mx-auto" />
-            <p className="text-sm text-muted-foreground">
-              Nenhum dado encontrado para o período selecionado
-            </p>
+            <p className="text-sm text-muted-foreground">Nenhum dado encontrado para o período selecionado</p>
           </div>
         </CardContent>
       </Card>
@@ -143,7 +143,7 @@ export function BalanceEvolutionChart({
   const chartData = data.data.map(item => ({
     ...item,
     saldo: item.balance,
-    date: formatDate(item.date)
+    date: formatDate(item.date),
   }))
 
   // Determinar cor da linha baseada na tendência
@@ -155,32 +155,20 @@ export function BalanceEvolutionChart({
       {/* Header */}
       <div>
         <h3 className="text-lg font-semibold">Evolução do Saldo</h3>
-        <p className="text-sm text-muted-foreground">
-          Acompanhe como seu saldo evoluiu ao longo do tempo
-        </p>
+        <p className="text-sm text-muted-foreground">Acompanhe como seu saldo evoluiu ao longo do tempo</p>
       </div>
 
       {/* Gráfico */}
       <BaseChart height={height} className="w-full">
         <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-          <XAxis 
-            dataKey="date" 
-            tick={{ fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-          />
-          <YAxis 
-            tickFormatter={formatYAxisValue}
-            tick={{ fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-          />
+          <XAxis dataKey="date" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
+          <YAxis tickFormatter={formatYAxisValue} tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
           <Tooltip content={<CustomTooltip />} />
           <ReferenceLine y={0} stroke="#666" strokeDasharray="2 2" />
-          <Line 
-            type="monotone" 
-            dataKey="saldo" 
+          <Line
+            type="monotone"
+            dataKey="saldo"
             stroke={lineColor}
             strokeWidth={2}
             dot={{ r: 4, fill: lineColor }}
@@ -247,9 +235,7 @@ export function BalanceEvolutionChart({
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Período</p>
                 <p className="text-lg font-bold">{data.summary.periodDays} dias</p>
-                <p className="text-xs text-muted-foreground">
-                  {data.summary.totalTransactions} transações
-                </p>
+                <p className="text-xs text-muted-foreground">{data.summary.totalTransactions} transações</p>
               </div>
               <Calendar className="h-8 w-8 text-muted-foreground" />
             </div>
@@ -289,4 +275,4 @@ export function BalanceEvolutionChart({
       </div>
     </div>
   )
-} 
+}

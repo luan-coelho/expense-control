@@ -1,9 +1,9 @@
 /**
  * @fileoverview Testes de Validação de Dados para Spaces e Accounts
- * 
+ *
  * Este arquivo documenta e testa as melhorias implementadas na validação de dados
  * para espaços e contas no sistema de controle de gastos.
- * 
+ *
  * IMPLEMENTAÇÃO COMPLETADA ✅
  * - Validação robusta de entrada com Zod
  * - Sanitização automática de dados
@@ -18,30 +18,22 @@
 
 import {
   createSpaceSchema,
-  updateSpaceSchema,
-  spaceQuerySchema,
-  spaceIdSchema,
   sanitizeSpaceName,
-  validateSpaceNameUniqueness,
   SPACE_VALIDATION_RULES,
+  validateSpaceNameUniqueness,
 } from '@/types/space'
 
 import {
-  createAccountSchema,
-  updateAccountSchema,
-  accountQuerySchema,
-  accountIdSchema,
-  sanitizeAccountName,
-  validateAccountNameUniqueness,
-  isValidAccountType,
-  getAccountTypeLabel,
-  getAccountTypeIcon,
-  getAccountTypesForSelect,
   ACCOUNT_VALIDATION_RULES,
   AccountType,
+  createAccountSchema,
+  getAccountTypeIcon,
+  getAccountTypeLabel,
+  isValidAccountType,
+  sanitizeAccountName,
 } from '@/types/account'
 
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 // Função auxiliar para simular testes
 function testValidation(description: string, testFn: () => boolean): void {
@@ -56,14 +48,14 @@ function testValidation(description: string, testFn: () => boolean): void {
 function testSpaceSchemaValidation() {
   const validNames = [
     'Casa',
-    'Trabalho', 
+    'Trabalho',
     'Pessoal',
     'Casa da Praia',
     'Escritório Central',
     'Projeto Alpha-Beta',
     'Espaço (Teste)',
     'Área_Privada',
-    'Local-123'
+    'Local-123',
   ]
 
   let allValid = true
@@ -104,10 +96,10 @@ function testSpaceUniqueness() {
 
   // Deve aceitar nomes únicos
   const uniqueValid = validateSpaceNameUniqueness('Novo Espaço', existingNames)
-  
+
   // Deve rejeitar nomes duplicados
   const duplicateInvalid = !validateSpaceNameUniqueness('Casa', existingNames)
-  
+
   // Deve permitir manter o mesmo nome ao editar
   const editValid = validateSpaceNameUniqueness('Casa', existingNames, '0')
 
@@ -145,13 +137,13 @@ function testAccountSchemaValidation() {
 function testAccountTypes() {
   // Verificar se todos os tipos são válidos
   const allTypesValid = Object.values(AccountType).every(type => isValidAccountType(type))
-  
+
   // Verificar se tipos inválidos são rejeitados
   const invalidTypesRejected = ['INVALID', 'BANK', 'MONEY', ''].every(type => !isValidAccountType(type))
-  
+
   // Verificar se há labels para todos os tipos
   const allLabelsExist = Object.values(AccountType).every(type => getAccountTypeLabel(type).length > 0)
-  
+
   // Verificar se há ícones para todos os tipos
   const allIconsExist = Object.values(AccountType).every(type => getAccountTypeIcon(type).length > 0)
 
@@ -184,30 +176,27 @@ function testAccountSanitization() {
 
 function testValidationConstants() {
   // Verificar se as constantes estão definidas corretamente
-  const spaceRulesValid = (
+  const spaceRulesValid =
     SPACE_VALIDATION_RULES.NAME_MIN_LENGTH === 2 &&
     SPACE_VALIDATION_RULES.NAME_MAX_LENGTH === 100 &&
     SPACE_VALIDATION_RULES.SEARCH_MAX_LENGTH === 100 &&
     SPACE_VALIDATION_RULES.MAX_LIMIT === 100 &&
     SPACE_VALIDATION_RULES.DEFAULT_LIMIT === 50
-  )
 
-  const accountRulesValid = (
+  const accountRulesValid =
     ACCOUNT_VALIDATION_RULES.NAME_MIN_LENGTH === 2 &&
     ACCOUNT_VALIDATION_RULES.NAME_MAX_LENGTH === 100 &&
     ACCOUNT_VALIDATION_RULES.SEARCH_MAX_LENGTH === 100 &&
     ACCOUNT_VALIDATION_RULES.MAX_LIMIT === 100 &&
     ACCOUNT_VALIDATION_RULES.DEFAULT_LIMIT === 50
-  )
 
   // Verificar se os padrões regex estão funcionando
-  const regexValid = (
+  const regexValid =
     SPACE_VALIDATION_RULES.ALLOWED_NAME_PATTERN.test('Casa') &&
     !SPACE_VALIDATION_RULES.ALLOWED_NAME_PATTERN.test('Casa@') &&
     ACCOUNT_VALIDATION_RULES.ALLOWED_NAME_PATTERN.test('Nubank') &&
     ACCOUNT_VALIDATION_RULES.ALLOWED_NAME_PATTERN.test('Banco B.B.') &&
     !ACCOUNT_VALIDATION_RULES.ALLOWED_NAME_PATTERN.test('Banco@')
-  )
 
   return spaceRulesValid && accountRulesValid && regexValid
 }
@@ -237,7 +226,7 @@ export function runDataValidationTests() {
 
 /**
  * RESUMO DAS MELHORIAS IMPLEMENTADAS ✅
- * 
+ *
  * 🔒 VALIDAÇÃO BACKEND:
  * - Schemas Zod robustos com múltiplas regras de validação
  * - Validação de IDs UUID para parâmetros de rota
@@ -245,7 +234,7 @@ export function runDataValidationTests() {
  * - Tratamento específico de erros de validação com detalhes
  * - Verificação de unicidade de nomes por usuário
  * - Sanitização automática de dados de entrada
- * 
+ *
  * 🎨 VALIDAÇÃO FRONTEND:
  * - Validação em tempo real com feedback visual
  * - Contadores de caracteres com alertas
@@ -253,23 +242,23 @@ export function runDataValidationTests() {
  * - Indicadores visuais de validação (✓/○/✗)
  * - Tratamento de erros específicos do backend
  * - Desabilitação de submit quando inválido
- * 
+ *
  * 🛠️ UTILITÁRIOS:
  * - Funções de sanitização centralizadas
  * - Validação de unicidade reutilizável
  * - Constantes de validação organizadas
  * - Utilitários para tipos de conta (labels, ícones)
  * - Schemas específicos para diferentes operações
- * 
+ *
  * 🧪 TESTES:
  * - Cobertura completa de validação
  * - Casos de teste para sanitização
  * - Testes de unicidade
  * - Validação de constantes
  * - Documentação de comportamentos esperados
- * 
+ *
  * STATUS: IMPLEMENTAÇÃO COMPLETA ✅
- */ 
+ */
 
 describe('Data Validation Tests', () => {
   describe('Spaces Validation', () => {

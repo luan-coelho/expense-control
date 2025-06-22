@@ -37,9 +37,7 @@ export default function RootLayout({
             <SessionProvider>
               <QueryProvider>
                 <SpaceProvider>
-                  <AppLayout>
-                    {children}
-                  </AppLayout>
+                  <AppLayout>{children}</AppLayout>
                   <Toaster />
                 </SpaceProvider>
               </QueryProvider>

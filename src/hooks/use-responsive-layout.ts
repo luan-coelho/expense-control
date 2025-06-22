@@ -95,7 +95,7 @@ export function useResponsiveLayout() {
    */
   const getMobileOptimizations = useCallback(() => {
     const isMobile = breakpoint === 'mobile'
-    
+
     return {
       shouldStackVertically: isMobile,
       useCompactLayout: isMobile,
@@ -110,7 +110,7 @@ export function useResponsiveLayout() {
    */
   const getTabletOptimizations = useCallback(() => {
     const isTablet = breakpoint === 'tablet'
-    
+
     return {
       useHybridLayout: isTablet,
       adaptiveColumns: isTablet,
@@ -124,7 +124,7 @@ export function useResponsiveLayout() {
    */
   const getDesktopOptimizations = useCallback(() => {
     const isDesktop = breakpoint === 'desktop'
-    
+
     return {
       useFullLayout: isDesktop,
       enableHoverEffects: isDesktop,
@@ -153,7 +153,7 @@ export function useResponsiveLayout() {
    */
   const getPerformanceConfig = useCallback(() => {
     const isMobile = breakpoint === 'mobile'
-    
+
     return {
       animationDuration: isMobile ? 300 : 500,
       debounceDelay: isMobile ? 500 : 300,
@@ -174,4 +174,4 @@ export function useResponsiveLayout() {
     viewportConfig: getViewportConfig(),
     performanceConfig: getPerformanceConfig(),
   }
-} 
+}

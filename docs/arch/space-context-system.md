@@ -11,11 +11,13 @@ O sistema de contexto global de espaço elimina a necessidade de seleção indiv
 ### Componentes Principais
 
 1. **SpaceProvider** (`src/components/providers/space-provider.tsx`)
+
    - Contexto React que gerencia o estado global do espaço ativo
    - Implementa persistência automática no localStorage
    - Fornece hook `useActiveSpace` para consumo
 
 2. **SpaceSelector** (`src/components/layout/space-selector.tsx`)
+
    - Componente de seleção de espaço no header
    - Permite alternância instantânea entre espaços
    - Integrado ao contexto global
@@ -41,9 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <QueryProvider>
             <SessionProvider>
-              <SpaceProvider>
-                {children}
-              </SpaceProvider>
+              <SpaceProvider>{children}</SpaceProvider>
             </SessionProvider>
           </QueryProvider>
         </ThemeProvider>
@@ -93,16 +93,12 @@ export function TransactionForm() {
       ...values,
       spaceId: activeSpace?.id, // Usar sempre o espaço ativo
     }
-    
+
     // Enviar dados...
   }
 
   // Formulário sem campo de espaço
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* Campos do formulário, SEM seleção de espaço */}
-    </form>
-  )
+  return <form onSubmit={handleSubmit(onSubmit)}>{/* Campos do formulário, SEM seleção de espaço */}</form>
 }
 ```
 
@@ -117,7 +113,7 @@ export function TransactionList() {
   const { data } = useTransactions({
     filters: {
       spaceId: activeSpace?.id,
-    }
+    },
   })
 
   // Renderizar lista filtrada pelo espaço ativo
@@ -234,7 +230,7 @@ Para migrar componentes existentes:
 ### Componentes Migrados
 
 - ✅ TransactionForm
-- ✅ TransactionModal  
+- ✅ TransactionModal
 - ✅ TransactionManager
 - ✅ UpcomingTransactions
 - ✅ RecurringCalendar
@@ -246,9 +242,9 @@ Para migrar componentes existentes:
 
 ```typescript
 interface SpaceContextType {
-  activeSpace: Space | null        // Espaço atualmente ativo
-  setActiveSpace: (space: Space) => void  // Função para alterar espaço
-  isLoading: boolean              // Estado de carregamento/inicialização
+  activeSpace: Space | null // Espaço atualmente ativo
+  setActiveSpace: (space: Space) => void // Função para alterar espaço
+  isLoading: boolean // Estado de carregamento/inicialização
 }
 ```
 
@@ -259,11 +255,13 @@ function useActiveSpace(): SpaceContextType
 ```
 
 **Retorna:**
+
 - `activeSpace`: Espaço ativo atual ou `null`
 - `setActiveSpace`: Função para definir novo espaço ativo
 - `isLoading`: `true` durante carregamento inicial
 
 **Throws:**
+
 - Erro se usado fora do `SpaceProvider`
 
 ## Testes
@@ -295,10 +293,12 @@ describe('SpaceProvider', () => {
 ### Problemas Comuns
 
 1. **Hook usado fora do Provider**
+
    - Erro: "useActiveSpace deve ser usado dentro de um SpaceProvider"
    - Solução: Verificar se componente está dentro do SpaceProvider
 
 2. **Espaço não persiste**
+
    - Verificar se localStorage está habilitado
    - Verificar se não há conflitos de chaves
 
@@ -314,4 +314,4 @@ describe('SpaceProvider', () => {
 - [ ] Sincronização entre abas do navegador
 - [ ] Cache otimizado por espaço
 - [ ] Histórico de espaços recentes
-- [ ] Configurações personalizadas por espaço 
+- [ ] Configurações personalizadas por espaço

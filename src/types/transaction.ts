@@ -1,5 +1,5 @@
+import { Transaction } from '@/db/schema'
 import { z } from 'zod'
-import { Transaction, NewTransaction } from '@/db/schema'
 
 // Enum para tipos de transação
 export const TransactionType = {
@@ -7,25 +7,19 @@ export const TransactionType = {
   EXPENSE: 'EXPENSE',
 } as const
 
-export type TransactionTypeEnum = typeof TransactionType[keyof typeof TransactionType]
+export type TransactionTypeEnum = (typeof TransactionType)[keyof typeof TransactionType]
 
 // Schema de validação para criação de transação
 export const createTransactionSchema = z.object({
   amount: z
     .string()
     .min(1, 'O valor é obrigatório')
-    .refine(
-      (val) => {
-        const num = parseFloat(val.replace(',', '.'))
-        return !isNaN(num) && num > 0
-      },
-      'O valor deve ser um número positivo'
-    ),
+    .refine(val => {
+      const num = parseFloat(val.replace(',', '.'))
+      return !isNaN(num) && num > 0
+    }, 'O valor deve ser um número positivo'),
   date: z.string().min(1, 'A data é obrigatória'),
-  description: z
-    .string()
-    .min(1, 'A descrição é obrigatória')
-    .max(255, 'A descrição deve ter no máximo 255 caracteres'),
+  description: z.string().min(1, 'A descrição é obrigatória').max(255, 'A descrição deve ter no máximo 255 caracteres'),
   categoryId: z.string().uuid('Categoria inválida'),
   spaceId: z.string().uuid('Espaço inválido'),
   accountId: z.string().uuid('Conta inválida'),
@@ -33,23 +27,25 @@ export const createTransactionSchema = z.object({
     required_error: 'O tipo da transação é obrigatório',
   }),
   isRecurrent: z.boolean().default(false),
-  recurrencePattern: z.string().optional().refine(
-    (val) => {
+  recurrencePattern: z
+    .string()
+    .optional()
+    .refine(val => {
       if (!val) return true // Não é obrigatório se não for recorrente
       try {
         const parsed = JSON.parse(val)
-        return z.object({
-          pattern: z.enum(['DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY']),
-          interval: z.number().min(1).max(365).default(1),
-          endDate: z.string().optional(),
-          maxOccurrences: z.number().min(1).max(1000).optional(),
-        }).safeParse(parsed).success
+        return z
+          .object({
+            pattern: z.enum(['DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY']),
+            interval: z.number().min(1).max(365).default(1),
+            endDate: z.string().optional(),
+            maxOccurrences: z.number().min(1).max(1000).optional(),
+          })
+          .safeParse(parsed).success
       } catch {
         return false
       }
-    },
-    'Padrão de recorrência inválido'
-  ),
+    }, 'Padrão de recorrência inválido'),
 })
 
 // Schema para atualização de transação
@@ -74,69 +70,40 @@ export const transactionQuerySchema = z.object({
     .string()
     .nullable()
     .optional()
-    .transform((val) => val ? parseInt(val, 10) : 1)
-    .refine((val) => val > 0, 'A página deve ser um número positivo'),
+    .transform(val => (val ? parseInt(val, 10) : 1))
+    .refine(val => val > 0, 'A página deve ser um número positivo'),
   limit: z
     .string()
     .nullable()
     .optional()
-    .transform((val) => val ? parseInt(val, 10) : 10)
-    .refine(
-      (val) => val > 0 && val <= 100,
-      'O limite deve ser entre 1 e 100'
-    ),
-  startDate: z
-    .string()
-    .nullable()
-    .optional(),
-  endDate: z
-    .string()
-    .nullable()
-    .optional(),
+    .transform(val => (val ? parseInt(val, 10) : 10))
+    .refine(val => val > 0 && val <= 100, 'O limite deve ser entre 1 e 100'),
+  startDate: z.string().nullable().optional(),
+  endDate: z.string().nullable().optional(),
   categoryId: z
     .string()
     .nullable()
     .optional()
-    .refine(
-      (val) => !val || z.string().uuid().safeParse(val).success,
-      'ID da categoria inválido'
-    ),
+    .refine(val => !val || z.string().uuid().safeParse(val).success, 'ID da categoria inválido'),
   spaceId: z
     .string()
     .nullable()
     .optional()
-    .refine(
-      (val) => !val || z.string().uuid().safeParse(val).success,
-      'ID do espaço inválido'
-    ),
+    .refine(val => !val || z.string().uuid().safeParse(val).success, 'ID do espaço inválido'),
   accountId: z
     .string()
     .nullable()
     .optional()
-    .refine(
-      (val) => !val || z.string().uuid().safeParse(val).success,
-      'ID da conta inválido'
-    ),
-  type: z.enum(['INCOME', 'EXPENSE'])
-    .nullable()
-    .optional(),
-  minAmount: z
-    .string()
-    .nullable()
-    .optional(),
-  maxAmount: z
-    .string()
-    .nullable()
-    .optional(),
+    .refine(val => !val || z.string().uuid().safeParse(val).success, 'ID da conta inválido'),
+  type: z.enum(['INCOME', 'EXPENSE']).nullable().optional(),
+  minAmount: z.string().nullable().optional(),
+  maxAmount: z.string().nullable().optional(),
   search: z
     .string()
     .nullable()
     .optional()
-    .transform((val) => val ? val.trim() : undefined)
-    .refine(
-      (val) => !val || val.length <= 255,
-      'O termo de busca deve ter no máximo 255 caracteres'
-    ),
+    .transform(val => (val ? val.trim() : undefined))
+    .refine(val => !val || val.length <= 255, 'O termo de busca deve ter no máximo 255 caracteres'),
 })
 
 // Tipos derivados dos schemas
@@ -197,7 +164,7 @@ export const RecurrencePattern = {
   YEARLY: 'YEARLY',
 } as const
 
-export type RecurrencePatternEnum = typeof RecurrencePattern[keyof typeof RecurrencePattern]
+export type RecurrencePatternEnum = (typeof RecurrencePattern)[keyof typeof RecurrencePattern]
 
 // Labels para padrões de recorrência
 export const RecurrencePatternLabels: Record<RecurrencePatternEnum, string> = {
@@ -237,23 +204,23 @@ export function stringifyRecurrencePattern(data: RecurrenceData): string {
 export function getRecurrenceDescription(pattern: string | null): string {
   const data = parseRecurrencePattern(pattern)
   if (!data) return 'Não recorrente'
-  
+
   const patternLabel = RecurrencePatternLabels[data.pattern]
   const interval = data.interval > 1 ? `a cada ${data.interval}` : ''
-  
+
   let description = interval ? `${patternLabel} ${interval}` : patternLabel
-  
+
   if (data.endDate) {
     const endDate = new Date(data.endDate).toLocaleDateString('pt-BR')
     description += ` até ${endDate}`
   } else if (data.maxOccurrences) {
     description += ` por ${data.maxOccurrences} vezes`
   }
-  
+
   return description
 }
 
 // Tipo para transação recorrente com próximas ocorrências
 export type RecurringTransactionWithOccurrences = TransactionWithRelations & {
   nextOccurrences: Date[]
-} 
+}

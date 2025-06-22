@@ -12,14 +12,14 @@ interface ThemeProviderProps {
   storageKey?: string
 }
 
-export function ThemeProvider({ 
-  children, 
+export function ThemeProvider({
+  children,
   attribute = 'class',
   defaultTheme = 'system',
   enableSystem = true,
   disableTransitionOnChange = false,
   storageKey = 'sheet-ledger-theme',
-  ...props 
+  ...props
 }: ThemeProviderProps) {
   return (
     <NextThemesProvider
@@ -28,8 +28,7 @@ export function ThemeProvider({
       enableSystem={enableSystem}
       disableTransitionOnChange={disableTransitionOnChange}
       storageKey={storageKey}
-      {...props}
-    >
+      {...props}>
       {children}
     </NextThemesProvider>
   )

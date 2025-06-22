@@ -18,19 +18,11 @@ interface UpcomingTransactionsProps {
   showHeader?: boolean
 }
 
-export function UpcomingTransactions({ 
-  limit = 10, 
-  showHeader = true 
-}: UpcomingTransactionsProps) {
+export function UpcomingTransactions({ limit = 10, showHeader = true }: UpcomingTransactionsProps) {
   const [days, setDays] = useState(30) // Próximos 30 dias por padrão
   const activeSpaceId = useActiveSpaceId()
-  
-  const { 
-    data, 
-    isLoading, 
-    error, 
-    refetch 
-  } = useRecurringTransactionInstances(days)
+
+  const { data, isLoading, error, refetch } = useRecurringTransactionInstances(days)
 
   if (isLoading) {
     return (
@@ -77,9 +69,7 @@ export function UpcomingTransactions({
         )}
         <CardContent>
           <div className="text-center py-6">
-            <p className="text-muted-foreground mb-4">
-              Erro ao carregar transações futuras
-            </p>
+            <p className="text-muted-foreground mb-4">Erro ao carregar transações futuras</p>
             <Button variant="outline" onClick={() => refetch()}>
               <RefreshCw className="h-4 w-4 mr-2" />
               Tentar Novamente
@@ -91,13 +81,11 @@ export function UpcomingTransactions({
   }
 
   const instances = data?.instances || []
-  const filteredInstances = activeSpaceId 
+  const filteredInstances = activeSpaceId
     ? instances.filter(instance => instance.space.id === activeSpaceId)
     : instances
 
-  const displayInstances = limit 
-    ? filteredInstances.slice(0, limit)
-    : filteredInstances
+  const displayInstances = limit ? filteredInstances.slice(0, limit) : filteredInstances
 
   if (displayInstances.length === 0) {
     return (
@@ -132,33 +120,25 @@ export function UpcomingTransactions({
           <div className="flex items-center gap-2">
             <select
               value={days}
-              onChange={(e) => setDays(Number(e.target.value))}
-              className="text-sm border rounded px-2 py-1"
-            >
+              onChange={e => setDays(Number(e.target.value))}
+              className="text-sm border rounded px-2 py-1">
               <option value={7}>7 dias</option>
               <option value={15}>15 dias</option>
               <option value={30}>30 dias</option>
               <option value={60}>60 dias</option>
             </select>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => refetch()}
-            >
+            <Button variant="outline" size="sm" onClick={() => refetch()}>
               <RefreshCw className="h-4 w-4" />
             </Button>
           </div>
         </CardHeader>
       )}
-      
+
       <CardContent className="space-y-3">
-        {displayInstances.map((instance) => (
-          <UpcomingTransactionItem
-            key={instance.id}
-            instance={instance}
-          />
+        {displayInstances.map(instance => (
+          <UpcomingTransactionItem key={instance.id} instance={instance} />
         ))}
-        
+
         {filteredInstances.length > limit && (
           <div className="text-center pt-2">
             <p className="text-sm text-muted-foreground">
@@ -187,42 +167,34 @@ interface UpcomingTransactionItemProps {
 function UpcomingTransactionItem({ instance }: UpcomingTransactionItemProps) {
   const scheduledDate = new Date(instance.scheduledDate)
   const isIncome = instance.type === 'INCOME'
-  
+
   return (
     <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors">
       <div className="flex items-center gap-3">
-        <div className={`p-2 rounded-full ${
-          isIncome ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
-        }`}>
-          <div className="h-4 w-4 flex items-center justify-center text-xs font-bold">
-            {instance.category.icon}
-          </div>
+        <div className={`p-2 rounded-full ${isIncome ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+          <div className="h-4 w-4 flex items-center justify-center text-xs font-bold">{instance.category.icon}</div>
         </div>
-        
+
         <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="font-medium text-sm">
-              {instance.description}
-            </span>
+            <span className="font-medium text-sm">{instance.description}</span>
             <Badge variant="secondary" className="text-xs">
               {instance.category.name}
             </Badge>
           </div>
-          
+
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Clock className="h-3 w-3" />
-            <span>
-              {format(scheduledDate, "dd/MM/yyyy", { locale: ptBR })}
-            </span>
+            <span>{format(scheduledDate, 'dd/MM/yyyy', { locale: ptBR })}</span>
             <span>•</span>
             <span>
-              {formatDistanceToNow(scheduledDate, { 
-                locale: ptBR, 
-                addSuffix: true 
+              {formatDistanceToNow(scheduledDate, {
+                locale: ptBR,
+                addSuffix: true,
               })}
             </span>
           </div>
-          
+
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <span>{instance.space.name}</span>
             <span>•</span>
@@ -230,39 +202,30 @@ function UpcomingTransactionItem({ instance }: UpcomingTransactionItemProps) {
           </div>
         </div>
       </div>
-      
+
       <div className="flex items-center gap-2">
         <div className="text-right">
-          <div className={`font-semibold ${
-            isIncome ? 'text-green-600' : 'text-red-600'
-          }`}>
-            {isIncome ? '+' : '-'}{formatCurrency(instance.amount)}
+          <div className={`font-semibold ${isIncome ? 'text-green-600' : 'text-red-600'}`}>
+            {isIncome ? '+' : '-'}
+            {formatCurrency(instance.amount)}
           </div>
-          <div className="text-xs text-muted-foreground">
-            Recorrente
-          </div>
+          <div className="text-xs text-muted-foreground">Recorrente</div>
         </div>
-        
+
         <div className="flex items-center gap-1">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-8 w-8 p-0"
-            title="Editar transação"
-          >
+          <Button variant="ghost" size="sm" className="h-8 w-8 p-0" title="Editar transação">
             <Edit className="h-3 w-3" />
           </Button>
-          
+
           <Button
             variant="ghost"
             size="sm"
             className="h-8 w-8 p-0 text-destructive hover:text-destructive"
-            title="Cancelar transação"
-          >
+            title="Cancelar transação">
             <Trash2 className="h-3 w-3" />
           </Button>
         </div>
       </div>
     </div>
   )
-} 
+}

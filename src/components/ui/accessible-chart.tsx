@@ -30,33 +30,31 @@ export const AccessibleChart = forwardRef<HTMLDivElement, AccessibleChartProps>(
         aria-describedby={descriptionId}
         aria-label={ariaLabel || `Gráfico: ${title}`}
         tabIndex={0}
-        {...props}
-      >
+        {...props}>
         {/* Título visualmente oculto para screen readers */}
         <h3 id={chartId} className="sr-only">
           {title}
         </h3>
-        
+
         {/* Descrição visualmente oculta para screen readers */}
         {description && (
           <p id={descriptionId} className="sr-only">
             {description}
           </p>
         )}
-        
+
         {/* Conteúdo do gráfico */}
         <div className="w-full h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md">
           {children}
         </div>
-        
+
         {/* Instrução de navegação para screen readers */}
         <div className="sr-only" aria-live="polite">
-          Use as teclas de seta para navegar pelos dados do gráfico. 
-          Pressione Enter para mais detalhes.
+          Use as teclas de seta para navegar pelos dados do gráfico. Pressione Enter para mais detalhes.
         </div>
       </div>
     )
-  }
+  },
 )
 
-AccessibleChart.displayName = 'AccessibleChart' 
+AccessibleChart.displayName = 'AccessibleChart'

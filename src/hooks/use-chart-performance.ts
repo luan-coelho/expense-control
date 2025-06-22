@@ -1,5 +1,4 @@
-import { useMemo, useCallback, useRef, useEffect } from 'react'
-import { type AnalyticsFilters } from '@/services/analytics.service'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 
 /**
  * Hook para otimizar performance dos gráficos
@@ -15,7 +14,7 @@ export function useChartPerformance() {
     if (resizeTimeoutRef.current) {
       clearTimeout(resizeTimeoutRef.current)
     }
-    
+
     resizeTimeoutRef.current = setTimeout(callback, delay)
   }, [])
 
@@ -47,22 +46,25 @@ export function useChartPerformance() {
   /**
    * Otimiza cores dos gráficos com memoização
    */
-  const memoizedColors = useMemo(() => ({
-    primary: 'hsl(var(--primary))',
-    secondary: 'hsl(var(--secondary))',
-    success: 'hsl(142, 76%, 36%)',
-    warning: 'hsl(38, 92%, 50%)',
-    destructive: 'hsl(var(--destructive))',
-    muted: 'hsl(var(--muted-foreground))',
-    accent: 'hsl(var(--accent))',
-    chart: [
-      'hsl(var(--chart-1))',
-      'hsl(var(--chart-2))',
-      'hsl(var(--chart-3))',
-      'hsl(var(--chart-4))',
-      'hsl(var(--chart-5))',
-    ],
-  }), [])
+  const memoizedColors = useMemo(
+    () => ({
+      primary: 'hsl(var(--primary))',
+      secondary: 'hsl(var(--secondary))',
+      success: 'hsl(142, 76%, 36%)',
+      warning: 'hsl(38, 92%, 50%)',
+      destructive: 'hsl(var(--destructive))',
+      muted: 'hsl(var(--muted-foreground))',
+      accent: 'hsl(var(--accent))',
+      chart: [
+        'hsl(var(--chart-1))',
+        'hsl(var(--chart-2))',
+        'hsl(var(--chart-3))',
+        'hsl(var(--chart-4))',
+        'hsl(var(--chart-5))',
+      ],
+    }),
+    [],
+  )
 
   /**
    * Otimiza formatação de valores monetários
@@ -94,4 +96,4 @@ export function useChartPerformance() {
     formatCurrency,
     formatPercentage,
   }
-} 
+}

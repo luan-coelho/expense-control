@@ -9,7 +9,7 @@ import { queryKeys } from '@/lib/routes'
  */
 export function useSpendingByCategory(filters?: AnalyticsFilters) {
   const activeSpaceId = useActiveSpaceId()
-  
+
   // Combinar filtros do parâmetro com o filtro de espaço ativo
   const enhancedFilters = {
     ...filters,
@@ -42,7 +42,7 @@ export function useSpendingBySpace(filters?: AnalyticsFilters) {
  */
 export function useSummaryMetrics(filters?: AnalyticsFilters) {
   const activeSpaceId = useActiveSpaceId()
-  
+
   // Combinar filtros do parâmetro com o filtro de espaço ativo
   const enhancedFilters = {
     ...filters,
@@ -63,7 +63,7 @@ export function useSummaryMetrics(filters?: AnalyticsFilters) {
  */
 export function useMonthlyIncomeExpenses(filters?: AnalyticsFilters) {
   const activeSpaceId = useActiveSpaceId()
-  
+
   // Combinar filtros do parâmetro com o filtro de espaço ativo
   const enhancedFilters = {
     ...filters,
@@ -84,7 +84,7 @@ export function useMonthlyIncomeExpenses(filters?: AnalyticsFilters) {
  */
 export function useBalanceEvolution(filters?: AnalyticsFilters) {
   const activeSpaceId = useActiveSpaceId()
-  
+
   // Combinar filtros do parâmetro com o filtro de espaço ativo
   const enhancedFilters = {
     ...filters,
@@ -97,4 +97,4 @@ export function useBalanceEvolution(filters?: AnalyticsFilters) {
     enabled: !!activeSpaceId,
     staleTime: 5 * 60 * 1000, // 5 minutos
   })
-} 
+}

@@ -49,7 +49,7 @@ function SpaceStats() {
           <div className="text-2xl font-bold">{totalSpaces}</div>
         </CardContent>
       </Card>
-      
+
       <Card>
         <CardHeader className="pb-3">
           <h3 className="text-sm font-medium text-muted-foreground">Novos (7 dias)</h3>
@@ -58,7 +58,7 @@ function SpaceStats() {
           <div className="text-2xl font-bold">{recentSpaces}</div>
         </CardContent>
       </Card>
-      
+
       <Card>
         <CardHeader className="pb-3">
           <h3 className="text-sm font-medium text-muted-foreground">Status</h3>
@@ -122,11 +122,7 @@ function SpaceManager() {
           <DialogHeader>
             <DialogTitle>Editar Espaço</DialogTitle>
           </DialogHeader>
-          <SpaceForm 
-            space={selectedSpace || undefined} 
-            onSuccess={handleSuccess} 
-            onCancel={handleCancel} 
-          />
+          <SpaceForm space={selectedSpace || undefined} onSuccess={handleSuccess} onCancel={handleCancel} />
         </DialogContent>
       </Dialog>
     </div>
@@ -197,9 +193,7 @@ export default function SpacesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Espaços</h1>
-          <p className="text-muted-foreground">
-            Organize suas finanças em diferentes espaços de vida
-          </p>
+          <p className="text-muted-foreground">Organize suas finanças em diferentes espaços de vida</p>
         </div>
         <div className="flex items-center gap-2 text-muted-foreground">
           <Building2 className="h-5 w-5" />
@@ -213,4 +207,4 @@ export default function SpacesPage() {
       </Suspense>
     </div>
   )
-} 
+}

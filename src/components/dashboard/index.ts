@@ -1,1 +1,1 @@
-export { RecentTransactions } from './recent-transactions' 
+export { RecentTransactions } from './recent-transactions'

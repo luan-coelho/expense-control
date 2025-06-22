@@ -1,5 +1,3 @@
-import { routes } from '@/lib/routes'
-
 export interface SpendingByCategoryData {
   categoryId: string | null
   categoryName: string
@@ -166,7 +164,7 @@ class AnalyticsService {
     if (filters?.spaceId) searchParams.set('spaceId', filters.spaceId)
 
     const url = `/api/analytics/spending-by-category?${searchParams.toString()}`
-    
+
     const response = await fetch(url)
     if (!response.ok) {
       throw new Error('Erro ao buscar dados de gastos por categoria')
@@ -187,7 +185,7 @@ class AnalyticsService {
     // Nota: não incluímos spaceId aqui pois estamos comparando espaços
 
     const url = `/api/analytics/spending-by-space?${searchParams.toString()}`
-    
+
     const response = await fetch(url)
     if (!response.ok) {
       throw new Error('Erro ao buscar dados de gastos por espaço')
@@ -208,7 +206,7 @@ class AnalyticsService {
     if (filters?.spaceId) searchParams.set('spaceId', filters.spaceId)
 
     const url = `/api/analytics/summary-metrics?${searchParams.toString()}`
-    
+
     const response = await fetch(url)
     if (!response.ok) {
       throw new Error('Erro ao buscar métricas de resumo')
@@ -237,9 +235,9 @@ class AnalyticsService {
     }
 
     const url = `/api/analytics/monthly-income-expenses${searchParams.toString() ? `?${searchParams.toString()}` : ''}`
-    
+
     const response = await fetch(url)
-    
+
     if (!response.ok) {
       const error = await response.json().catch(() => ({ error: 'Erro desconhecido' }))
       throw new Error(error.error || `Erro ${response.status}: ${response.statusText}`)
@@ -268,9 +266,9 @@ class AnalyticsService {
     }
 
     const url = `/api/analytics/balance-evolution${searchParams.toString() ? `?${searchParams.toString()}` : ''}`
-    
+
     const response = await fetch(url)
-    
+
     if (!response.ok) {
       const error = await response.json().catch(() => ({ error: 'Erro desconhecido' }))
       throw new Error(error.error || `Erro ${response.status}: ${response.statusText}`)
@@ -282,4 +280,4 @@ class AnalyticsService {
 
 // Exportar instância única do serviço
 export const analyticsService = new AnalyticsService()
-export default analyticsService 
+export default analyticsService

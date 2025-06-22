@@ -30,4 +30,4 @@ export type NewCategory = typeof categoriesTable.$inferInsert
 // Tipo para categoria com subcategorias (para consultas hierárquicas)
 export type CategoryWithChildren = Category & {
   children?: CategoryWithChildren[]
-} 
+}

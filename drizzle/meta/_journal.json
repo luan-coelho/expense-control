@@ -15,6 +15,13 @@
       "when": 1750477433348,
       "tag": "0001_green_black_crow",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1750552647939,
+      "tag": "0002_good_monster_badoon",
+      "breakpoints": true
     }
   ]
 }

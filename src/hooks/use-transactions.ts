@@ -25,7 +25,7 @@ export interface UseTransactionsParams {
  */
 export function useTransactions(params?: UseTransactionsParams) {
   const activeSpaceId = useActiveSpaceId()
-  
+
   // Combinar filtros do parâmetro com o filtro de espaço ativo
   const filters = {
     ...params?.filters,
@@ -34,11 +34,12 @@ export function useTransactions(params?: UseTransactionsParams) {
 
   return useQuery({
     queryKey: queryKeys.transactions.list(filters),
-    queryFn: () => transactionService.getAll({
-      page: params?.page,
-      limit: params?.limit,
-      filters,
-    }),
+    queryFn: () =>
+      transactionService.getAll({
+        page: params?.page,
+        limit: params?.limit,
+        filters,
+      }),
     enabled: params?.enabled !== false && !!activeSpaceId,
     staleTime: 5 * 60 * 1000, // 5 minutos
     refetchOnWindowFocus: false,
@@ -75,15 +76,12 @@ export function useCreateTransaction() {
       }
       return transactionService.create(transactionData)
     },
-    onSuccess: (newTransaction) => {
+    onSuccess: newTransaction => {
       // Invalidar queries de lista para refletir a nova transação
       queryClient.invalidateQueries({ queryKey: queryKeys.transactions.lists() })
-      
+
       // Adicionar a nova transação ao cache
-      queryClient.setQueryData(
-        queryKeys.transactions.detail(newTransaction.id),
-        newTransaction
-      )
+      queryClient.setQueryData(queryKeys.transactions.detail(newTransaction.id), newTransaction)
 
       toast.success('Transação criada com sucesso!')
     },
@@ -100,14 +98,10 @@ export function useUpdateTransaction() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdateTransactionInput }) =>
-      transactionService.update(id, data),
-    onSuccess: (updatedTransaction) => {
+    mutationFn: ({ id, data }: { id: string; data: UpdateTransactionInput }) => transactionService.update(id, data),
+    onSuccess: updatedTransaction => {
       // Atualizar o cache da transação específica
-      queryClient.setQueryData(
-        queryKeys.transactions.detail(updatedTransaction.id),
-        updatedTransaction
-      )
+      queryClient.setQueryData(queryKeys.transactions.detail(updatedTransaction.id), updatedTransaction)
 
       // Invalidar queries de lista para refletir as mudanças
       queryClient.invalidateQueries({ queryKey: queryKeys.transactions.lists() })
@@ -161,4 +155,4 @@ export function useInvalidateTransactions() {
       queryClient.invalidateQueries({ queryKey: queryKeys.transactions.detail(id) })
     },
   }
-} 
+}

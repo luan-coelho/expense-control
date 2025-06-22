@@ -4,13 +4,7 @@ import { useState } from 'react'
 import { Search, Plus, Filter } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 import { type CategoryWithRelations, type CategoryFilters } from '@/types/category'
 import { useCategories, useSearchCategories } from '@/hooks'
@@ -40,21 +34,19 @@ export function CategoryList({
 
   // Usar busca se houver termo de pesquisa, senão usar lista normal
   const shouldSearch = searchTerm.trim().length > 0
-  
-  const {
-    data: searchResults = [],
-    isLoading: isSearching
-  } = useSearchCategories(searchTerm, filters.type, shouldSearch)
 
-  const {
-    data: categoriesData,
-    isLoading: isLoadingCategories
-  } = useCategories({
+  const { data: searchResults = [], isLoading: isSearching } = useSearchCategories(
+    searchTerm,
+    filters.type,
+    shouldSearch,
+  )
+
+  const { data: categoriesData, isLoading: isLoadingCategories } = useCategories({
     filters,
     enabled: !shouldSearch,
   })
 
-  const categories = shouldSearch ? searchResults : (categoriesData?.categories || [])
+  const categories = shouldSearch ? searchResults : categoriesData?.categories || []
   const isLoading = shouldSearch ? isSearching : isLoadingCategories
 
   const handleFilterChange = (key: keyof CategoryFilters, value: any) => {
@@ -69,9 +61,8 @@ export function CategoryList({
     setSearchTerm('')
   }
 
-  const hasActiveFilters = Object.values(filters).some(value => 
-    value !== undefined && value !== type
-  ) || searchTerm.length > 0
+  const hasActiveFilters =
+    Object.values(filters).some(value => value !== undefined && value !== type) || searchTerm.length > 0
 
   return (
     <div className={`space-y-6 ${className}`}>
@@ -83,7 +74,7 @@ export function CategoryList({
           <Input
             placeholder="Buscar categorias..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
             className="pl-10"
           />
         </div>
@@ -92,10 +83,7 @@ export function CategoryList({
         <div className="flex gap-2">
           {/* Filtro por tipo */}
           {!type && (
-            <Select
-              value={filters.type || 'all'}
-              onValueChange={(value) => handleFilterChange('type', value)}
-            >
+            <Select value={filters.type || 'all'} onValueChange={value => handleFilterChange('type', value)}>
               <SelectTrigger className="w-[140px]">
                 <SelectValue placeholder="Tipo" />
               </SelectTrigger>
@@ -110,10 +98,7 @@ export function CategoryList({
           {/* Filtro por origem */}
           <Select
             value={filters.isDefault === undefined ? 'all' : filters.isDefault.toString()}
-            onValueChange={(value) => handleFilterChange('isDefault', 
-              value === 'all' ? undefined : value === 'true'
-            )}
-          >
+            onValueChange={value => handleFilterChange('isDefault', value === 'all' ? undefined : value === 'true')}>
             <SelectTrigger className="w-[140px]">
               <SelectValue placeholder="Origem" />
             </SelectTrigger>
@@ -126,12 +111,7 @@ export function CategoryList({
 
           {/* Limpar filtros */}
           {hasActiveFilters && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={clearFilters}
-              className="px-3"
-            >
+            <Button variant="outline" size="sm" onClick={clearFilters} className="px-3">
               <Filter className="h-4 w-4 mr-1" />
               Limpar
             </Button>
@@ -150,15 +130,9 @@ export function CategoryList({
       {/* Indicadores de filtros ativos */}
       {hasActiveFilters && (
         <div className="flex flex-wrap gap-2">
-          {searchTerm && (
-            <Badge variant="secondary">
-              Busca: "{searchTerm}"
-            </Badge>
-          )}
+          {searchTerm && <Badge variant="secondary">Busca: "{searchTerm}"</Badge>}
           {filters.type && (
-            <Badge variant="secondary">
-              Tipo: {filters.type === 'INCOME' ? 'Receitas' : 'Despesas'}
-            </Badge>
+            <Badge variant="secondary">Tipo: {filters.type === 'INCOME' ? 'Receitas' : 'Despesas'}</Badge>
           )}
           {filters.isDefault !== undefined && (
             <Badge variant="secondary">
@@ -172,25 +146,18 @@ export function CategoryList({
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div
-              key={i}
-              className="h-32 bg-muted rounded-lg animate-pulse"
-            />
+            <div key={i} className="h-32 bg-muted rounded-lg animate-pulse" />
           ))}
         </div>
       ) : categories.length === 0 ? (
         <div className="text-center py-12">
           <div className="text-muted-foreground text-lg mb-2">
-            {searchTerm || hasActiveFilters 
-              ? 'Nenhuma categoria encontrada'
-              : 'Nenhuma categoria criada ainda'
-            }
+            {searchTerm || hasActiveFilters ? 'Nenhuma categoria encontrada' : 'Nenhuma categoria criada ainda'}
           </div>
           <div className="text-sm text-muted-foreground mb-4">
             {searchTerm || hasActiveFilters
               ? 'Tente ajustar os filtros ou termo de busca'
-              : 'Crie sua primeira categoria para começar a organizar suas transações'
-            }
+              : 'Crie sua primeira categoria para começar a organizar suas transações'}
           </div>
           {onCreateCategory && !searchTerm && !hasActiveFilters && (
             <Button onClick={onCreateCategory}>
@@ -201,7 +168,7 @@ export function CategoryList({
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                     {categories.map((category: CategoryWithRelations) => (
+          {categories.map((category: CategoryWithRelations) => (
             <CategoryCard
               key={category.id}
               category={category}
@@ -217,12 +184,11 @@ export function CategoryList({
       {/* Informações de resultados */}
       {!isLoading && categories.length > 0 && (
         <div className="text-sm text-muted-foreground text-center">
-          {shouldSearch 
+          {shouldSearch
             ? `${categories.length} categoria(s) encontrada(s)`
-            : `Total: ${categories.length} categoria(s)`
-          }
+            : `Total: ${categories.length} categoria(s)`}
         </div>
       )}
     </div>
   )
-} 
+}

@@ -243,7 +243,7 @@ interface TransactionFormProps {
 // ✅ Exceção válida - relatórios multi-espaço
 export function ReportsPage() {
   const [selectedSpaceId, setSelectedSpaceId] = useState<string>('all')
-  
+
   return (
     <div>
       <Select value={selectedSpaceId} onValueChange={setSelectedSpaceId}>

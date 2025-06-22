@@ -1,16 +1,14 @@
 'use client'
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { accountService } from '@/services'
 import { queryKeys } from '@/lib/routes'
-import { 
-  type CreateAccountInput,
-  type UpdateAccountInput,
+import { accountService } from '@/services'
+import {
   type AccountFilters,
-  type AccountWithRelations,
-  type PaginatedAccounts,
   type AccountTypeEnum,
+  type CreateAccountInput,
+  type UpdateAccountInput
 } from '@/types/account'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 // Parâmetros para busca de contas
 export interface UseAccountsParams {
@@ -74,10 +72,10 @@ export function useCreateAccount() {
 
   return useMutation({
     mutationFn: (data: CreateAccountInput) => accountService.create(data),
-    onSuccess: (newAccount) => {
+    onSuccess: newAccount => {
       // Invalidar listas de contas
       queryClient.invalidateQueries({ queryKey: queryKeys.accounts.lists() })
-      
+
       // Adicionar a nova conta ao cache
       queryClient.setQueryData(queryKeys.accounts.detail(newAccount.id), newAccount)
     },
@@ -91,12 +89,11 @@ export function useUpdateAccount() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdateAccountInput }) =>
-      accountService.update(id, data),
-    onSuccess: (updatedAccount) => {
+    mutationFn: ({ id, data }: { id: string; data: UpdateAccountInput }) => accountService.update(id, data),
+    onSuccess: updatedAccount => {
       // Atualizar a conta específica no cache
       queryClient.setQueryData(queryKeys.accounts.detail(updatedAccount.id), updatedAccount)
-      
+
       // Invalidar listas de contas
       queryClient.invalidateQueries({ queryKey: queryKeys.accounts.lists() })
     },
@@ -114,7 +111,7 @@ export function useDeleteAccount() {
     onSuccess: (_, deletedId) => {
       // Remover a conta do cache
       queryClient.removeQueries({ queryKey: queryKeys.accounts.detail(deletedId) })
-      
+
       // Invalidar listas de contas
       queryClient.invalidateQueries({ queryKey: queryKeys.accounts.lists() })
     },
@@ -126,8 +123,8 @@ export function useDeleteAccount() {
  */
 export function useInvalidateAccounts() {
   const queryClient = useQueryClient()
-  
+
   return () => {
     queryClient.invalidateQueries({ queryKey: queryKeys.accounts.all })
   }
-} 
+}

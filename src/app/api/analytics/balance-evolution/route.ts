@@ -66,25 +66,28 @@ export async function GET(request: NextRequest) {
     let cumulativeExpenses = 0
 
     // Agrupar transações por data
-    const transactionsByDate = transactions.reduce((acc, transaction) => {
-      const dateKey = transaction.date.toISOString().split('T')[0]
-      if (!acc[dateKey]) {
-        acc[dateKey] = []
-      }
-      acc[dateKey].push(transaction)
-      return acc
-    }, {} as Record<string, typeof transactions>)
+    const transactionsByDate = transactions.reduce(
+      (acc, transaction) => {
+        const dateKey = transaction.date.toISOString().split('T')[0]
+        if (!acc[dateKey]) {
+          acc[dateKey] = []
+        }
+        acc[dateKey].push(transaction)
+        return acc
+      },
+      {} as Record<string, typeof transactions>,
+    )
 
     // Processar cada data
     const sortedDates = Object.keys(transactionsByDate).sort()
-    
+
     for (const dateKey of sortedDates) {
       const dayTransactions = transactionsByDate[dateKey]
       let dailyChange = 0
 
       for (const transaction of dayTransactions) {
         const amount = Number(transaction.amount)
-        
+
         if (transaction.type === 'INCOME') {
           runningBalance += amount
           cumulativeIncome += amount
@@ -134,8 +137,10 @@ export async function GET(request: NextRequest) {
     }
 
     // Calcular estatísticas
-    const finalBalance = balanceEvolution.length > 0 ? balanceEvolution[balanceEvolution.length - 1].balance : runningBalance
-    const initialBalance = balanceEvolution.length > 0 ? (balanceEvolution[0].balance - balanceEvolution[0].dailyChange) : runningBalance
+    const finalBalance =
+      balanceEvolution.length > 0 ? balanceEvolution[balanceEvolution.length - 1].balance : runningBalance
+    const initialBalance =
+      balanceEvolution.length > 0 ? balanceEvolution[0].balance - balanceEvolution[0].dailyChange : runningBalance
     const totalChange = finalBalance - initialBalance
     const maxBalance = Math.max(...balanceEvolution.map(item => item.balance), initialBalance)
     const minBalance = Math.min(...balanceEvolution.map(item => item.balance), initialBalance)
@@ -174,9 +179,6 @@ export async function GET(request: NextRequest) {
     })
   } catch (error) {
     console.error('Erro ao buscar evolução do saldo:', error)
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
-} 
+}

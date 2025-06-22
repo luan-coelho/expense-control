@@ -24,11 +24,12 @@ export interface UseCategoriesParams {
 export function useCategories(params?: UseCategoriesParams) {
   return useQuery({
     queryKey: queryKeys.categories.list(params?.filters),
-    queryFn: () => categoryService.getAll({
-      page: params?.page,
-      limit: params?.limit,
-      filters: params?.filters,
-    }),
+    queryFn: () =>
+      categoryService.getAll({
+        page: params?.page,
+        limit: params?.limit,
+        filters: params?.filters,
+      }),
     enabled: params?.enabled !== false,
     staleTime: 10 * 60 * 1000, // 10 minutos (categorias mudam menos que transações)
     refetchOnWindowFocus: false,
@@ -121,22 +122,19 @@ export function useCreateCategory() {
 
   return useMutation({
     mutationFn: (data: CreateCategoryInput) => categoryService.create(data),
-    onSuccess: (newCategory) => {
+    onSuccess: newCategory => {
       // Invalidar queries de lista para refletir a nova categoria
       queryClient.invalidateQueries({ queryKey: queryKeys.categories.lists() })
-      
+
       // Adicionar a nova categoria ao cache
-      queryClient.setQueryData(
-        queryKeys.categories.detail(newCategory.id),
-        newCategory
-      )
+      queryClient.setQueryData(queryKeys.categories.detail(newCategory.id), newCategory)
 
       toast.success('Categoria criada com sucesso!')
     },
     onError: (error: Error) => {
       // Mensagens de erro mais específicas
       let errorMessage = 'Erro ao criar categoria'
-      
+
       if (error.message.includes('Já existe uma categoria com este nome')) {
         errorMessage = 'Já existe uma categoria com este nome'
       } else if (error.message.includes('Categoria pai não encontrada')) {
@@ -148,7 +146,7 @@ export function useCreateCategory() {
       } else if (error.message) {
         errorMessage = error.message
       }
-      
+
       toast.error(errorMessage)
     },
   })
@@ -161,14 +159,10 @@ export function useUpdateCategory() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdateCategoryInput }) =>
-      categoryService.update(id, data),
-    onSuccess: (updatedCategory) => {
+    mutationFn: ({ id, data }: { id: string; data: UpdateCategoryInput }) => categoryService.update(id, data),
+    onSuccess: updatedCategory => {
       // Atualizar o cache da categoria específica
-      queryClient.setQueryData(
-        queryKeys.categories.detail(updatedCategory.id),
-        updatedCategory
-      )
+      queryClient.setQueryData(queryKeys.categories.detail(updatedCategory.id), updatedCategory)
 
       // Invalidar queries de lista para refletir as mudanças
       queryClient.invalidateQueries({ queryKey: queryKeys.categories.lists() })
@@ -178,7 +172,7 @@ export function useUpdateCategory() {
     onError: (error: Error) => {
       // Mensagens de erro mais específicas
       let errorMessage = 'Erro ao atualizar categoria'
-      
+
       if (error.message.includes('Não é possível editar categorias predefinidas do sistema')) {
         errorMessage = 'Esta categoria é predefinida do sistema e não pode ser editada'
       } else if (error.message.includes('Você não tem permissão para editar esta categoria')) {
@@ -198,7 +192,7 @@ export function useUpdateCategory() {
       } else if (error.message) {
         errorMessage = error.message
       }
-      
+
       toast.error(errorMessage)
     },
   })
@@ -224,7 +218,7 @@ export function useDeleteCategory() {
     onError: (error: Error) => {
       // Mensagens de erro mais específicas
       let errorMessage = 'Erro ao excluir categoria'
-      
+
       if (error.message.includes('Não é possível excluir categorias predefinidas do sistema')) {
         errorMessage = 'Esta categoria é predefinida do sistema e não pode ser excluída'
       } else if (error.message.includes('Você não tem permissão para excluir esta categoria')) {
@@ -246,7 +240,7 @@ export function useDeleteCategory() {
       } else if (error.message) {
         errorMessage = error.message
       }
-      
+
       toast.error(errorMessage)
     },
   })
@@ -270,4 +264,4 @@ export function useInvalidateCategories() {
       queryClient.invalidateQueries({ queryKey: queryKeys.categories.detail(id) })
     },
   }
-} 
+}

@@ -18,12 +18,7 @@ interface ResponsiveContainerProps {
  */
 export const ResponsiveContainer = forwardRef<HTMLDivElement, ResponsiveContainerProps>(
   ({ children, className, variant = 'section', enableAnimations = true, touchOptimized = true, ...props }, ref) => {
-    const { 
-      containerClasses, 
-      mobileOptimizations, 
-      performanceConfig,
-      viewportConfig 
-    } = useResponsiveLayout()
+    const { containerClasses, mobileOptimizations, performanceConfig, viewportConfig } = useResponsiveLayout()
 
     // Selecionar classes baseadas na variante
     const getVariantClasses = () => {
@@ -77,18 +72,12 @@ export const ResponsiveContainer = forwardRef<HTMLDivElement, ResponsiveContaine
     return (
       <div
         ref={ref}
-        className={cn(
-          getVariantClasses(),
-          getOptimizationClasses(),
-          getTransitionClasses(),
-          className
-        )}
-        {...props}
-      >
+        className={cn(getVariantClasses(), getOptimizationClasses(), getTransitionClasses(), className)}
+        {...props}>
         {children}
       </div>
     )
-  }
+  },
 )
 
 ResponsiveContainer.displayName = 'ResponsiveContainer'
@@ -104,25 +93,19 @@ export const ResponsiveChartContainer = forwardRef<HTMLDivElement, Omit<Responsi
       <ResponsiveContainer
         ref={ref}
         variant="chart"
-        className={cn(
-          'relative overflow-hidden',
-          mobileOptimizations.useCompactLayout && 'space-y-3',
-          className
-        )}
-        {...props}
-      >
-        <div 
+        className={cn('relative overflow-hidden', mobileOptimizations.useCompactLayout && 'space-y-3', className)}
+        {...props}>
+        <div
           className="w-full"
-          style={{ 
+          style={{
             height: chartConfig.chartHeight,
-            minHeight: mobileOptimizations.useCompactLayout ? '240px' : '300px'
-          }}
-        >
+            minHeight: mobileOptimizations.useCompactLayout ? '240px' : '300px',
+          }}>
           {children}
         </div>
       </ResponsiveContainer>
     )
-  }
+  },
 )
 
 ResponsiveChartContainer.displayName = 'ResponsiveChartContainer'
@@ -143,14 +126,13 @@ export const ResponsiveMetricsContainer = forwardRef<HTMLDivElement, Omit<Respon
           mobileOptimizations.shouldStackVertically && 'grid-cols-1',
           viewportConfig.isTablet && 'grid-cols-2',
           viewportConfig.isDesktop && 'grid-cols-4',
-          className
+          className,
         )}
-        {...props}
-      >
+        {...props}>
         {children}
       </ResponsiveContainer>
     )
-  }
+  },
 )
 
-ResponsiveMetricsContainer.displayName = 'ResponsiveMetricsContainer' 
+ResponsiveMetricsContainer.displayName = 'ResponsiveMetricsContainer'

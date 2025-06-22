@@ -3,20 +3,17 @@ import { db } from '@/db'
 import { accountsTable, usersTable, transactionsTable } from '@/db/schema'
 import { eq, and, count } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
-import { 
+import {
   updateAccountSchema,
   accountIdSchema,
   sanitizeAccountName,
   isValidAccountType,
-  type AccountWithRelations
+  type AccountWithRelations,
 } from '@/types/account'
 import { ZodError } from 'zod'
 
 // GET - Buscar conta por ID
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth()
     if (!session?.user?.id) {
@@ -27,15 +24,18 @@ export async function GET(
 
     // Validar ID da conta
     const idValidation = accountIdSchema.safeParse({ id: resolvedParams.id })
-    
+
     if (!idValidation.success) {
-      return NextResponse.json({ 
-        error: 'ID da conta inválido',
-        details: idValidation.error.issues.map(issue => ({
-          field: issue.path.join('.'),
-          message: issue.message
-        }))
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'ID da conta inválido',
+          details: idValidation.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+          })),
+        },
+        { status: 400 },
+      )
     }
 
     const accountId = idValidation.data.id
@@ -55,12 +55,7 @@ export async function GET(
       })
       .from(accountsTable)
       .leftJoin(usersTable, eq(accountsTable.userId, usersTable.id))
-      .where(
-        and(
-          eq(accountsTable.id, accountId),
-          eq(accountsTable.userId, session.user.id)
-        )
-      )
+      .where(and(eq(accountsTable.id, accountId), eq(accountsTable.userId, session.user.id)))
       .limit(1)
 
     if (account.length === 0) {
@@ -80,10 +75,7 @@ export async function GET(
 }
 
 // PUT - Atualizar conta
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth()
     if (!session?.user?.id) {
@@ -94,15 +86,18 @@ export async function PUT(
 
     // Validar ID da conta
     const idValidation = accountIdSchema.safeParse({ id: resolvedParams.id })
-    
+
     if (!idValidation.success) {
-      return NextResponse.json({ 
-        error: 'ID da conta inválido',
-        details: idValidation.error.issues.map(issue => ({
-          field: issue.path.join('.'),
-          message: issue.message
-        }))
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'ID da conta inválido',
+          details: idValidation.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+          })),
+        },
+        { status: 400 },
+      )
     }
 
     const accountId = idValidation.data.id
@@ -110,26 +105,29 @@ export async function PUT(
 
     // Validar dados
     const validationResult = updateAccountSchema.safeParse(body)
-    
+
     if (!validationResult.success) {
-      return NextResponse.json({ 
-        error: 'Dados inválidos',
-        details: validationResult.error.issues.map(issue => ({
-          field: issue.path.join('.'),
-          message: issue.message
-        }))
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Dados inválidos',
+          details: validationResult.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+          })),
+        },
+        { status: 400 },
+      )
     }
 
     const validatedData = validationResult.data
 
     // Verificar se a conta existe e se o usuário pode editá-la
     const existingAccount = await db
-      .select({ 
-        id: accountsTable.id, 
+      .select({
+        id: accountsTable.id,
         userId: accountsTable.userId,
         name: accountsTable.name,
-        type: accountsTable.type
+        type: accountsTable.type,
       })
       .from(accountsTable)
       .where(eq(accountsTable.id, accountId))
@@ -143,9 +141,12 @@ export async function PUT(
 
     // Usuários só podem editar suas próprias contas
     if (account.userId !== session.user.id) {
-      return NextResponse.json({ 
-        error: 'Você não tem permissão para editar esta conta' 
-      }, { status: 403 })
+      return NextResponse.json(
+        {
+          error: 'Você não tem permissão para editar esta conta',
+        },
+        { status: 403 },
+      )
     }
 
     // Preparar dados para atualização
@@ -156,24 +157,22 @@ export async function PUT(
     // Validar e sanitizar nome se fornecido
     if (validatedData.name !== undefined) {
       const sanitizedName = sanitizeAccountName(validatedData.name)
-      
+
       // Verificar se já existe uma conta com o mesmo nome (se o nome foi alterado)
       const duplicateAccount = await db
         .select({ id: accountsTable.id })
         .from(accountsTable)
-        .where(
-          and(
-            eq(accountsTable.name, sanitizedName),
-            eq(accountsTable.userId, session.user.id)
-          )
-        )
+        .where(and(eq(accountsTable.name, sanitizedName), eq(accountsTable.userId, session.user.id)))
         .limit(1)
 
       if (duplicateAccount.length > 0 && duplicateAccount[0].id !== accountId) {
-        return NextResponse.json({ 
-          error: 'Já existe uma conta com este nome',
-          field: 'name'
-        }, { status: 400 })
+        return NextResponse.json(
+          {
+            error: 'Já existe uma conta com este nome',
+            field: 'name',
+          },
+          { status: 400 },
+        )
       }
 
       updateData.name = sanitizedName
@@ -182,19 +181,19 @@ export async function PUT(
     // Validar tipo de conta se fornecido
     if (validatedData.type !== undefined) {
       if (!isValidAccountType(validatedData.type)) {
-        return NextResponse.json({ 
-          error: 'Tipo de conta inválido',
-          field: 'type'
-        }, { status: 400 })
+        return NextResponse.json(
+          {
+            error: 'Tipo de conta inválido',
+            field: 'type',
+          },
+          { status: 400 },
+        )
       }
       updateData.type = validatedData.type
     }
 
     // Atualizar conta
-    await db
-      .update(accountsTable)
-      .set(updateData)
-      .where(eq(accountsTable.id, accountId))
+    await db.update(accountsTable).set(updateData).where(eq(accountsTable.id, accountId))
 
     // Buscar conta atualizada com relacionamentos
     const updatedAccount = await db
@@ -222,26 +221,26 @@ export async function PUT(
     } as AccountWithRelations)
   } catch (error) {
     console.error('Erro ao atualizar conta:', error)
-    
+
     if (error instanceof ZodError) {
-      return NextResponse.json({ 
-        error: 'Dados inválidos',
-        details: error.issues.map(issue => ({
-          field: issue.path.join('.'),
-          message: issue.message
-        }))
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Dados inválidos',
+          details: error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+          })),
+        },
+        { status: 400 },
+      )
     }
-    
+
     return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
 }
 
 // DELETE - Excluir conta
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth()
     if (!session?.user?.id) {
@@ -252,26 +251,29 @@ export async function DELETE(
 
     // Validar ID da conta
     const idValidation = accountIdSchema.safeParse({ id: resolvedParams.id })
-    
+
     if (!idValidation.success) {
-      return NextResponse.json({ 
-        error: 'ID da conta inválido',
-        details: idValidation.error.issues.map(issue => ({
-          field: issue.path.join('.'),
-          message: issue.message
-        }))
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'ID da conta inválido',
+          details: idValidation.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+          })),
+        },
+        { status: 400 },
+      )
     }
 
     const accountId = idValidation.data.id
 
     // Verificar se a conta existe e se o usuário pode excluí-la
     const existingAccount = await db
-      .select({ 
-        id: accountsTable.id, 
+      .select({
+        id: accountsTable.id,
         userId: accountsTable.userId,
         name: accountsTable.name,
-        type: accountsTable.type
+        type: accountsTable.type,
       })
       .from(accountsTable)
       .where(eq(accountsTable.id, accountId))
@@ -285,9 +287,12 @@ export async function DELETE(
 
     // Usuários só podem excluir suas próprias contas
     if (account.userId !== session.user.id) {
-      return NextResponse.json({ 
-        error: 'Você não tem permissão para excluir esta conta' 
-      }, { status: 403 })
+      return NextResponse.json(
+        {
+          error: 'Você não tem permissão para excluir esta conta',
+        },
+        { status: 403 },
+      )
     }
 
     // Verificar se existem transações vinculadas a esta conta
@@ -297,27 +302,28 @@ export async function DELETE(
       .where(eq(transactionsTable.accountId, accountId))
 
     if (transactionCount > 0) {
-      return NextResponse.json({ 
-        error: `Não é possível excluir esta conta pois existem ${transactionCount} transação(ões) vinculada(s) a ela`,
-        relatedCount: transactionCount
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: `Não é possível excluir esta conta pois existem ${transactionCount} transação(ões) vinculada(s) a ela`,
+          relatedCount: transactionCount,
+        },
+        { status: 400 },
+      )
     }
 
     // Excluir conta
-    await db
-      .delete(accountsTable)
-      .where(eq(accountsTable.id, accountId))
+    await db.delete(accountsTable).where(eq(accountsTable.id, accountId))
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       message: 'Conta excluída com sucesso',
       deletedAccount: {
         id: account.id,
         name: account.name,
-        type: account.type
-      }
+        type: account.type,
+      },
     })
   } catch (error) {
     console.error('Erro ao excluir conta:', error)
     return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
-} 
+}

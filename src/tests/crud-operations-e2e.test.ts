@@ -33,11 +33,11 @@ describe('CRUD Operations E2E Tests', () => {
     const errorResponse = {
       ok: false,
       status: 400,
-      error: 'Dados inválidos'
+      error: 'Dados inválidos',
     }
 
     expect(errorResponse.ok).toBe(false)
     expect(errorResponse.status).toBe(400)
     expect(errorResponse.error).toBe('Dados inválidos')
   })
-}) 
+})

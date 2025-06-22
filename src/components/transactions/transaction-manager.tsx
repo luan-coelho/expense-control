@@ -4,22 +4,11 @@ import { useState } from 'react'
 
 import { TransactionList } from './transaction-list'
 import { TransactionModal } from './transaction-modal'
-import { 
-  type TransactionWithRelations,
-  type TransactionFilters 
-} from '@/types/transaction'
+import { type TransactionWithRelations, type TransactionFilters } from '@/types/transaction'
 
 interface TransactionManagerProps {
   accounts?: Array<{ id: string; name: string; type: string }>
 }
-
-// Dados mock como fallback para spaces e accounts
-const mockSpaces = [
-  { id: '1', name: 'Pessoal' },
-  { id: '2', name: 'Trabalho' },
-  { id: '3', name: 'Família' },
-  { id: '4', name: 'Negócios' },
-]
 
 const mockAccounts = [
   { id: '1', name: 'Conta Corrente', type: 'checking' },
@@ -29,9 +18,7 @@ const mockAccounts = [
   { id: '5', name: 'Conta Investimento', type: 'investment' },
 ]
 
-export function TransactionManager({
-  accounts: propAccounts,
-}: TransactionManagerProps) {
+export function TransactionManager({ accounts: propAccounts }: TransactionManagerProps) {
   const [modalOpen, setModalOpen] = useState(false)
   const [editingTransaction, setEditingTransaction] = useState<TransactionWithRelations | undefined>(undefined)
   const [filters, setFilters] = useState<TransactionFilters>({})
@@ -56,12 +43,7 @@ export function TransactionManager({
 
   return (
     <div className="space-y-6">
-      <TransactionList
-        onAdd={handleAdd}
-        onEdit={handleEdit}
-        filters={filters}
-        onFiltersChange={setFilters}
-      />
+      <TransactionList onAdd={handleAdd} onEdit={handleEdit} filters={filters} onFiltersChange={setFilters} />
 
       <TransactionModal
         open={modalOpen}
@@ -71,4 +53,4 @@ export function TransactionManager({
       />
     </div>
   )
-} 
+}

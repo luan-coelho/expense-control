@@ -3,13 +3,14 @@ import { db } from '@/db'
 import { transactionsTable, categoriesTable, spacesTable, accountsTable } from '@/db/schema'
 import { eq, and, gte, lte, ilike, desc, count } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
-import { 
-  createTransactionSchema, 
+import {
+  createTransactionSchema,
   transactionQuerySchema,
   parseTransactionAmount,
   type TransactionWithRelations,
-  type PaginatedTransactions
+  type PaginatedTransactions,
 } from '@/types/transaction'
+import notificationTriggersService from '@/services/notification-triggers.service'
 
 // GET - Listar transações com filtros e paginação
 export async function GET(request: NextRequest) {
@@ -20,7 +21,7 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url)
-    
+
     // Validar parâmetros de consulta
     const queryValidation = transactionQuerySchema.safeParse({
       page: searchParams.get('page'),
@@ -37,28 +38,20 @@ export async function GET(request: NextRequest) {
     })
 
     if (!queryValidation.success) {
-      return NextResponse.json({ 
-        error: 'Parâmetros de consulta inválidos',
-        details: queryValidation.error.issues.map(issue => ({
-          field: issue.path.join('.'),
-          message: issue.message
-        }))
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Parâmetros de consulta inválidos',
+          details: queryValidation.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+          })),
+        },
+        { status: 400 },
+      )
     }
 
-    const { 
-      page, 
-      limit, 
-      startDate, 
-      endDate, 
-      categoryId, 
-      spaceId, 
-      accountId, 
-      type, 
-      minAmount, 
-      maxAmount, 
-      search 
-    } = queryValidation.data
+    const { page, limit, startDate, endDate, categoryId, spaceId, accountId, type, minAmount, maxAmount, search } =
+      queryValidation.data
     const offset = (page - 1) * limit
 
     // Construir condições WHERE
@@ -167,7 +160,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    
+
     // Validar dados
     const validatedData = createTransactionSchema.parse(body)
 
@@ -225,14 +218,29 @@ export async function POST(request: NextRequest) {
       .where(eq(transactionsTable.id, newTransaction.id))
       .limit(1)
 
+    // Executar triggers de notificação em background (não bloquear resposta)
+    const userId = session.user.id
+    setImmediate(async () => {
+      try {
+        await notificationTriggersService.processAllTriggers(userId, {
+          transactionId: newTransaction.id,
+          accountId: validatedData.accountId,
+          spaceId: validatedData.spaceId,
+          categoryId: validatedData.categoryId,
+        })
+      } catch (error) {
+        console.error('Erro ao processar triggers de notificação:', error)
+      }
+    })
+
     return NextResponse.json(transactionWithRelations[0], { status: 201 })
   } catch (error) {
     console.error('Erro ao criar transação:', error)
-    
+
     if (error instanceof Error && error.message.includes('validation')) {
       return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 })
     }
-    
+
     return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
-} 
+}

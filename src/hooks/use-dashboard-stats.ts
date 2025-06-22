@@ -68,4 +68,4 @@ export function formatCurrency(value: number): string {
     style: 'currency',
     currency: 'BRL',
   })
-} 
+}

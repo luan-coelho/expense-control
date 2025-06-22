@@ -4,6 +4,7 @@ import { categoriesTable } from './category-schema'
 import { spacesTable } from './space-schema'
 import { accountsTable } from './account-schema'
 import { transactionsTable } from './transaction-schema'
+import { notificationsTable } from './notification-schema'
 
 // Relacionamentos do usuário
 export const usersRelations = relations(usersTable, ({ many }) => ({
@@ -11,6 +12,7 @@ export const usersRelations = relations(usersTable, ({ many }) => ({
   categories: many(categoriesTable),
   spaces: many(spacesTable),
   accounts: many(accountsTable),
+  notifications: many(notificationsTable),
 }))
 
 // Relacionamentos das categorias
@@ -70,4 +72,12 @@ export const transactionsRelations = relations(transactionsTable, ({ one }) => (
     fields: [transactionsTable.accountId],
     references: [accountsTable.id],
   }),
-})) 
+}))
+
+// Relacionamentos das notificações
+export const notificationsRelations = relations(notificationsTable, ({ one }) => ({
+  user: one(usersTable, {
+    fields: [notificationsTable.userId],
+    references: [usersTable.id],
+  }),
+}))

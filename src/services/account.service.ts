@@ -10,18 +10,14 @@ import {
 
 /**
  * Serviço para gerenciamento de contas
- * 
+ *
  * Encapsula todas as operações CRUD de contas com a API
  */
 class AccountService {
   /**
    * Buscar todas as contas com filtros e paginação
    */
-  async getAll(params?: {
-    page?: number
-    limit?: number
-    filters?: AccountFilters
-  }): Promise<PaginatedAccounts> {
+  async getAll(params?: { page?: number; limit?: number; filters?: AccountFilters }): Promise<PaginatedAccounts> {
     const searchParams = new URLSearchParams()
 
     if (params?.page) {
@@ -38,9 +34,10 @@ class AccountService {
       })
     }
 
-    const url = params && (params.page || params.limit || params.filters) 
-      ? `${routes.api.accounts.list}?${searchParams.toString()}`
-      : routes.api.accounts.list
+    const url =
+      params && (params.page || params.limit || params.filters)
+        ? `${routes.api.accounts.list}?${searchParams.toString()}`
+        : routes.api.accounts.list
 
     const response = await fetch(url)
 
@@ -150,4 +147,4 @@ class AccountService {
 
 // Exportar instância singleton
 const accountService = new AccountService()
-export default accountService 
+export default accountService

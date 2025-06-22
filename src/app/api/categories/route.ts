@@ -3,11 +3,11 @@ import { db } from '@/db'
 import { categoriesTable, usersTable } from '@/db/schema'
 import { eq, and, ilike, desc, count, isNull, or } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
-import { 
-  createCategorySchema, 
+import {
+  createCategorySchema,
   categoryQuerySchema,
   type CategoryWithRelations,
-  type PaginatedCategories
+  type PaginatedCategories,
 } from '@/types/category'
 
 // GET - Listar categorias com filtros e paginação
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url)
-    
+
     // Validar parâmetros de consulta
     const queryValidation = categoryQuerySchema.safeParse({
       page: searchParams.get('page'),
@@ -31,13 +31,16 @@ export async function GET(request: NextRequest) {
     })
 
     if (!queryValidation.success) {
-      return NextResponse.json({ 
-        error: 'Parâmetros de consulta inválidos',
-        details: queryValidation.error.issues.map(issue => ({
-          field: issue.path.join('.'),
-          message: issue.message
-        }))
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Parâmetros de consulta inválidos',
+          details: queryValidation.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+          })),
+        },
+        { status: 400 },
+      )
     }
 
     const { page, limit, type, isDefault, parentId, search } = queryValidation.data
@@ -45,12 +48,7 @@ export async function GET(request: NextRequest) {
 
     // Construir condições WHERE
     // Incluir categorias predefinidas (userId = null) e categorias do usuário
-    const conditions = [
-      or(
-        isNull(categoriesTable.userId),
-        eq(categoriesTable.userId, session.user.id)
-      )
-    ]
+    const conditions = [or(isNull(categoriesTable.userId), eq(categoriesTable.userId, session.user.id))]
 
     if (type) {
       conditions.push(eq(categoriesTable.type, type))
@@ -136,7 +134,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    
+
     // Validar dados
     const validatedData = createCategorySchema.parse(body)
 
@@ -148,11 +146,8 @@ export async function POST(request: NextRequest) {
         .where(
           and(
             eq(categoriesTable.id, validatedData.parentId),
-            or(
-              isNull(categoriesTable.userId),
-              eq(categoriesTable.userId, session.user.id)
-            )
-          )
+            or(isNull(categoriesTable.userId), eq(categoriesTable.userId, session.user.id)),
+          ),
         )
         .limit(1)
 
@@ -169,20 +164,22 @@ export async function POST(request: NextRequest) {
         and(
           eq(categoriesTable.name, validatedData.name),
           eq(categoriesTable.userId, session.user.id),
-          eq(categoriesTable.type, validatedData.type)
-        )
+          eq(categoriesTable.type, validatedData.type),
+        ),
       )
       .limit(1)
 
     if (existingCategory.length > 0) {
-      return NextResponse.json({ 
-        error: 'Já existe uma categoria com este nome' 
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Já existe uma categoria com este nome',
+        },
+        { status: 400 },
+      )
     }
 
     // Gerar sortOrder se não fornecido
-    const sortOrder = validatedData.sortOrder || 
-      new Date().getTime().toString().slice(-6)
+    const sortOrder = validatedData.sortOrder || new Date().getTime().toString().slice(-6)
 
     // Criar categoria
     const [newCategory] = await db
@@ -223,17 +220,20 @@ export async function POST(request: NextRequest) {
       .limit(1)
 
     const result = categoryWithRelations[0]
-    return NextResponse.json({
-      ...result,
-      user: result.user?.id ? result.user : null,
-    } as CategoryWithRelations, { status: 201 })
+    return NextResponse.json(
+      {
+        ...result,
+        user: result.user?.id ? result.user : null,
+      } as CategoryWithRelations,
+      { status: 201 },
+    )
   } catch (error) {
     console.error('Erro ao criar categoria:', error)
-    
+
     if (error instanceof Error && error.message.includes('validation')) {
       return NextResponse.json({ error: 'Dados inválidos' }, { status: 400 })
     }
-    
+
     return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
-} 
+}

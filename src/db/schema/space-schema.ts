@@ -14,4 +14,4 @@ export const spacesTable = pgTable('spaces', {
 
 // Tipos TypeScript para a tabela de espaços
 export type Space = typeof spacesTable.$inferSelect
-export type NewSpace = typeof spacesTable.$inferInsert 
+export type NewSpace = typeof spacesTable.$inferInsert

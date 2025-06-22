@@ -3,19 +3,11 @@ import { db } from '@/db'
 import { spacesTable, usersTable, transactionsTable } from '@/db/schema'
 import { eq, and, count } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
-import { 
-  updateSpaceSchema,
-  spaceIdSchema,
-  sanitizeSpaceName,
-  type SpaceWithRelations
-} from '@/types/space'
+import { updateSpaceSchema, spaceIdSchema, sanitizeSpaceName, type SpaceWithRelations } from '@/types/space'
 import { ZodError } from 'zod'
 
 // GET - Buscar espaço por ID
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth()
     if (!session?.user?.id) {
@@ -25,15 +17,18 @@ export async function GET(
     // Validar ID do espaço
     const resolvedParams = await params
     const idValidation = spaceIdSchema.safeParse({ id: resolvedParams.id })
-    
+
     if (!idValidation.success) {
-      return NextResponse.json({ 
-        error: 'ID do espaço inválido',
-        details: idValidation.error.issues.map(issue => ({
-          field: issue.path.join('.'),
-          message: issue.message
-        }))
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'ID do espaço inválido',
+          details: idValidation.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+          })),
+        },
+        { status: 400 },
+      )
     }
 
     const spaceId = idValidation.data.id
@@ -52,12 +47,7 @@ export async function GET(
       })
       .from(spacesTable)
       .leftJoin(usersTable, eq(spacesTable.userId, usersTable.id))
-      .where(
-        and(
-          eq(spacesTable.id, spaceId),
-          eq(spacesTable.userId, session.user.id)
-        )
-      )
+      .where(and(eq(spacesTable.id, spaceId), eq(spacesTable.userId, session.user.id)))
       .limit(1)
 
     if (space.length === 0) {
@@ -77,10 +67,7 @@ export async function GET(
 }
 
 // PUT - Atualizar espaço
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth()
     if (!session?.user?.id) {
@@ -91,15 +78,18 @@ export async function PUT(
 
     // Validar ID do espaço
     const idValidation = spaceIdSchema.safeParse({ id: resolvedParams.id })
-    
+
     if (!idValidation.success) {
-      return NextResponse.json({ 
-        error: 'ID do espaço inválido',
-        details: idValidation.error.issues.map(issue => ({
-          field: issue.path.join('.'),
-          message: issue.message
-        }))
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'ID do espaço inválido',
+          details: idValidation.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+          })),
+        },
+        { status: 400 },
+      )
     }
 
     const spaceId = idValidation.data.id
@@ -107,24 +97,27 @@ export async function PUT(
 
     // Validar dados
     const validationResult = updateSpaceSchema.safeParse(body)
-    
+
     if (!validationResult.success) {
-      return NextResponse.json({ 
-        error: 'Dados inválidos',
-        details: validationResult.error.issues.map(issue => ({
-          field: issue.path.join('.'),
-          message: issue.message
-        }))
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Dados inválidos',
+          details: validationResult.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+          })),
+        },
+        { status: 400 },
+      )
     }
 
     const validatedData = validationResult.data
 
     // Verificar se o espaço existe e se o usuário pode editá-lo
     const existingSpace = await db
-      .select({ 
-        id: spacesTable.id, 
-        userId: spacesTable.userId
+      .select({
+        id: spacesTable.id,
+        userId: spacesTable.userId,
       })
       .from(spacesTable)
       .where(eq(spacesTable.id, spaceId))
@@ -138,44 +131,42 @@ export async function PUT(
 
     // Usuários só podem editar seus próprios espaços
     if (space.userId !== session.user.id) {
-      return NextResponse.json({ 
-        error: 'Você não tem permissão para editar este espaço' 
-      }, { status: 403 })
+      return NextResponse.json(
+        {
+          error: 'Você não tem permissão para editar este espaço',
+        },
+        { status: 403 },
+      )
     }
 
     // Verificar se já existe um espaço com o mesmo nome (se o nome foi alterado)
     if (validatedData.name) {
       const sanitizedName = sanitizeSpaceName(validatedData.name)
-      
+
       const duplicateSpace = await db
         .select({ id: spacesTable.id })
         .from(spacesTable)
-        .where(
-          and(
-            eq(spacesTable.name, sanitizedName),
-            eq(spacesTable.userId, session.user.id)
-          )
-        )
+        .where(and(eq(spacesTable.name, sanitizedName), eq(spacesTable.userId, session.user.id)))
         .limit(1)
 
       if (duplicateSpace.length > 0 && duplicateSpace[0].id !== spaceId) {
-        return NextResponse.json({ 
-          error: 'Já existe um espaço com este nome',
-          field: 'name'
-        }, { status: 400 })
+        return NextResponse.json(
+          {
+            error: 'Já existe um espaço com este nome',
+            field: 'name',
+          },
+          { status: 400 },
+        )
       }
 
       // Preparar dados para atualização
       const updateData: any = {
         updatedAt: new Date(),
-        name: sanitizedName
+        name: sanitizedName,
       }
 
       // Atualizar espaço
-      await db
-        .update(spacesTable)
-        .set(updateData)
-        .where(eq(spacesTable.id, spaceId))
+      await db.update(spacesTable).set(updateData).where(eq(spacesTable.id, spaceId))
     }
 
     // Buscar espaço atualizado com relacionamentos
@@ -203,26 +194,26 @@ export async function PUT(
     } as SpaceWithRelations)
   } catch (error) {
     console.error('Erro ao atualizar espaço:', error)
-    
+
     if (error instanceof ZodError) {
-      return NextResponse.json({ 
-        error: 'Dados inválidos',
-        details: error.issues.map(issue => ({
-          field: issue.path.join('.'),
-          message: issue.message
-        }))
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'Dados inválidos',
+          details: error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+          })),
+        },
+        { status: 400 },
+      )
     }
-    
+
     return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
 }
 
 // DELETE - Excluir espaço
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth()
     if (!session?.user?.id) {
@@ -233,25 +224,28 @@ export async function DELETE(
 
     // Validar ID do espaço
     const idValidation = spaceIdSchema.safeParse({ id: resolvedParams.id })
-    
+
     if (!idValidation.success) {
-      return NextResponse.json({ 
-        error: 'ID do espaço inválido',
-        details: idValidation.error.issues.map(issue => ({
-          field: issue.path.join('.'),
-          message: issue.message
-        }))
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: 'ID do espaço inválido',
+          details: idValidation.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+          })),
+        },
+        { status: 400 },
+      )
     }
 
     const spaceId = idValidation.data.id
 
     // Verificar se o espaço existe e se o usuário pode excluí-lo
     const existingSpace = await db
-      .select({ 
-        id: spacesTable.id, 
+      .select({
+        id: spacesTable.id,
         userId: spacesTable.userId,
-        name: spacesTable.name
+        name: spacesTable.name,
       })
       .from(spacesTable)
       .where(eq(spacesTable.id, spaceId))
@@ -265,9 +259,12 @@ export async function DELETE(
 
     // Usuários só podem excluir seus próprios espaços
     if (space.userId !== session.user.id) {
-      return NextResponse.json({ 
-        error: 'Você não tem permissão para excluir este espaço' 
-      }, { status: 403 })
+      return NextResponse.json(
+        {
+          error: 'Você não tem permissão para excluir este espaço',
+        },
+        { status: 403 },
+      )
     }
 
     // Verificar se existem transações vinculadas a este espaço
@@ -277,26 +274,27 @@ export async function DELETE(
       .where(eq(transactionsTable.spaceId, spaceId))
 
     if (transactionCount > 0) {
-      return NextResponse.json({ 
-        error: `Não é possível excluir este espaço pois existem ${transactionCount} transação(ões) vinculada(s) a ele`,
-        relatedCount: transactionCount
-      }, { status: 400 })
+      return NextResponse.json(
+        {
+          error: `Não é possível excluir este espaço pois existem ${transactionCount} transação(ões) vinculada(s) a ele`,
+          relatedCount: transactionCount,
+        },
+        { status: 400 },
+      )
     }
 
     // Excluir espaço
-    await db
-      .delete(spacesTable)
-      .where(eq(spacesTable.id, spaceId))
+    await db.delete(spacesTable).where(eq(spacesTable.id, spaceId))
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       message: 'Espaço excluído com sucesso',
       deletedSpace: {
         id: space.id,
-        name: space.name
-      }
+        name: space.name,
+      },
     })
   } catch (error) {
     console.error('Erro ao excluir espaço:', error)
     return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 })
   }
-} 
+}

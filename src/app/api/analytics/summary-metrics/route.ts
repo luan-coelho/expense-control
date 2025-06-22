@@ -69,15 +69,17 @@ export async function GET(request: NextRequest) {
 
       // Maior despesa
       const expenseTransactions = transactions.filter(t => t.type === 'EXPENSE')
-      const largestExpense = expenseTransactions.length > 0 
-        ? expenseTransactions.sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount))[0] 
-        : null
+      const largestExpense =
+        expenseTransactions.length > 0
+          ? expenseTransactions.sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount))[0]
+          : null
 
       // Maior receita
       const incomeTransactions = transactions.filter(t => t.type === 'INCOME')
-      const largestIncome = incomeTransactions.length > 0
-        ? incomeTransactions.sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount))[0]
-        : null
+      const largestIncome =
+        incomeTransactions.length > 0
+          ? incomeTransactions.sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount))[0]
+          : null
 
       // Despesa média
       const averageExpense = expenseCount > 0 ? totalExpenses / expenseCount : 0
@@ -86,18 +88,10 @@ export async function GET(request: NextRequest) {
       const averageIncome = incomeCount > 0 ? totalIncome / incomeCount : 0
 
       // Categorias únicas
-      const uniqueCategories = new Set(
-        transactions
-          .filter(t => t.categoryName)
-          .map(t => t.categoryName)
-      ).size
+      const uniqueCategories = new Set(transactions.filter(t => t.categoryName).map(t => t.categoryName)).size
 
       // Espaços únicos
-      const uniqueSpaces = new Set(
-        transactions
-          .filter(t => t.spaceName)
-          .map(t => t.spaceName)
-      ).size
+      const uniqueSpaces = new Set(transactions.filter(t => t.spaceName).map(t => t.spaceName)).size
 
       return {
         totalIncome,
@@ -106,28 +100,32 @@ export async function GET(request: NextRequest) {
         transactionCount,
         expenseCount,
         incomeCount,
-        largestExpense: largestExpense ? {
-          id: largestExpense.id,
-          amount: parseFloat(largestExpense.amount),
-          description: largestExpense.description,
-          categoryName: largestExpense.categoryName,
-          spaceName: largestExpense.spaceName,
-          formattedAmount: new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-          }).format(parseFloat(largestExpense.amount)),
-        } : null,
-        largestIncome: largestIncome ? {
-          id: largestIncome.id,
-          amount: parseFloat(largestIncome.amount),
-          description: largestIncome.description,
-          categoryName: largestIncome.categoryName,
-          spaceName: largestIncome.spaceName,
-          formattedAmount: new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-          }).format(parseFloat(largestIncome.amount)),
-        } : null,
+        largestExpense: largestExpense
+          ? {
+              id: largestExpense.id,
+              amount: parseFloat(largestExpense.amount),
+              description: largestExpense.description,
+              categoryName: largestExpense.categoryName,
+              spaceName: largestExpense.spaceName,
+              formattedAmount: new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+              }).format(parseFloat(largestExpense.amount)),
+            }
+          : null,
+        largestIncome: largestIncome
+          ? {
+              id: largestIncome.id,
+              amount: parseFloat(largestIncome.amount),
+              description: largestIncome.description,
+              categoryName: largestIncome.categoryName,
+              spaceName: largestIncome.spaceName,
+              formattedAmount: new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+              }).format(parseFloat(largestIncome.amount)),
+            }
+          : null,
         averageExpense,
         averageIncome,
         uniqueCategories,
@@ -194,8 +192,14 @@ export async function GET(request: NextRequest) {
           totalIncomeChange: calculatePercentageChange(currentMetrics.totalIncome, previousMetrics.totalIncome),
           totalExpensesChange: calculatePercentageChange(currentMetrics.totalExpenses, previousMetrics.totalExpenses),
           netIncomeChange: calculatePercentageChange(currentMetrics.netIncome, previousMetrics.netIncome),
-          transactionCountChange: calculatePercentageChange(currentMetrics.transactionCount, previousMetrics.transactionCount),
-          averageExpenseChange: calculatePercentageChange(currentMetrics.averageExpense, previousMetrics.averageExpense),
+          transactionCountChange: calculatePercentageChange(
+            currentMetrics.transactionCount,
+            previousMetrics.transactionCount,
+          ),
+          averageExpenseChange: calculatePercentageChange(
+            currentMetrics.averageExpense,
+            previousMetrics.averageExpense,
+          ),
           averageIncomeChange: calculatePercentageChange(currentMetrics.averageIncome, previousMetrics.averageIncome),
         }
       }
@@ -213,9 +217,6 @@ export async function GET(request: NextRequest) {
     })
   } catch (error) {
     console.error('Erro ao buscar métricas de resumo:', error)
-    return NextResponse.json(
-      { error: 'Erro ao buscar métricas de resumo' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Erro ao buscar métricas de resumo' }, { status: 500 })
   }
-} 
+}

@@ -1,5 +1,5 @@
+import { Account } from '@/db/schema'
 import { z } from 'zod'
-import { Account, NewAccount } from '@/db/schema'
 
 // Enum para tipos de conta
 export const AccountType = {
@@ -11,7 +11,7 @@ export const AccountType = {
   OTHER: 'OTHER',
 } as const
 
-export type AccountTypeEnum = typeof AccountType[keyof typeof AccountType]
+export type AccountTypeEnum = (typeof AccountType)[keyof typeof AccountType]
 
 // Schema de validação para criação de conta
 export const createAccountSchema = z.object({
@@ -20,29 +20,19 @@ export const createAccountSchema = z.object({
     .min(1, 'O nome é obrigatório')
     .max(100, 'O nome deve ter no máximo 100 caracteres')
     .trim()
+    .refine(val => val.length >= 2, 'O nome deve ter pelo menos 2 caracteres')
     .refine(
-      (val) => val.length >= 2,
-      'O nome deve ter pelo menos 2 caracteres'
+      val => /^[a-zA-ZÀ-ÿ0-9\s\-_()\.]+$/.test(val),
+      'O nome pode conter apenas letras, números, espaços e os caracteres: - _ ( ) .',
     )
-    .refine(
-      (val) => /^[a-zA-ZÀ-ÿ0-9\s\-_()\.]+$/.test(val),
-      'O nome pode conter apenas letras, números, espaços e os caracteres: - _ ( ) .'
-    )
-    .refine(
-      (val) => !val.startsWith(' ') && !val.endsWith(' '),
-      'O nome não pode começar ou terminar com espaços'
-    )
-    .refine(
-      (val) => !/\s{2,}/.test(val),
-      'O nome não pode conter espaços consecutivos'
-    ),
-  type: z.enum(['CHECKING', 'SAVINGS', 'CREDIT_CARD', 'INVESTMENT', 'CASH', 'OTHER'], {
-    required_error: 'O tipo da conta é obrigatório',
-    invalid_type_error: 'Tipo de conta inválido',
-  }).refine(
-    (val) => Object.values(AccountType).includes(val as AccountTypeEnum),
-    'Tipo de conta não suportado'
-  ),
+    .refine(val => !val.startsWith(' ') && !val.endsWith(' '), 'O nome não pode começar ou terminar com espaços')
+    .refine(val => !/\s{2,}/.test(val), 'O nome não pode conter espaços consecutivos'),
+  type: z
+    .enum(['CHECKING', 'SAVINGS', 'CREDIT_CARD', 'INVESTMENT', 'CASH', 'OTHER'], {
+      required_error: 'O tipo da conta é obrigatório',
+      invalid_type_error: 'Tipo de conta inválido',
+    })
+    .refine(val => Object.values(AccountType).includes(val as AccountTypeEnum), 'Tipo de conta não suportado'),
 })
 
 // Schema para atualização de conta
@@ -50,17 +40,14 @@ export const updateAccountSchema = createAccountSchema.partial()
 
 // Schema para filtros de conta
 export const accountFiltersSchema = z.object({
-  type: z.enum(['CHECKING', 'SAVINGS', 'CREDIT_CARD', 'INVESTMENT', 'CASH', 'OTHER'])
+  type: z
+    .enum(['CHECKING', 'SAVINGS', 'CREDIT_CARD', 'INVESTMENT', 'CASH', 'OTHER'])
     .optional()
     .refine(
-      (val) => !val || Object.values(AccountType).includes(val as AccountTypeEnum),
-      'Tipo de conta não suportado para filtro'
+      val => !val || Object.values(AccountType).includes(val as AccountTypeEnum),
+      'Tipo de conta não suportado para filtro',
     ),
-  search: z
-    .string()
-    .max(100, 'O termo de busca deve ter no máximo 100 caracteres')
-    .trim()
-    .optional(),
+  search: z.string().max(100, 'O termo de busca deve ter no máximo 100 caracteres').trim().optional(),
 })
 
 // Schema para validação de ID de conta
@@ -74,33 +61,28 @@ export const accountQuerySchema = z.object({
     .string()
     .nullable()
     .optional()
-    .transform((val) => val ? parseInt(val, 10) : 1)
-    .refine((val) => val > 0, 'A página deve ser um número positivo'),
+    .transform(val => (val ? parseInt(val, 10) : 1))
+    .refine(val => val > 0, 'A página deve ser um número positivo'),
   limit: z
     .string()
     .nullable()
     .optional()
-    .transform((val) => val ? parseInt(val, 10) : 50)
-    .refine(
-      (val) => val > 0 && val <= 100,
-      'O limite deve ser entre 1 e 100'
-    ),
-  type: z.enum(['CHECKING', 'SAVINGS', 'CREDIT_CARD', 'INVESTMENT', 'CASH', 'OTHER'])
+    .transform(val => (val ? parseInt(val, 10) : 50))
+    .refine(val => val > 0 && val <= 100, 'O limite deve ser entre 1 e 100'),
+  type: z
+    .enum(['CHECKING', 'SAVINGS', 'CREDIT_CARD', 'INVESTMENT', 'CASH', 'OTHER'])
     .nullable()
     .optional()
     .refine(
-      (val) => !val || Object.values(AccountType).includes(val as AccountTypeEnum),
-      'Tipo de conta não suportado para filtro'
+      val => !val || Object.values(AccountType).includes(val as AccountTypeEnum),
+      'Tipo de conta não suportado para filtro',
     ),
   search: z
     .string()
     .nullable()
     .optional()
-    .transform((val) => val ? val.trim() : undefined)
-    .refine(
-      (val) => !val || val.length <= 100,
-      'O termo de busca deve ter no máximo 100 caracteres'
-    ),
+    .transform(val => (val ? val.trim() : undefined))
+    .refine(val => !val || val.length <= 100, 'O termo de busca deve ter no máximo 100 caracteres'),
 })
 
 // Tipos derivados dos schemas
@@ -152,15 +134,11 @@ export function sanitizeAccountName(name: string): string {
     .replace(/[^\w\sÀ-ÿ\-_().]/g, '') // Remove caracteres especiais não permitidos
 }
 
-export function validateAccountNameUniqueness(
-  name: string,
-  existingNames: string[],
-  excludeId?: string
-): boolean {
+export function validateAccountNameUniqueness(name: string, existingNames: string[], excludeId?: string): boolean {
   const normalizedName = name.toLowerCase().trim()
   return !existingNames
-    .filter((_, index) => excludeId ? index.toString() !== excludeId : true)
-    .some((existingName) => existingName.toLowerCase().trim() === normalizedName)
+    .filter((_, index) => (excludeId ? index.toString() !== excludeId : true))
+    .some(existingName => existingName.toLowerCase().trim() === normalizedName)
 }
 
 export function isValidAccountType(type: string): type is AccountTypeEnum {
@@ -180,7 +158,7 @@ export function getAccountTypeIcon(type: AccountTypeEnum): string {
 }
 
 export function getAccountTypesForSelect(): Array<{ value: AccountTypeEnum; label: string; icon: string }> {
-  return Object.values(AccountType).map((type) => ({
+  return Object.values(AccountType).map(type => ({
     value: type,
     label: getAccountTypeLabel(type),
     icon: getAccountTypeIcon(type),
@@ -196,4 +174,4 @@ export const ACCOUNT_VALIDATION_RULES = {
   DEFAULT_LIMIT: 50,
   ALLOWED_NAME_PATTERN: /^[a-zA-ZÀ-ÿ0-9\s\-_()\.]+$/,
   SUPPORTED_TYPES: Object.values(AccountType),
-} as const 
+} as const
