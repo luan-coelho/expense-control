@@ -8,5 +8,6 @@ export { default as accountService } from './account.service'
 export { default as recurrenceService } from './recurrence.service'
 export { default as analyticsService } from './analytics.service'
 export { default as exportService } from './export.service'
+export { default as userSettingsService } from './user-settings.service'
 
 export {}

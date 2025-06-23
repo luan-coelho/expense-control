@@ -1,5 +1,6 @@
 // Exportar todas as tabelas
 export * from './user-schema'
+export * from './user-settings-schema'
 export * from './category-schema'
 export * from './space-schema'
 export * from './account-schema'

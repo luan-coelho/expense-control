@@ -80,6 +80,9 @@ export const routes = {
       settings: '/api/notifications/settings',
       triggers: '/api/notifications/triggers',
     },
+
+    // Configurações do usuário
+    userSettings: '/api/user-settings',
   },
 }
 
@@ -146,6 +149,11 @@ export const queryKeys = {
     detail: (id: string) => [...queryKeys.notifications.details(), validateId(id)] as const,
     unreadCount: () => [...queryKeys.notifications.all, 'unread-count'] as const,
     settings: () => [...queryKeys.notifications.all, 'settings'] as const,
+  },
+
+  userSettings: {
+    all: ['user-settings'] as const,
+    current: () => [...queryKeys.userSettings.all, 'current'] as const,
   },
 } as const
 

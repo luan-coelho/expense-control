@@ -1,5 +1,6 @@
 import { relations } from 'drizzle-orm'
 import { usersTable } from './user-schema'
+import { userSettingsTable } from './user-settings-schema'
 import { categoriesTable } from './category-schema'
 import { spacesTable } from './space-schema'
 import { accountsTable } from './account-schema'
@@ -7,7 +8,8 @@ import { transactionsTable } from './transaction-schema'
 import { notificationsTable } from './notification-schema'
 
 // Relacionamentos do usuário
-export const usersRelations = relations(usersTable, ({ many }) => ({
+export const usersRelations = relations(usersTable, ({ one, many }) => ({
+  settings: one(userSettingsTable),
   transactions: many(transactionsTable),
   categories: many(categoriesTable),
   spaces: many(spacesTable),
@@ -78,6 +80,14 @@ export const transactionsRelations = relations(transactionsTable, ({ one }) => (
 export const notificationsRelations = relations(notificationsTable, ({ one }) => ({
   user: one(usersTable, {
     fields: [notificationsTable.userId],
+    references: [usersTable.id],
+  }),
+}))
+
+// Relacionamentos das configurações do usuário
+export const userSettingsRelations = relations(userSettingsTable, ({ one }) => ({
+  user: one(usersTable, {
+    fields: [userSettingsTable.userId],
     references: [usersTable.id],
   }),
 }))

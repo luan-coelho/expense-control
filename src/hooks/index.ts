@@ -99,4 +99,18 @@ export {
   useUpdateNotificationSettings,
 } from './use-notifications'
 
+// Hooks de configurações
+export { useSettings, type UserSettings } from './use-settings'
+export {
+  useUserSettings,
+  useUpdateUserSettings,
+  useResetUserSettings,
+  useBackupUserSettings,
+  useRestoreUserSettings,
+  useExportUserSettings,
+  useImportUserSettings,
+  useValidateUserSettings,
+  useSyncUserSettings,
+} from './use-user-settings'
+
 export {}

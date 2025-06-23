@@ -113,9 +113,13 @@ export function TransactionForm({ transaction, onSuccess, onCancel, accounts = [
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {/* Seção: Informações Básicas */}
         <div className="space-y-6">
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-semibold">Informações Básicas</h3>
+          </div>
+
           {/* Primeira linha: Tipo e Valor */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Tipo da transação */}
@@ -207,7 +211,7 @@ export function TransactionForm({ transaction, onSuccess, onCancel, accounts = [
                   <FormControl>
                     <DatePicker
                       date={field.value ? parseStringToDate(field.value) : undefined}
-                      onSelect={date => {
+                      onSelect={(date) => {
                         if (date) {
                           field.onChange(formatDateForSubmit(date))
                         }
@@ -284,15 +288,6 @@ export function TransactionForm({ transaction, onSuccess, onCancel, accounts = [
 
         {/* Botões de ação */}
         <div className="flex gap-4 pt-6 border-t">
-          {onCancel && (
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onCancel}
-              disabled={isSubmitting || createMutation.isPending || updateMutation.isPending}>
-              Cancelar
-            </Button>
-          )}
           <Button
             type="submit"
             disabled={isSubmitting || createMutation.isPending || updateMutation.isPending}
@@ -308,6 +303,16 @@ export function TransactionForm({ transaction, onSuccess, onCancel, accounts = [
               'Criar Transação'
             )}
           </Button>
+
+          {onCancel && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onCancel}
+              disabled={isSubmitting || createMutation.isPending || updateMutation.isPending}>
+              Cancelar
+            </Button>
+          )}
         </div>
       </form>
     </Form>

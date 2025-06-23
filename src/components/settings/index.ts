@@ -1,0 +1,8 @@
+export { SettingsLayout } from './settings-layout'
+export { SettingsActions } from './settings-actions'
+export { ProfileSettings } from './profile-settings'
+export { AppSettings } from './app-settings'
+export { NotificationSettings } from './notification-settings'
+export { PrivacySettings } from './privacy-settings'
+export { BackupSettings } from './backup-settings'
+export { FinancialSettings } from './financial-settings' 
